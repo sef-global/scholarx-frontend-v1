@@ -7,4 +7,14 @@ export interface Profile {
   imgUrl: string;
   headline: string;
   type: string;
+  programs: Program[];
+}
+
+export interface Program {
+  id: number;
+  title: string;
+  headline: string;
+  imageUrl: string;
+  landingPageUrl: string;
+  state: string;
 }
