@@ -1,0 +1,13 @@
+.logo {
+    width: 350px;
+}
+
+.cardWrapper {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.programActionButton {
+    text-align: right;
+    margin-bottom: 10px;
+}
