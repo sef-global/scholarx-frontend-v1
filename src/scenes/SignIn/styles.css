@@ -1,0 +1,30 @@
+.signInButtonWrapper {
+    min-height: 100vh;
+    padding-top: 30vh;
+    text-align: center;
+}
+
+.logo {
+    width: 250px;
+}
+
+.buttonGoogle {
+    margin: 5px;
+    width: 300px;
+}
+
+.buttonFacebook {
+    color: white !important;
+    background: #3b5998 !important;
+    border: #3b5998 !important;
+    margin: 5px;
+    width: 300px;
+}
+
+.buttonTwitter {
+    color: white !important;
+    background: #00acee !important;
+    border: #00acee !important;
+    margin: 5px;
+    width: 300px;
+}
