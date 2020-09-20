@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { Avatar, Button } from 'antd';
 import styles from './styles.css';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../App';
+import { UserContext } from '../../../../index';
 
 const NavigationBar = () => {
   const user = useContext(UserContext);

@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack"
+    "build": "webpack",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
+    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src --color --fix"
   },
   "license": "Apache-2.0",
   "devDependencies": {
