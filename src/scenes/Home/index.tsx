@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import NavigationBar from '../../components/NavigationBar';
+import NavigationBar from './components/NavigationBar';
 import styles from './styles.css';
-import logo from './../scholarx.png';
+import logo from './scholarx.png';
 import { Button, Card, Col, Menu, Row } from 'antd';
 import { Profile, Program } from '../../interfaces';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../components/App';
+import { UserContext } from '../../index';
 
 const Home = () => {
   const user: Partial<Profile> = useContext(UserContext);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Col, Row } from 'antd';
 import styles from './styles.css';
-import logo from './../scholarx.png';
+import logo from '../Home/scholarx.png';
 
 const SignIn = () => {
   return (

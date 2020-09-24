@@ -1,0 +1,30 @@
+.logo {
+    margin: 16px;
+}
+
+.logo img{
+    width: 90%;
+    padding-bottom: 24px;
+}
+
+.header {
+    background: white;
+    padding-right: 0;
+    z-index: 1;
+    box-shadow: 0 2px 8px #f0f1f2;
+}
+
+.avatar {
+    background-color: #F27781;
+}
+
+.rightAlignedMenu {
+    float: right;
+}
+
+.content {
+    min-height: 100vh;
+    background-color: white;
+    padding-left: 240px;
+    padding-top: 40px;
+}
