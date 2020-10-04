@@ -16,6 +16,7 @@ import {
 import logo from '../../../public/logo.png';
 import styles from './styles.css';
 import Manage from './scenes/Manage';
+import ManageMentees from './scenes/ManageMentees';
 
 const { Content, Sider, Header } = Layout;
 
@@ -72,6 +73,11 @@ function Dashboard() {
             <Switch>
               <Redirect exact from="/dashboard" to="/dashboard/home" />
               <Route exact path="/dashboard/home" component={Manage} />
+              <Route
+                exact={false}
+                path="/dashboard/mentees"
+                component={ManageMentees}
+              />
             </Switch>
           </Content>
         </Layout>

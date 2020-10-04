@@ -1,0 +1,33 @@
+.ant-card-small {
+    border-radius: 25px !important;
+}
+
+.card {
+    width: 60%;
+    margin: 8px;
+    padding: 2px;
+}
+
+.cardWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.name {
+    align-items: center;
+    font-weight: 300;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    margin-right: 3rem;
+}
+
+.btn {
+    margin-right: 1rem;
+}
