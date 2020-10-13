@@ -28,3 +28,9 @@
     padding-left: 240px;
     padding-top: 40px;
 }
+
+.siderPosition {
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+}

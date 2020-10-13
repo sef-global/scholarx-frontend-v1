@@ -1,0 +1,24 @@
+.cardWrapper {
+    text-align: center;
+    margin: 0 auto;
+    width: 350px;
+}
+
+.progress { 
+    margin-bottom: 5px;
+}
+
+.heightVH {
+    min-height: 70vh;
+}
+
+.bottomDoc {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.contentWrapper {
+    min-height: 85vh;
+    position: relative;
+}
