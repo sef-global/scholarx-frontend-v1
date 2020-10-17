@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, List, Skeleton, Avatar } from 'antd';
-import PersonCard from './components/PersonCard';
+import PersonCard from '../../components/PersonCard';
 import styles from './style.css';
 import 'antd/dist/antd.css';
 

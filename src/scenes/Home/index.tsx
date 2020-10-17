@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import NavigationBar from './components/NavigationBar';
+import AddModal from './components/AddProgrammeModal';
 import styles from './styles.css';
 import logo from './scholarx.png';
 import { Button, Card, Col, Menu, Row, Form, Input, Modal } from 'antd';
@@ -12,7 +13,6 @@ const Home = () => {
   const user: Partial<Profile> = useContext(UserContext);
   const [programs, setPrograms] = useState<Program[]>(null);
   const [visible, setVisible] = useState(false);
-  const [componentSize, setComponentSize] = useState('default');
   const [programType] = useState<string>('ongoing');
   useEffect(() => {
     if (user) {
@@ -41,10 +41,6 @@ const Home = () => {
       setPrograms(fetchedPrograms);
     }
   });
-
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
 
   const showModal = () => {
     setVisible(true);
@@ -108,9 +104,7 @@ const Home = () => {
                   <Button
                     type="dashed"
                     className={styles.programmeAddButton}
-                    onClick={() => {
-                      showModal();
-                    }}
+                    onClick={showModal}
                     block
                   >
                     <PlusOutlined /> Add Programme
@@ -121,36 +115,7 @@ const Home = () => {
           </div>
         </Col>
       </Row>
-      <Modal
-        title="Add Programme"
-        visible={visible}
-        onOk={hideModal}
-        onCancel={hideModal}
-        okText="Save"
-        cancelText="Cancel"
-      >
-        <Form
-          layout="vertical"
-          initialValues={{
-            size: componentSize,
-          }}
-          onValuesChange={onFormLayoutChange}
-          size={componentSize}
-        >
-          <Form.Item label="Name">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Image URL">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Landing Page URL">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Description">
-            <Input.TextArea />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <AddModal visible={visible} hideModal={hideModal} showModal={showModal}/>
     </div>
   );
 };

@@ -16,7 +16,7 @@ import {
 import logo from '../../../public/logo.png';
 import styles from './styles.css';
 import Manage from './scenes/Manage';
-import EditDetails from './scenes/EditDetails';
+import EditProgramme from './scenes/EditProgramme';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
@@ -46,8 +46,8 @@ function Dashboard() {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-            <Link to="/dashboard/edit-details">
-              <AppstoreOutlined /> Edit Details
+            <Link to="/dashboard/edit-programme">
+              <AppstoreOutlined /> Edit Programme
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
@@ -87,8 +87,8 @@ function Dashboard() {
               />
               <Route
                 exact
-                path="/dashboard/edit-details"
-                component={EditDetails}
+                path="/dashboard/edit-programme"
+                component={EditProgramme}
               />
               <Route
                 exact
