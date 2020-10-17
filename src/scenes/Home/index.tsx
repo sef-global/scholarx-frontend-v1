@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import NavigationBar from './components/NavigationBar';
 import styles from './styles.css';
 import logo from './scholarx.png';
-import { Button, Card, Col, Menu, Row } from 'antd';
+import { Button, Card, Col, Menu, Row, Form, Input, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { Profile, Program } from '../../interfaces';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../index';
@@ -10,6 +11,8 @@ import { UserContext } from '../../index';
 const Home = () => {
   const user: Partial<Profile> = useContext(UserContext);
   const [programs, setPrograms] = useState<Program[]>(null);
+  const [visible, setVisible] = useState(false);
+  const [componentSize, setComponentSize] = useState('default');
   const [programType] = useState<string>('ongoing');
   useEffect(() => {
     if (user) {
@@ -38,6 +41,23 @@ const Home = () => {
       setPrograms(fetchedPrograms);
     }
   });
+  const addBtn = {
+    height: '21.2rem',
+    width: '22.4rem',
+  };
+
+  const onFormLayoutChange = ({ size }) => {
+    setComponentSize(size);
+  };
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+  };
+
   return (
     <div>
       <Row justify="center">
@@ -87,10 +107,54 @@ const Home = () => {
                   </Link>
                 </Col>
               ))}
+              <Col md={6}>
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      showModal();
+                    }}
+                    block
+                    style={addBtn}
+                  >
+                    <PlusOutlined /> Add Programme
+                  </Button>
+                </Form.Item>
+              </Col>
             </Row>
           </div>
         </Col>
       </Row>
+      <Modal
+        title="Add Programme"
+        visible={visible}
+        onOk={hideModal}
+        onCancel={hideModal}
+        okText="Save"
+        cancelText="Cancel"
+      >
+        <Form
+          layout="vertical"
+          initialValues={{
+            size: componentSize,
+          }}
+          onValuesChange={onFormLayoutChange}
+          size={componentSize}
+        >
+          <Form.Item label="Name">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Image URL">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Landing Page URL">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Description">
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

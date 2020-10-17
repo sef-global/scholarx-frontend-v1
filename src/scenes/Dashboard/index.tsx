@@ -16,6 +16,9 @@ import {
 import logo from '../../../public/logo.png';
 import styles from './styles.css';
 import Manage from './scenes/Manage';
+import EditDetails from './scenes/EditDetails';
+import ManageMentees from './scenes/ManageMentees';
+import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
 
 const { Content, Sider, Header } = Layout;
@@ -38,18 +41,24 @@ function Dashboard() {
           </div>
           <Menu theme="dark" mode="inline">
             <Menu.Item key="1">
-              <Link to="/dashboard/edit_state">
+              <Link to="/dashboard/edit-state">
                 <EditOutlined /> Change State
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
+            <Link to="/dashboard/edit-details">
               <AppstoreOutlined /> Edit Details
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <TeamOutlined /> Manage Mentors
+              <Link to="/dashboard/manage-mentors">
+                <TeamOutlined /> Manage Mentors
+              </Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <TeamOutlined /> Manage Mentees
+              <Link to="/dashboard/manage-mentees">
+                <TeamOutlined /> Manage Mentees
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -75,6 +84,21 @@ function Dashboard() {
                 exact
                 path="/dashboard/edit-state"
                 component={ChangeState}
+              />
+              <Route
+                exact
+                path="/dashboard/edit-details"
+                component={EditDetails}
+              />
+              <Route
+                exact
+                path="/dashboard/manage-mentors"
+                component={ManageMentors}
+              />
+              <Route
+                exact
+                path="/dashboard/manage-mentees"
+                component={ManageMentees}
               />
             </Switch>
           </Content>
