@@ -10,7 +10,6 @@ import {
 import Home from './scenes/Home';
 import SignIn from './scenes/SignIn';
 import Dashboard from './scenes/Dashboard';
-import AddProgramme from './scenes/AddProgramme';
 import { Profile } from './interfaces';
 
 export const UserContext = createContext<Partial<Profile>>({});
@@ -59,8 +58,6 @@ function App() {
           <Route exact path="/home" component={Home} />
           <Route exact path="/sign-in" component={SignIn} />
           <Route path="/dashboard" component={Dashboard} />
-          <Route path="/add-programme" component={AddProgramme} />
-
         </Switch>
       </Router>
     </UserContext.Provider>

@@ -41,10 +41,6 @@ const Home = () => {
       setPrograms(fetchedPrograms);
     }
   });
-  const addBtn = {
-    height: '21.2rem',
-    width: '22.4rem',
-  };
 
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
@@ -111,11 +107,11 @@ const Home = () => {
                 <Form.Item>
                   <Button
                     type="dashed"
+                    className={styles.programmeAddButton}
                     onClick={() => {
                       showModal();
                     }}
                     block
-                    style={addBtn}
                   >
                     <PlusOutlined /> Add Programme
                   </Button>
