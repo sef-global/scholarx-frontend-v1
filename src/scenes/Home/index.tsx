@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import NavigationBar from './components/NavigationBar';
+import AddProgram from './components/AddProgram';
 import styles from './styles.css';
 import logo from './scholarx.png';
 import { Button, Card, Col, Menu, Row } from 'antd';
@@ -38,6 +39,7 @@ const Home = () => {
       setPrograms(fetchedPrograms);
     }
   });
+
   return (
     <div>
       <Row justify="center">
@@ -87,6 +89,9 @@ const Home = () => {
                   </Link>
                 </Col>
               ))}
+              <Col md={6}>
+                <AddProgram />
+              </Col>
             </Row>
           </div>
         </Col>

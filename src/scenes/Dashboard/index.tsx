@@ -15,7 +15,9 @@ import {
 } from 'react-router-dom';
 import logo from '../../../public/logo.png';
 import styles from './styles.css';
-import Manage from './scenes/Manage';
+import EditProgram from './scenes/EditProgram';
+import ManageMentees from './scenes/ManageMentees';
+import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
 
 const { Content, Sider, Header } = Layout;
@@ -38,18 +40,24 @@ function Dashboard() {
           </div>
           <Menu theme="dark" mode="inline">
             <Menu.Item key="1">
-              <Link to="/dashboard/edit_state">
+              <Link to="/dashboard/edit-state">
                 <EditOutlined /> Change State
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <AppstoreOutlined /> Edit Details
+              <Link to="/dashboard/edit-program">
+                <AppstoreOutlined /> Edit Program
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <TeamOutlined /> Manage Mentors
+              <Link to="/dashboard/manage-mentors">
+                <TeamOutlined /> Manage Mentors
+              </Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <TeamOutlined /> Manage Mentees
+              <Link to="/dashboard/manage-mentees">
+                <TeamOutlined /> Manage Mentees
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -69,12 +77,26 @@ function Dashboard() {
           </Header>
           <Content className={styles.content}>
             <Switch>
-              <Redirect exact from="/dashboard" to="/dashboard/home" />
-              <Route exact path="/dashboard/home" component={Manage} />
+              <Redirect exact from="/dashboard" to="/dashboard/edit-state" />
               <Route
                 exact
                 path="/dashboard/edit-state"
                 component={ChangeState}
+              />
+              <Route
+                exact
+                path="/dashboard/edit-program"
+                component={EditProgram}
+              />
+              <Route
+                exact
+                path="/dashboard/manage-mentors"
+                component={ManageMentors}
+              />
+              <Route
+                exact
+                path="/dashboard/manage-mentees"
+                component={ManageMentees}
               />
             </Switch>
           </Content>
