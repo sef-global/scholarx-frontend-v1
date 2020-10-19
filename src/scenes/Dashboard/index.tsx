@@ -15,8 +15,7 @@ import {
 } from 'react-router-dom';
 import logo from '../../../public/logo.png';
 import styles from './styles.css';
-import Manage from './scenes/Manage';
-import EditProgramme from './scenes/EditProgramme';
+import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
@@ -46,8 +45,8 @@ function Dashboard() {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-            <Link to="/dashboard/edit-programme">
-              <AppstoreOutlined /> Edit Programme
+              <Link to="/dashboard/edit-program">
+                <AppstoreOutlined /> Edit Program
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
@@ -78,8 +77,7 @@ function Dashboard() {
           </Header>
           <Content className={styles.content}>
             <Switch>
-              <Redirect exact from="/dashboard" to="/dashboard/home" />
-              <Route exact path="/dashboard/home" component={Manage} />
+              <Redirect exact from="/dashboard" to="/dashboard/edit-state" />
               <Route
                 exact
                 path="/dashboard/edit-state"
@@ -87,8 +85,8 @@ function Dashboard() {
               />
               <Route
                 exact
-                path="/dashboard/edit-programme"
-                component={EditProgramme}
+                path="/dashboard/edit-program"
+                component={EditProgram}
               />
               <Route
                 exact

@@ -16,7 +16,7 @@
     margin-bottom: 10px;
 }
 
-.programmeAddButton{
-    height: 21.2rem !important;
-    width: 22.4rem !important;
+.programAddButton{
+    height: 100%;
+    width: 100%;
 }
