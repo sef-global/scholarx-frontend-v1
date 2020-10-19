@@ -12,6 +12,7 @@ import {
   Route,
   Switch,
   Redirect,
+  useParams,
 } from 'react-router-dom';
 import logo from '../../../public/logo.png';
 import styles from './styles.css';
@@ -23,6 +24,7 @@ import ChangeState from './scenes/ChangeState';
 const { Content, Sider, Header } = Layout;
 
 function Dashboard() {
+  const { programId } = useParams();
   return (
     <Router>
       <Layout>
@@ -40,22 +42,22 @@ function Dashboard() {
           </div>
           <Menu theme="dark" mode="inline">
             <Menu.Item key="1">
-              <Link to="/dashboard/edit-state">
+              <Link to={`/dashboard/${programId}/edit-state`}>
                 <EditOutlined /> Change State
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/dashboard/edit-program">
+              <Link to={`/dashboard/${programId}/edit-program`}>
                 <AppstoreOutlined /> Edit Program
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Link to="/dashboard/manage-mentors">
+              <Link to={`/dashboard/${programId}/manage-mentors`}>
                 <TeamOutlined /> Manage Mentors
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <Link to="/dashboard/manage-mentees">
+              <Link to={`/dashboard/${programId}/manage-mentees`}>
                 <TeamOutlined /> Manage Mentees
               </Link>
             </Menu.Item>
@@ -77,25 +79,29 @@ function Dashboard() {
           </Header>
           <Content className={styles.content}>
             <Switch>
-              <Redirect exact from="/dashboard" to="/dashboard/edit-state" />
+              <Redirect
+                exact
+                from="/dashboard/:programId"
+                to="/dashboard/:programId/edit-state"
+              />
               <Route
                 exact
-                path="/dashboard/edit-state"
+                path="/dashboard/:programId/edit-state"
                 component={ChangeState}
               />
               <Route
                 exact
-                path="/dashboard/edit-program"
+                path="/dashboard/:programId/edit-program"
                 component={EditProgram}
               />
               <Route
                 exact
-                path="/dashboard/manage-mentors"
+                path="/dashboard/:programId/manage-mentors"
                 component={ManageMentors}
               />
               <Route
                 exact
-                path="/dashboard/manage-mentees"
+                path="/dashboard/:programId/manage-mentees"
                 component={ManageMentees}
               />
             </Switch>

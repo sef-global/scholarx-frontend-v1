@@ -57,7 +57,7 @@ function App() {
           <Redirect exact from="/" to="/home" />
           <Route exact path="/home" component={Home} />
           <Route exact path="/sign-in" component={SignIn} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard/:programId" component={Dashboard} />
         </Switch>
       </Router>
     </UserContext.Provider>
