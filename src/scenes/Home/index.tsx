@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import NavigationBar from './components/NavigationBar';
-import AddModal from './components/AddProgrammeModal';
+import AddProgram from './components/AddProgram';
 import styles from './styles.css';
 import logo from './scholarx.png';
-import { Button, Card, Col, Menu, Row, Form, Input, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Menu, Row } from 'antd';
 import { Profile, Program } from '../../interfaces';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../index';
@@ -12,7 +11,6 @@ import { UserContext } from '../../index';
 const Home = () => {
   const user: Partial<Profile> = useContext(UserContext);
   const [programs, setPrograms] = useState<Program[]>(null);
-  const [visible, setVisible] = useState(false);
   const [programType] = useState<string>('ongoing');
   useEffect(() => {
     if (user) {
@@ -41,14 +39,6 @@ const Home = () => {
       setPrograms(fetchedPrograms);
     }
   });
-
-  const showModal = () => {
-    setVisible(true);
-  };
-
-  const hideModal = () => {
-    setVisible(false);
-  };
 
   return (
     <div>
@@ -100,22 +90,12 @@ const Home = () => {
                 </Col>
               ))}
               <Col md={6}>
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    className={styles.programmeAddButton}
-                    onClick={showModal}
-                    block
-                  >
-                    <PlusOutlined /> Add Programme
-                  </Button>
-                </Form.Item>
+                <AddProgram />
               </Col>
             </Row>
           </div>
         </Col>
       </Row>
-      <AddModal visible={visible} hideModal={hideModal} showModal={showModal}/>
     </div>
   );
 };

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Typography } from 'antd';
 import { Form, Input, Button } from 'antd';
 
 const { Title } = Typography;
 
-function EditDetails() {
+function EditProgram() {
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({
-      name: 'ScholarX 2020',
+      title: 'ScholarX 2020',
       imgURL:
         'https://lh3.googleusercontent.com/proxy/D8J_-lvem5PudnTSWd5aEeRNsunZuaO3LsG8DT_441waCVhdmA7d3SYfBmhkbbEQBBIBQOHPyA29o1O3boDc9gsAd2KUcTnj3G4fZpVkpLmMlE9lf2dBmzbcj9NUvIjyxo18c2TfZNw',
       landingURL: '',
@@ -18,7 +18,7 @@ function EditDetails() {
 
   return (
     <div>
-      <Title>Edit Programme</Title>
+      <Title>Edit Program</Title>
       <Form
         form={form}
         labelCol={{
@@ -30,7 +30,7 @@ function EditDetails() {
         layout="vertical"
         size="large"
       >
-        <Form.Item name="name" label="Name">
+        <Form.Item name="title" label="Title">
           <Input />
         </Form.Item>
         <Form.Item name="imgURL" label="Image URL">
@@ -50,4 +50,4 @@ function EditDetails() {
   );
 }
 
-export default EditDetails;
+export default EditProgram;

@@ -1,18 +1,17 @@
 import React from 'react';
-import { Typography, List, Skeleton, Avatar } from 'antd';
-import PersonCard from '../../components/PersonCard';
-import styles from './style.css';
-import 'antd/dist/antd.css';
+import { Typography, List, Button, Avatar } from 'antd';
+import { Mentor } from './interfaces';
 
 const { Title } = Typography;
 
-const listData = [];
+const listData: Mentor[] = [];
 for (let i = 0; i < 23; i++) {
   listData.push({
-    href: 'https://ant.design',
-    title: `Mentor ${i}`,
+    id: i,
+    name: 'John Doe',
+    linkedinUrl: 'https://www.linkedin.com/',
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description: 'Brief Intro about the mentor.',
+    description: 'Brief Intro about the mentee.',
   });
 }
 
@@ -30,7 +29,26 @@ function ManageMentors() {
           pageSize: 8,
         }}
         dataSource={listData}
-        renderItem={(item) => <PersonCard item={item} />}
+        renderItem={(item) => (
+          <List.Item
+            actions={[
+              <Button key="edit" type="primary">
+                Edit
+              </Button>,
+              <Button key="more" type="default">
+                More
+              </Button>,
+            ]}
+          >
+            <List.Item.Meta
+              avatar={
+                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              }
+              title={<a href="#">{item.name}</a>}
+              description={item.description}
+            />
+          </List.Item>
+        )}
       />
     </div>
   );
