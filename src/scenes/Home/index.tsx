@@ -15,7 +15,8 @@ const Home = () => {
   useEffect(() => {
     // Load available programs from the backend
     axios
-      .get('http://localhost:8080/programs')
+      // .get('http://localhost:8080/programs')
+      .get('http://localhost:8080/api/scholarx/programs')
       .then((response: AxiosResponse<Program[]>) => {
         setPrograms(response.data);
       });

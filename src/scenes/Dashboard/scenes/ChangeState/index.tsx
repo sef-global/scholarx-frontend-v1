@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Col,
   Row,
@@ -8,13 +8,27 @@ import {
   Button,
   Progress,
   Modal,
+  notification,
 } from 'antd';
 import { State } from './interfaces';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './styles.css';
+import { useParams } from 'react-router-dom';
+import axios, { AxiosResponse } from 'axios';
+import { Program } from '../../../../interfaces';
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
+const stateEnumVals: string[] = [
+  'CREATED',
+  'MENTOR_APPLICATION',
+  'MENTOR_SELECTION',
+  'MENTEE_APPLICATION',
+  'MENTEE_SELECTION',
+  'ONGOING',
+  'COMPLETED',
+  'REMOVED',
+];
 const programStates: State[] = [
   {
     stepNo: 0,
@@ -55,9 +69,50 @@ const programStates: State[] = [
 ];
 
 function ChangeState() {
+  const { programId } = useParams();
+  const [programTitle, setProgramTitle] = useState<string>('');
   const [currentStep, setCurrentStep] = useState<number>(0);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
+      .then((result: AxiosResponse<Program>) => {
+        if (result.status == 200) {
+          setCurrentStep(stateEnumVals.indexOf(result.data.state));
+          setProgramTitle(result.data.title);
+          console.log(result.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when fetching the program',
+        });
+      });
+  });
   const handleStepChange = () => {
-    setCurrentStep(currentStep + 1);
+    axios({
+      method: 'put',
+      url: `http://localhost:8080/api/scholarx/admin/programs/${programId}/state`,
+    })
+      .then((result) => {
+        if (result.status == 200) {
+          setCurrentStep(currentStep + 1);
+          notification.success({
+            message: 'Success!',
+            description: 'Changed the state successfully!',
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when changing the state',
+        });
+      });
   };
   const { confirm } = Modal;
   const showConfirm = () => {
@@ -82,8 +137,7 @@ function ChangeState() {
       <Row justify="center">
         <Col md={20}>
           <Card className={styles.cardWrapper}>
-            {/* TODO: get the program id from the url param and the name of that program as the title */}
-            <Title level={3}>ScholarX Jr. 2020</Title>
+            <Title level={3}>{programTitle}</Title>
             <Progress
               className={styles.progress}
               type="circle"
