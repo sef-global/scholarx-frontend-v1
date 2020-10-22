@@ -1,0 +1,17 @@
+.container {
+    margin-top:5rem;
+}
+
+.logo {
+    width: 250px;
+    margin-bottom: 2rem;
+}
+
+.form {
+    margin-top: 3rem;
+    padding-top: 10px;
+}
+
+.submitButton {
+    margin-left: 1.5rem;
+}

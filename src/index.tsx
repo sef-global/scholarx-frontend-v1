@@ -11,6 +11,7 @@ import Home from './scenes/Home';
 import SignIn from './scenes/SignIn';
 import Dashboard from './scenes/Dashboard';
 import { Profile } from './interfaces';
+import MentorApplication from './scenes/Home/components/MentorApplication';
 
 export const UserContext = createContext<Partial<Profile>>({});
 
@@ -58,6 +59,10 @@ function App() {
           <Route exact path="/home" component={Home} />
           <Route exact path="/sign-in" component={SignIn} />
           <Route path="/dashboard/:programId" component={Dashboard} />
+          <Route
+            path="/program/:id/mentor/apply"
+            component={MentorApplication}
+          />
         </Switch>
       </Router>
     </UserContext.Provider>
