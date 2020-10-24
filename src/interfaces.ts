@@ -7,14 +7,17 @@ export interface Profile {
   imgUrl: string;
   headline: string;
   type: string;
-  programs: Program[];
+  programs: SavedProgram[];
 }
 
-export interface Program {
+export interface SavedProgram extends UnsavedProgram {
   id: number;
+  state: string;
+}
+
+export interface UnsavedProgram {
   title: string;
   headline: string;
   imageUrl: string;
   landingPageUrl: string;
-  state: string;
 }

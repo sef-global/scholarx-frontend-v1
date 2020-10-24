@@ -1,51 +1,115 @@
-import React, { useEffect } from 'react';
-import { Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { notification, Spin, Typography } from 'antd';
 import { Form, Input, Button } from 'antd';
+import { useParams } from 'react-router';
+import axios, { AxiosResponse } from 'axios';
+import { SavedProgram, UnsavedProgram } from '../../../../interfaces';
 
 const { Title } = Typography;
 
 function EditProgram() {
   const [form] = Form.useForm();
+  const { programId } = useParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   useEffect(() => {
-    form.setFieldsValue({
-      title: 'ScholarX 2020',
-      imgURL:
-        'https://lh3.googleusercontent.com/proxy/D8J_-lvem5PudnTSWd5aEeRNsunZuaO3LsG8DT_441waCVhdmA7d3SYfBmhkbbEQBBIBQOHPyA29o1O3boDc9gsAd2KUcTnj3G4fZpVkpLmMlE9lf2dBmzbcj9NUvIjyxo18c2TfZNw',
-      landingURL: '',
-      description: 'Lorem Ipsum dolor sit amet',
-    });
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
+      .then((result: AxiosResponse<SavedProgram>) => {
+        if (result.status == 200) {
+          setIsLoading(false);
+          form.setFieldsValue({
+            title: result.data.title,
+            headline: result.data.headline,
+            imageUrl: result.data.imageUrl,
+            landingPageUrl: result.data.landingPageUrl,
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when fetching the program',
+        });
+      });
   }, []);
+
+  const addProgram = (values: any) => {
+    setIsLoading(true);
+    const program: UnsavedProgram = {
+      title: values.title,
+      headline: values.headline,
+      imageUrl: values.imageUrl,
+      landingPageUrl: values.landingPageUrl,
+    };
+    form.setFieldsValue({
+      title: values.title,
+      headline: values.headline,
+      imageUrl: values.imageUrl,
+      landingPageUrl: values.landingPageUrl,
+    });
+    axios
+      .put(
+        `http://localhost:8080/api/scholarx/admin/programs/${programId}`,
+        program
+      )
+      .then((res: AxiosResponse<SavedProgram>) => {
+        if (res.status == 200) {
+          setIsLoading(false);
+          notification.success({
+            message: 'Success!',
+            description: 'Program saved!',
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when editing the program',
+        });
+      });
+  };
 
   return (
     <div>
       <Title>Edit Program</Title>
-      <Form
-        form={form}
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 14,
-        }}
-        layout="vertical"
-        size="large"
-      >
-        <Form.Item name="title" label="Title">
-          <Input />
-        </Form.Item>
-        <Form.Item name="imgURL" label="Image URL">
-          <Input />
-        </Form.Item>
-        <Form.Item name="landingURL" label="Landing Page URL">
-          <Input />
-        </Form.Item>
-        <Form.Item name="description" label="Description">
-          <Input.TextArea />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary">Save</Button>
-        </Form.Item>
-      </Form>
+      <Spin tip="Loading..." spinning={isLoading}>
+        <Form
+          onFinish={addProgram}
+          form={form}
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+          layout="vertical"
+          size="large"
+        >
+          <Form.Item name="title" label="Title">
+            <Input />
+          </Form.Item>
+          <Form.Item name="headline" label="Heading">
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="imageUrl" label="Image URL">
+            <Input />
+          </Form.Item>
+          <Form.Item name="landingPageUrl" label="Landing Page URL">
+            <Input />
+          </Form.Item>
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
+        </Form>
+      </Spin>
     </div>
   );
 }
