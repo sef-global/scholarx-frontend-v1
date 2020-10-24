@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { Modal, Form, Input, notification, Spin, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import MainStyles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
-import { Program } from './interfaces';
+import { SavedProgram } from '../../../../interfaces';
 import styles from './styles.css';
 import { useHistory } from 'react-router';
 
@@ -20,12 +19,11 @@ function AddProgram() {
       headline: values.heading,
       imageUrl: values.imgURL,
       landingPageUrl: values.landingURL,
-      state: 'CREATED',
     };
     setIsLoading(true);
     axios
       .post('http://localhost:8080/api/scholarx/admin/programs/', program)
-      .then((res: AxiosResponse<Program>) => {
+      .then((res: AxiosResponse<SavedProgram>) => {
         if (res.status == 201) {
           setIsLoading(false);
           notification.success({
@@ -65,7 +63,7 @@ function AddProgram() {
     <>
       <Button
         type="dashed"
-        className={MainStyles.programAddButton}
+        className={styles.programAddButton}
         onClick={showModal}
         block
       >

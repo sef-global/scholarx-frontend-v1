@@ -79,7 +79,6 @@ function ChangeState() {
         if (result.status == 200) {
           setCurrentStep(stateEnumVals.indexOf(result.data.state));
           setProgramTitle(result.data.title);
-          console.log(result.data);
         } else {
           throw new Error();
         }
