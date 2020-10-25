@@ -46,12 +46,6 @@ function EditProgram() {
       imageUrl: values.imageUrl,
       landingPageUrl: values.landingPageUrl,
     };
-    form.setFieldsValue({
-      title: values.title,
-      headline: values.headline,
-      imageUrl: values.imageUrl,
-      landingPageUrl: values.landingPageUrl,
-    });
     axios
       .put(
         `http://localhost:8080/api/scholarx/admin/programs/${programId}`,

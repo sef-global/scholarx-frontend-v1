@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Row,
@@ -18,10 +18,36 @@ import { Mentor, Application } from '../../../../interfaces';
 const { TextArea } = Input;
 const { Title } = Typography;
 
-function MentorApplication() {
+function EditMentorApplication() {
   const [form] = Form.useForm();
   const { programId } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(
+        `http://localhost:8080/api/scholarx/programs/${programId}/mentor/application`
+      )
+      .then((result: AxiosResponse<Mentor>) => {
+        if (result.status == 200) {
+          setIsLoading(false);
+          form.setFieldsValue({
+            application: result.data.application,
+            prerequisites: result.data.prerequisites,
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when fetching the program',
+        });
+      });
+  }, []);
 
   const apply = (values: any) => {
     setIsLoading(true);
@@ -30,8 +56,8 @@ function MentorApplication() {
       prerequisites: values.prerequisites,
     };
     axios
-      .post(
-        `http://localhost:8080/api/scholarx/programs/${programId}/mentor`,
+      .put(
+        `http://localhost:8080/api/scholarx/programs/${programId}/mentor/application`,
         application
       )
       .then((result: AxiosResponse<Mentor>) => {
@@ -60,7 +86,7 @@ function MentorApplication() {
         <Col md={2} />
         <Col md={12}>
           <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
-          <Title level={2}>Apply as a Mentor</Title>
+          <Title level={2}>Edit Mentor Application</Title>
         </Col>
       </Row>
       <Spin tip="Loading..." spinning={isLoading}>
@@ -111,4 +137,4 @@ function MentorApplication() {
   );
 }
 
-export default MentorApplication;
+export default EditMentorApplication;

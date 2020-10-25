@@ -40,3 +40,8 @@ export interface Mentor {
   application: string;
   prerequisites: string;
 }
+
+export interface Application {
+  application: string;
+  prerequisites: string;
+}
