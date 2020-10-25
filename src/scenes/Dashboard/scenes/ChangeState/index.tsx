@@ -15,7 +15,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './styles.css';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
-import { Program } from '../../../../interfaces';
+import { SavedProgram } from '../../../../interfaces';
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
@@ -66,6 +66,12 @@ const programStates: State[] = [
     description:
       'Some descriptive text about this particular state of the program',
   },
+  {
+    stepNo: 6,
+    name: 'Completed',
+    description:
+      'Some descriptive text about this particular state of the program',
+  },
 ];
 
 function ChangeState() {
@@ -75,7 +81,7 @@ function ChangeState() {
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
-      .then((result: AxiosResponse<Program>) => {
+      .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setCurrentStep(stateEnumVals.indexOf(result.data.state));
           setProgramTitle(result.data.title);
@@ -140,7 +146,9 @@ function ChangeState() {
             <Progress
               className={styles.progress}
               type="circle"
-              percent={Math.round((currentStep * 100) / programStates.length)}
+              percent={Math.round(
+                ((currentStep + 1) * 100) / programStates.length
+              )}
             />
             <p>
               <Text type="warning">Current State: </Text>{' '}
