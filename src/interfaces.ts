@@ -21,3 +21,22 @@ export interface UnsavedProgram {
   imageUrl: string;
   landingPageUrl: string;
 }
+
+export interface Mentor {
+  id: number;
+  profile: {
+    id: number,
+    uid: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    imageUrl: string,
+    linkedinUrl: string,
+    headline: string,
+    type: string,
+  };
+  state: string;
+  program: SavedProgram;
+  application: string;
+  prerequisites: string;
+}

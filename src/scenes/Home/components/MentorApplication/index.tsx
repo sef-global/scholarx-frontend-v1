@@ -1,11 +1,60 @@
-import React from 'react';
-import { Button, Row, Col, Input } from 'antd';
+import React, { useState } from 'react';
+import {
+  Button,
+  Row,
+  Col,
+  Input,
+  Form,
+  notification,
+  Spin,
+  Typography,
+} from 'antd';
 import logo from '../../scholarx.png';
 import styles from './styles.css';
+import { useParams } from 'react-router';
+import axios, { AxiosResponse } from 'axios';
+import { Application } from './interfaces';
+import { Mentor } from '../../../../interfaces';
 
 const { TextArea } = Input;
+const { Title } = Typography;
 
 function MentorApplication() {
+  const [form] = Form.useForm();
+  const { programId } = useParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const apply = (values: any) => {
+    setIsLoading(true);
+    const application: Application = {
+      application: values.application,
+      prerequisites: values.prerequisites,
+    };
+    axios
+      .post(
+        `http://localhost:8080/api/scholarx/programs/${programId}/mentor`,
+        application
+      )
+      .then((result: AxiosResponse<Mentor>) => {
+        if (result.status == 200) {
+          setIsLoading(false);
+          notification.success({
+            message: 'Success!',
+            description: 'Successfully applied!',
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when applying for the program',
+        });
+      });
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -13,45 +62,54 @@ function MentorApplication() {
           <Col md={2} />
           <Col md={12}>
             <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
-            <h1>
-              <b>Apply as a Mentor</b>
-            </h1>
+            <Title level={2}>Apply as a Mentor</Title>
           </Col>
         </Row>
-        <div className={styles.form}>
-          <Row>
-            <Col md={2} />
-            <Col md={12}>
-              <h2>
-                Why do you think you are suitable as a mentor in this program?
-              </h2>
-              <TextArea rows={5} />
-            </Col>
-          </Row>
-          <br />
-          <br />
-          <Row>
-            <Col md={2} />
-            <Col md={12}>
-              <h2>
-                Include the Pre requisites you expect from mentees
-                <i>(This will be displayed in public)</i>
-              </h2>
-              <TextArea rows={8} />
-            </Col>
-          </Row>
-          <br />
-          <br />
-          <Row>
-            <Col md={2} />
-            <Col md={12}>
-              <Button>Cancel</Button>
-              <Button type="primary" className={styles.submitButton}>
-                Submit
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        <Spin tip="Loading..." spinning={isLoading}>
+          <div className={styles.form}>
+            <Form layout="vertical" size="large" onFinish={apply} form={form}>
+              <Row>
+                <Col md={2} />
+                <Col md={12}>
+                  <Title level={3}>
+                    Why do you think you are suitable as a mentor in this
+                    program?
+                  </Title>
+                  <Form.Item name="application" rules={[{ required: true }]}>
+                    <TextArea rows={5} />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col md={2} />
+                <Col md={12}>
+                  <Title level={3}>
+                    Include the Pre requisites you expect from mentees
+                    <i>(This will be displayed in public)</i>
+                  </Title>
+                  <Form.Item name="prerequisites" rules={[{ required: true }]}>
+                    <TextArea rows={8} />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col md={2} />
+                <Col md={12}>
+                  <Button htmlType="button">Cancel</Button>
+                  <Button
+                    htmlType="submit"
+                    type="primary"
+                    className={styles.submitButton}
+                  >
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </div>
+        </Spin>
       </div>
     </>
   );
