@@ -4,20 +4,19 @@ import AddProgram from './components/AddProgram';
 import styles from './styles.css';
 import logo from './scholarx.png';
 import { Button, Card, Col, Menu, Row } from 'antd';
-import { Program } from '../../interfaces';
+import { SavedProgram } from '../../interfaces';
 import { Link } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 
 const Home = () => {
-  const [programs, setPrograms] = useState<Program[]>([]);
+  const [programs, setPrograms] = useState<SavedProgram[]>([]);
   const [programType] = useState<string>('ongoing');
 
   useEffect(() => {
     // Load available programs from the backend
     axios
-      // .get('http://localhost:8080/programs')
       .get('http://localhost:8080/api/scholarx/programs')
-      .then((response: AxiosResponse<Program[]>) => {
+      .then((response: AxiosResponse<SavedProgram[]>) => {
         setPrograms(response.data);
       });
   }, []);
