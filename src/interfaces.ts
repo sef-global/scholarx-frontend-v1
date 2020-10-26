@@ -6,6 +6,7 @@ export interface Profile {
   lastName: string;
   imgUrl: string;
   headline: string;
+  linkedinUrl: string;
   type: string;
   programs: SavedProgram[];
 }
@@ -24,17 +25,7 @@ export interface UnsavedProgram {
 
 export interface Mentor {
   id: number;
-  profile: {
-    id: number,
-    uid: string,
-    email: string,
-    firstName: string,
-    lastName: string,
-    imageUrl: string,
-    linkedinUrl: string,
-    headline: string,
-    type: string,
-  };
+  profile: Profile;
   state: string;
   program: SavedProgram;
   application: string;
