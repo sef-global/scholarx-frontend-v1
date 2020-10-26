@@ -1,7 +1,11 @@
 export interface Mentee {
   id: number;
-  name: string;
-  linkedinUrl: string;
-  avatar: string;
-  description: string;
+  profile: {
+    firstName: string,
+    lastName: string,
+    imageUrl: string,
+    linkedinUrl: string,
+    headline: string,
+  };
+  state: string;
 }

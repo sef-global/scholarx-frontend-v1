@@ -1,55 +1,78 @@
-import React from 'react';
-import { Typography, List, Avatar, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Typography, List, Button, Avatar, notification, Spin } from 'antd';
+
 import { Mentee } from './interfaces';
+import { useParams } from 'react-router';
+import axios, { AxiosResponse } from 'axios';
+import DropdownItem from './components/DropdownItem';
 
 const { Title } = Typography;
 
-const listData: Mentee[] = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    id: i,
-    name: 'John Doe',
-    linkedinUrl: 'https://www.linkedin.com/',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description: 'Brief Intro about the mentee.',
-  });
-}
-
 function ManageMentees() {
+  const { programId } = useParams();
+  const [mentees, setMentees] = useState<Mentee[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:8080/api/scholarx/programs/${programId}/mentees`)
+      .then((result: AxiosResponse<Mentee[]>) => {
+        if (result.status == 200) {
+          setIsLoading(false);
+          setMentees(result.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when fetching the mentees',
+        });
+      });
+  }, []);
+
   return (
     <div>
       <Title>Manage Mentees</Title>
-      <List
-        itemLayout="horizontal"
-        size="large"
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: 8,
-        }}
-        dataSource={listData}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <Button key="edit" type="primary">
-                Edit
-              </Button>,
-              <Button key="more" type="default">
-                More
-              </Button>,
-            ]}
-          >
-            <List.Item.Meta
-              avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              }
-              title={<a href="#">{item.name}</a>}
-              description={item.description}
-            />
-          </List.Item>
-        )}
-      />
+      <Spin tip="Loading..." spinning={isLoading}>
+        <List
+          itemLayout="horizontal"
+          size="large"
+          pagination={{
+            onChange: (page) => {
+              console.log(page);
+            },
+            pageSize: 8,
+          }}
+          dataSource={mentees}
+          renderItem={(item: Mentee) => (
+            <List.Item
+              key={item.id}
+              actions={[
+                <Button key="view" type="primary">
+                  View
+                </Button>,
+                <Button key="more" type="default">
+                  <DropdownItem id={item.id} />
+                </Button>,
+              ]}
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={item.profile.imageUrl} />}
+                title={
+                  <a href={item.profile.linkedinUrl}>
+                    {item.profile.firstName} {item.profile.lastName}
+                  </a>
+                }
+                description={item.profile.headline}
+              />
+            </List.Item>
+          )}
+        />
+      </Spin>
     </div>
   );
 }
