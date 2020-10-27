@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, Avatar, Button, notification, Spin } from 'antd';
+import { Typography, List, Button, Avatar, notification, Spin } from 'antd';
+
 import { Mentee } from './interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
+import DropdownItem from './components/DropdownItem';
 
 const { Title } = Typography;
 
@@ -46,19 +48,20 @@ function ManageMentees() {
             pageSize: 8,
           }}
           dataSource={mentees}
-          renderItem={(item) => (
+          renderItem={(item: Mentee) => (
             <List.Item
+              key={item.id}
               actions={[
-                <Button key="edit" type="primary">
-                  Edit
+                <Button key="view" type="primary">
+                  View
                 </Button>,
                 <Button key="more" type="default">
-                  More
+                  <DropdownItem id={item.id} />
                 </Button>,
               ]}
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.profile.imgUrl} />}
+                avatar={<Avatar src={item.profile.imageUrl} />}
                 title={
                   <a href={item.profile.linkedinUrl}>
                     {item.profile.firstName} {item.profile.lastName}

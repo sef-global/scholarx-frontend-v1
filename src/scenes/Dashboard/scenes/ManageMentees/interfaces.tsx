@@ -1,7 +1,11 @@
-import { Profile } from '../../../../interfaces';
-
 export interface Mentee {
-  profile: Profile;
+  id: number;
+  profile: {
+    firstName: string,
+    lastName: string,
+    imageUrl: string,
+    linkedinUrl: string,
+    headline: string,
+  };
   state: string;
-  submissionUrl: string;
 }
