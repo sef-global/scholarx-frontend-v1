@@ -1,3 +1,5 @@
+import { Profile } from '../../../../interfaces';
+
 export interface Mentee {
   id: number;
   profile: {

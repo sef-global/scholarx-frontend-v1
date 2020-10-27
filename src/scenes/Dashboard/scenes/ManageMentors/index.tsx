@@ -61,7 +61,7 @@ function ManageMentors() {
               <List.Item.Meta
                 avatar={<Avatar src={item.profile.imageUrl} />}
                 title={
-                  <a href="#">
+                  <a href={item.profile.linkedinUrl}>
                     {item.profile.firstName} {item.profile.lastName}
                   </a>
                 }
