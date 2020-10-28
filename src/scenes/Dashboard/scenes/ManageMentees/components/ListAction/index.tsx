@@ -1,6 +1,6 @@
 import React from 'react';
 import { notification, Button, Modal } from 'antd';
-import { DownOutlined, WarningOutlined } from '@ant-design/icons';
+import { WarningOutlined } from '@ant-design/icons';
 import axios, { AxiosResponse } from 'axios';
 
 const { confirm } = Modal;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, Button, Avatar, notification, Spin } from 'antd';
+import { Typography, List, Avatar, notification, Spin } from 'antd';
 
 import { Mentee } from './interfaces';
 import { useParams } from 'react-router';
