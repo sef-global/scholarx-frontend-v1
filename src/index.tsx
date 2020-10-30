@@ -11,9 +11,9 @@ import Home from './scenes/Home';
 import SignIn from './scenes/SignIn';
 import Dashboard from './scenes/Dashboard';
 import { Profile } from './interfaces';
-import MentorApplication from './scenes/Home/components/MentorApplication';
-import EditMentorApplication from './scenes/Home/components/EditMentorApplication';
-
+import MentorApplication from './scenes/Home/scenes/MentorApplication';
+import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
+import RequestMentors from './scenes/Home/scenes/RequestMentors';
 export const UserContext = createContext<Partial<Profile>>({});
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
       firstName: '',
       email: '',
       uid: '',
+      linkedinUrl: '',
       imgUrl:
         'https://d38we5ntdyxyje.cloudfront.net/858987/profile/GJQSELLC_avatar_medium_square.jpg',
       programs: [
@@ -68,6 +69,7 @@ function App() {
             path="/program/:programId/mentor/edit"
             component={EditMentorApplication}
           />
+          <Route path="/program/:programId" component={RequestMentors} />
         </Switch>
       </Router>
     </UserContext.Provider>

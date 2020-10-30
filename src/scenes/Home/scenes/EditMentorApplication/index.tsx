@@ -14,6 +14,7 @@ import styles from './styles.css';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Mentor, Application } from '../../../../interfaces';
+import mainStyles from '../../styles.css';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -81,7 +82,7 @@ function EditMentorApplication() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={mainStyles.container}>
       <Row>
         <Col md={2} />
         <Col md={12}>
