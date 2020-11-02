@@ -13,6 +13,7 @@ import Dashboard from './scenes/Dashboard';
 import { Profile } from './interfaces';
 import MentorApplication from './scenes/Home/components/MentorApplication';
 import EditMentorApplication from './scenes/Home/components/EditMentorApplication';
+import ManageMenteesOfMentor from './scenes/Home/components/Mentor-MenteeView';
 
 export const UserContext = createContext<Partial<Profile>>({});
 
@@ -67,6 +68,11 @@ function App() {
           <Route
             path="/program/:programId/mentor/edit"
             component={EditMentorApplication}
+          />
+          <Route
+            exact
+            path="/mentors/:mentorId/mentees"
+            component={ManageMenteesOfMentor}
           />
         </Switch>
       </Router>
