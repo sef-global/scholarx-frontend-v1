@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, Avatar, Button, notification, Spin } from 'antd';
+import {
+  Typography,
+  List,
+  Avatar,
+  notification,
+  Spin,
+  Button,
+  Modal,
+} from 'antd';
+import { WarningOutlined } from '@ant-design/icons';
 import { Mentee } from './interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 
 const { Title } = Typography;
+const { confirm } = Modal;
 
 function ManageMentees() {
   const { programId } = useParams();
@@ -32,6 +42,34 @@ function ManageMentees() {
       });
   }, []);
 
+  const removeMentee = (id) => {
+    confirm({
+      title: 'Do you want to remove this mentee?',
+      icon: <WarningOutlined />,
+      content: 'This action is not reversible. Please confirm below.',
+      onOk() {
+        axios
+          .delete(`http://localhost:8080/api/scholarx/mentees/${id}`)
+          .then((result: AxiosResponse) => {
+            if (result.status == 200) {
+              notification.success({
+                message: 'Success!',
+                description: 'Successfully removed the mentee',
+              });
+            } else {
+              throw new Error();
+            }
+          })
+          .catch(() => {
+            notification.error({
+              message: 'Error!',
+              description: 'Something went wrong when deleting the mentee',
+            });
+          });
+      },
+    });
+  };
+
   return (
     <div>
       <Title>Manage Mentees</Title>
@@ -40,20 +78,20 @@ function ManageMentees() {
           itemLayout="horizontal"
           size="large"
           pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
             pageSize: 8,
           }}
           dataSource={mentees}
-          renderItem={(item) => (
+          renderItem={(item: Mentee) => (
             <List.Item
+              key={item.profile.id}
               actions={[
-                <Button key="edit" type="primary">
-                  Edit
-                </Button>,
-                <Button key="more" type="default">
-                  More
+                <Button
+                  key="remove"
+                  type="primary"
+                  onClick={() => removeMentee(item.profile.id)}
+                  danger
+                >
+                  Remove
                 </Button>,
               ]}
             >
