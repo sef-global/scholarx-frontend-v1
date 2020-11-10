@@ -9,7 +9,7 @@ const NavigationBar = () => {
   return (
     <div className={styles.navbar}>
       {user ? (
-        <Avatar src={user.imgUrl} />
+        <Avatar src={user.imageUrl} />
       ) : (
         <Link to={'/sign-in'}>
           <Button type="primary">Sign In</Button>

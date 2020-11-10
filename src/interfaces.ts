@@ -4,7 +4,7 @@ export interface Profile {
   email: string;
   firstName: string;
   lastName: string;
-  imgUrl: string;
+  imageUrl: string;
   headline: string;
   linkedinUrl: string;
   type: string;
