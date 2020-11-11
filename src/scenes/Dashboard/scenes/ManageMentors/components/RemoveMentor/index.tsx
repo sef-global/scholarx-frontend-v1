@@ -15,7 +15,9 @@ function RemoveMentor(props) {
         axios
           .put(
             `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-            { enrolmentState: 'REMOVED' }
+            {
+              enrolmentState: 'REMOVED',
+            }
           )
           .then((result: any) => {
             if (result.status == 200) {

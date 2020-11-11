@@ -9,7 +9,7 @@ import RemoveMentor from './components/RemoveMentor';
 const { Title } = Typography;
 
 function ManageMentors() {
-  const {programId} = useParams();
+  const { programId } = useParams();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programState, setProgramState] = useState(String);
@@ -109,7 +109,10 @@ function ManageMentors() {
             return (
               <List.Item
                 key={item.id}
-                actions={[actionButton, <RemoveMentor id={item.id} />]}
+                actions={[
+                  actionButton,
+                  <RemoveMentor key={item.id} id={item.id} />,
+                ]}
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item.profile.imageUrl} />}

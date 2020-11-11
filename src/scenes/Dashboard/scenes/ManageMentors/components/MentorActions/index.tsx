@@ -16,7 +16,9 @@ function MentorActions(props) {
         axios
           .put(
             `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-            { enrolmentState: 'REJECTED' }
+            {
+              enrolmentState: 'REJECTED',
+            }
           )
           .then((result: any) => {
             if (result.status == 200) {
@@ -48,7 +50,9 @@ function MentorActions(props) {
         axios
           .put(
             `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-            { enrolmentState: 'APPROVED' }
+            {
+              enrolmentState: 'APPROVED',
+            }
           )
           .then((result: any) => {
             if (result.status == 200) {
