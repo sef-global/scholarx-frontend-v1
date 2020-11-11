@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Typography, notification, Button, Modal, Divider } from 'antd';
-import { useParams } from 'react-router';
+import React from 'react';
+import { notification, Button, Modal, Divider } from 'antd';
 import axios from 'axios';
 import { WarningOutlined } from '@ant-design/icons';
 import styles from './styles.css';
@@ -8,7 +7,6 @@ import styles from './styles.css';
 const { confirm } = Modal;
 
 function MentorActions(props) {
-
   const rejectMentor = (id) => {
     confirm({
       title: 'Do you want to reject this mentor?',
@@ -16,7 +14,10 @@ function MentorActions(props) {
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
         axios
-          .put(`http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`, { enrolmentState: 'REJECTED' })
+          .put(
+            `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
+            { enrolmentState: 'REJECTED' }
+          )
           .then((result: any) => {
             if (result.status == 200) {
               notification.success({
@@ -45,7 +46,10 @@ function MentorActions(props) {
       content: 'This action can be changed later. Please confirm below.',
       onOk() {
         axios
-          .put(`http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`, { enrolmentState: 'APPROVED' })
+          .put(
+            `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
+            { enrolmentState: 'APPROVED' }
+          )
           .then((result: any) => {
             if (result.status == 200) {
               notification.success({
@@ -70,7 +74,7 @@ function MentorActions(props) {
   let actions;
   switch (props.state) {
     case 'PENDING':
-      actions =
+      actions = (
         <>
           <Button
             key="approve"
@@ -78,7 +82,7 @@ function MentorActions(props) {
             className={styles.approveBtn}
           >
             Approve
-           </Button>
+          </Button>
           <Divider type="vertical" />
           <Button
             key="reject"
@@ -89,9 +93,10 @@ function MentorActions(props) {
             Reject
           </Button>
         </>
+      );
       break;
     case 'APPROVED':
-      actions =
+      actions = (
         <Button
           key="reject"
           type="primary"
@@ -100,17 +105,14 @@ function MentorActions(props) {
         >
           Reject
         </Button>
+      );
       break;
     case 'REJECTED':
     case 'REMOVED':
       break;
   }
 
-  return (
-    <>
-      {actions}
-    </>
-  );
+  return <>{actions}</>;
 }
 
 export default MentorActions;

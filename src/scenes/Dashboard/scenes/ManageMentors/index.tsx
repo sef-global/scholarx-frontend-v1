@@ -9,7 +9,7 @@ import RemoveMentor from './components/RemoveMentor';
 const { Title } = Typography;
 
 function ManageMentors() {
-  const { programId } = useParams();
+  const {programId} = useParams();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programState, setProgramState] = useState(String);
@@ -29,7 +29,8 @@ function ManageMentors() {
         setIsLoading(false);
         notification.warning({
           message: 'Warning!',
-          description: 'Something went wrong when fetching the programme detail',
+          description:
+            'Something went wrong when fetching the programme detail',
         });
       });
 
@@ -50,7 +51,6 @@ function ManageMentors() {
           description: 'Something went wrong when fetching the mentors',
         });
       });
-
   }, []);
 
   let dynamicComponent;
@@ -59,82 +59,76 @@ function ManageMentors() {
     case 'CREATED':
     case 'COMPLETED':
     case 'REMOVED':
-      dynamicComponent =
+      dynamicComponent = (
         <Empty
           image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
           imageStyle={{
             height: 60,
           }}
-          description={
-            <span>
-              You are currently in {programState} state.
-            </span>
-          }
-        >
-        </Empty>
+          description={<span>You are currently in {programState} state.</span>}
+        ></Empty>
+      );
       break;
     case 'MENTOR_APPLICATION':
     case 'MENTOR_SELECTION':
     case 'MENTEE_APPLICATION':
     case 'MENTEE_SELECTION':
     case 'ONGOING':
-      dynamicComponent =
-        
-          <List
-            itemLayout="horizontal"
-            size="large"
-            pagination={{
-              onChange: (page) => {
-                console.log(page);
-              },
-              pageSize: 8,
-            }}
-            dataSource={mentors}
-            renderItem={(item: Mentor) => {
-              let tagComponent;
-              switch (item.state) {
-                case 'PENDING':
-                  tagComponent = <Tag color="blue">PENDING</Tag>
-                  break;
-                case 'APPROVED':
-                  tagComponent = <Tag color="green">APPROVED</Tag>
-                  break;
-                case 'REJECTED':
-                  tagComponent = <Tag color="orange">REJECTED</Tag>
-                  break;
-                case 'REMOVED':
-                  tagComponent = <Tag color="red">REMOVED</Tag>
-                  break;
-              }
-              let actionButton;
-              if (programState === 'MENTOR_SELECTION') {
-                actionButton = <MentorActions id={item.id} state={item.state} />;
-              }
+      dynamicComponent = (
+        <List
+          itemLayout="horizontal"
+          size="large"
+          pagination={{
+            onChange: (page) => {
+              console.log(page);
+            },
+            pageSize: 8,
+          }}
+          dataSource={mentors}
+          renderItem={(item: Mentor) => {
+            let tagComponent;
+            switch (item.state) {
+              case 'PENDING':
+                tagComponent = <Tag color="blue">PENDING</Tag>;
+                break;
+              case 'APPROVED':
+                tagComponent = <Tag color="green">APPROVED</Tag>;
+                break;
+              case 'REJECTED':
+                tagComponent = <Tag color="orange">REJECTED</Tag>;
+                break;
+              case 'REMOVED':
+                tagComponent = <Tag color="red">REMOVED</Tag>;
+                break;
+            }
+            let actionButton;
+            if (programState === 'MENTOR_SELECTION') {
+              actionButton = <MentorActions id={item.id} state={item.state} />;
+            }
 
-              return (
-                <List.Item
-                  key={item.id}
-                  actions={
-                    [actionButton,<RemoveMentor id={item.id} />]
+            return (
+              <List.Item
+                key={item.id}
+                actions={[actionButton, <RemoveMentor id={item.id} />]}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar src={item.profile.imageUrl} />}
+                  title={
+                    <div>
+                      <a href={item.profile.linkedinUrl}>
+                        {item.profile.firstName} {item.profile.lastName}
+                      </a>
+                      <br />
+                      {tagComponent}
+                    </div>
                   }
-                >
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.profile.imageUrl} />}
-                    title={
-                      <div>
-                        <a href={item.profile.linkedinUrl}>
-                          {item.profile.firstName} {item.profile.lastName}
-                        </a>
-                        <br/>
-                        {tagComponent}
-                      </div>
-                    }
-                    description={item.profile.headline}
-                  />   
-                </List.Item>
-              )
-            }}
-          />
+                  description={item.profile.headline}
+                />
+              </List.Item>
+            );
+          }}
+        />
+      );
       break;
   }
 
