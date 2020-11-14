@@ -87,6 +87,7 @@ function ManageMentors() {
           dataSource={mentors}
           renderItem={(item: Mentor) => {
             let tagComponent;
+
             switch (item.state) {
               case 'PENDING':
                 tagComponent = <Tag color="blue">PENDING</Tag>;
@@ -101,6 +102,7 @@ function ManageMentors() {
                 tagComponent = <Tag color="red">REMOVED</Tag>;
                 break;
             }
+
             let actionButton;
             if (programState === 'MENTOR_SELECTION') {
               actionButton = <MentorActions id={item.id} state={item.state} />;
@@ -132,7 +134,6 @@ function ManageMentors() {
           }}
         />
       );
-      break;
   }
 
   return (

@@ -7,36 +7,65 @@ import styles from './styles.css';
 const { confirm } = Modal;
 
 function MentorActions(props) {
+  const rejectMentorApi = () => {
+    axios
+      .put(
+        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
+        {
+          enrolmentState: 'REJECTED',
+        }
+      )
+      .then((result: any) => {
+        if (result.status == 200) {
+          notification.success({
+            message: 'Updated!',
+            description: 'Successfully updated the mentor state',
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when updating state',
+        });
+      });
+  };
+
+  const approveMentorApi = () => {
+    axios
+      .put(
+        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
+        {
+          enrolmentState: 'APPROVED',
+        }
+      )
+      .then((result: any) => {
+        if (result.status == 200) {
+          notification.success({
+            message: 'Updated!',
+            description: 'Successfully updated the mentor state',
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when updating state',
+        });
+      });
+  };
+
   const rejectMentor = (id) => {
     confirm({
       title: 'Do you want to reject this mentor?',
       icon: <WarningOutlined />,
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
-        axios
-          .put(
-            `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-            {
-              enrolmentState: 'REJECTED',
-            }
-          )
-          .then((result: any) => {
-            if (result.status == 200) {
-              notification.success({
-                message: 'Updated!',
-                description: 'Successfully updated the mentor state',
-              });
-            } else {
-              throw new Error();
-            }
-          })
-          .catch(() => {
-            notification.warning({
-              message: 'Warning!',
-              description: 'Something went wrong when updating state',
-            });
-          });
-        console.log(`Rejected ${props.id}`);
+        rejectMentorApi();
       },
     });
   };
@@ -47,30 +76,7 @@ function MentorActions(props) {
       icon: <WarningOutlined />,
       content: 'This action can be changed later. Please confirm below.',
       onOk() {
-        axios
-          .put(
-            `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-            {
-              enrolmentState: 'APPROVED',
-            }
-          )
-          .then((result: any) => {
-            if (result.status == 200) {
-              notification.success({
-                message: 'Updated!',
-                description: 'Successfully updated the mentor state',
-              });
-            } else {
-              throw new Error();
-            }
-          })
-          .catch(() => {
-            notification.warning({
-              message: 'Warning!',
-              description: 'Something went wrong when updating state',
-            });
-          });
-        console.log(`Approved ${props.id}`);
+        approveMentorApi();
       },
     });
   };
