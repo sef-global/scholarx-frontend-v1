@@ -60,7 +60,7 @@ function MentorActions(props: { id: number, state: string }) {
       });
   };
 
-  const rejectMentor = (id : number) => {
+  const rejectMentor = (id: number) => {
     confirm({
       title: 'Do you want to reject this mentor?',
       icon: <WarningOutlined />,
