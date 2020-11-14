@@ -31,6 +31,12 @@ export interface Mentor {
   prerequisites: string;
 }
 
+export interface Mentee {
+  id: number;
+  profile: Profile;
+  state: string;
+}
+
 export interface Application {
   application: string;
   prerequisites: string;
