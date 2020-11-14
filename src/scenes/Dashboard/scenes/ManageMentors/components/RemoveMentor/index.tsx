@@ -1,12 +1,13 @@
 import React from 'react';
 import { notification, Button, Modal } from 'antd';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { WarningOutlined } from '@ant-design/icons';
+import { Mentor } from '../../interfaces';
 
 const { confirm } = Modal;
 
-function RemoveMentor(props) {
-  const removeMentorApi = () => {
+function RemoveMentor(props: { id: number }) {
+  const postRemoveMentor = () => {
     axios
       .put(
         `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
@@ -14,7 +15,7 @@ function RemoveMentor(props) {
           enrolmentState: 'REMOVED',
         }
       )
-      .then((result: any) => {
+      .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           notification.success({
             message: 'Updated!',
@@ -32,13 +33,13 @@ function RemoveMentor(props) {
       });
   };
 
-  const removeMentor = (id) => {
+  const removeMentor = (id: number) => {
     confirm({
       title: 'Do you want to remove this mentor?',
       icon: <WarningOutlined />,
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
-        removeMentorApi();
+        postRemoveMentor();
       },
     });
   };

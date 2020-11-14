@@ -1,13 +1,14 @@
 import React from 'react';
 import { notification, Button, Modal, Divider } from 'antd';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { WarningOutlined } from '@ant-design/icons';
+import { Mentor } from '../../interfaces';
 import styles from './styles.css';
 
 const { confirm } = Modal;
 
-function MentorActions(props) {
-  const rejectMentorApi = () => {
+function MentorActions(props: { id: number, state: string }) {
+  const postRejectMentor = () => {
     axios
       .put(
         `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
@@ -15,7 +16,7 @@ function MentorActions(props) {
           enrolmentState: 'REJECTED',
         }
       )
-      .then((result: any) => {
+      .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           notification.success({
             message: 'Updated!',
@@ -33,7 +34,7 @@ function MentorActions(props) {
       });
   };
 
-  const approveMentorApi = () => {
+  const postApproveMentor = () => {
     axios
       .put(
         `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
@@ -41,7 +42,7 @@ function MentorActions(props) {
           enrolmentState: 'APPROVED',
         }
       )
-      .then((result: any) => {
+      .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           notification.success({
             message: 'Updated!',
@@ -59,24 +60,24 @@ function MentorActions(props) {
       });
   };
 
-  const rejectMentor = (id) => {
+  const rejectMentor = (id : number) => {
     confirm({
       title: 'Do you want to reject this mentor?',
       icon: <WarningOutlined />,
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
-        rejectMentorApi();
+        postRejectMentor();
       },
     });
   };
 
-  const approveMentor = (id) => {
+  const approveMentor = (id: number) => {
     confirm({
       title: 'Do you want to approve this mentor?',
       icon: <WarningOutlined />,
       content: 'This action can be changed later. Please confirm below.',
       onOk() {
-        approveMentorApi();
+        postApproveMentor();
       },
     });
   };
