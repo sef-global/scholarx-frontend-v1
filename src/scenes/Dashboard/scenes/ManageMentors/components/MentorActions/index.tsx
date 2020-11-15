@@ -60,7 +60,7 @@ function MentorActions(props: { id: number, state: string }) {
       });
   };
 
-  const rejectMentor = (id: number) => {
+  const rejectMentor = () => {
     confirm({
       title: 'Do you want to reject this mentor?',
       icon: <WarningOutlined />,
@@ -71,7 +71,7 @@ function MentorActions(props: { id: number, state: string }) {
     });
   };
 
-  const approveMentor = (id: number) => {
+  const approveMentor = () => {
     confirm({
       title: 'Do you want to approve this mentor?',
       icon: <WarningOutlined />,
@@ -89,7 +89,7 @@ function MentorActions(props: { id: number, state: string }) {
         <>
           <Button
             key="approve"
-            onClick={() => approveMentor(props.id)}
+            onClick={() => approveMentor()}
             className={styles.approveBtn}
           >
             Approve
@@ -98,7 +98,7 @@ function MentorActions(props: { id: number, state: string }) {
           <Button
             key="reject"
             type="primary"
-            onClick={() => rejectMentor(props.id)}
+            onClick={() => rejectMentor()}
             className={styles.rejectBtn}
           >
             Reject
@@ -111,7 +111,7 @@ function MentorActions(props: { id: number, state: string }) {
         <Button
           key="reject"
           type="primary"
-          onClick={() => rejectMentor(props.id)}
+          onClick={() => rejectMentor()}
           className={styles.rejectBtn}
         >
           Reject

@@ -33,7 +33,7 @@ function RemoveMentor(props: { id: number }) {
       });
   };
 
-  const removeMentor = (id: number) => {
+  const removeMentor = () => {
     confirm({
       title: 'Do you want to remove this mentor?',
       icon: <WarningOutlined />,
@@ -46,12 +46,7 @@ function RemoveMentor(props: { id: number }) {
 
   return (
     <>
-      <Button
-        key="remove"
-        type="primary"
-        onClick={() => removeMentor(props.id)}
-        danger
-      >
+      <Button key="remove" type="primary" onClick={() => removeMentor()} danger>
         Remove
       </Button>
     </>
