@@ -42,7 +42,7 @@ function ManageMentees() {
       });
   }, []);
 
-  const removeMentee = (id) => {
+  const removeMentee = (id: number) => {
     confirm({
       title: 'Do you want to remove this mentee?',
       icon: <WarningOutlined />,
@@ -96,7 +96,7 @@ function ManageMentees() {
               ]}
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.profile.imgUrl} />}
+                avatar={<Avatar src={item.profile.imageUrl} />}
                 title={
                   <a href={item.profile.linkedinUrl}>
                     {item.profile.firstName} {item.profile.lastName}

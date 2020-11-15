@@ -28,7 +28,7 @@ function App() {
       email: '',
       uid: '',
       linkedinUrl: '',
-      imgUrl:
+      imageUrl:
         'https://d38we5ntdyxyje.cloudfront.net/858987/profile/GJQSELLC_avatar_medium_square.jpg',
       programs: [
         {
