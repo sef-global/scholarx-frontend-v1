@@ -44,7 +44,9 @@ function MenteeApplication() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/scholarx/mentors/${mentorId}`)
+      .get(`http://localhost:8080/mentors/${mentorId}`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -62,7 +64,9 @@ function MenteeApplication() {
       });
 
     axios
-      .get(`http://localhost:8080/api/scholarx/mentors/${mentorId}/mentee`)
+      .get(`http://localhost:8080/mentors/${mentorId}/mentee`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentee>) => {
         if (result.status == 200) {
           form.setFieldsValue({ submissionURL: result.data.submissionUrl });
@@ -95,8 +99,9 @@ function MenteeApplication() {
     }
     axios({
       method: method,
-      url: `http://localhost:8080/api/scholarx/mentors/${mentorId}/mentee`,
+      url: `http://localhost:8080/mentors/${mentorId}/mentee`,
       data: { submissionUrl: submissionUrl },
+      withCredentials: true,
     })
       .then((res: AxiosResponse<Mentee>) => {
         if (res.status == statusCode) {

@@ -31,10 +31,9 @@ function MentorApplication() {
       prerequisites: values.prerequisites,
     };
     axios
-      .post(
-        `http://localhost:8080/api/scholarx/programs/${programId}/mentor`,
-        application
-      )
+      .post(`http://localhost:8080/programs/${programId}/mentor`, application, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           setIsLoading(false);

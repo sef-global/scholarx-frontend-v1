@@ -27,7 +27,9 @@ function RequestMentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
+      .get(`http://localhost:8080/programs/${programId}`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setIsLoading(false);

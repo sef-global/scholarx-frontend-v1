@@ -27,9 +27,9 @@ function EditMentorApplication() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(
-        `http://localhost:8080/api/scholarx/programs/${programId}/mentor/application`
-      )
+      .get(`http://localhost:8080/programs/${programId}/mentor/application`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -58,8 +58,9 @@ function EditMentorApplication() {
     };
     axios
       .put(
-        `http://localhost:8080/api/scholarx/programs/${programId}/mentor/application`,
-        application
+        `http://localhost:8080/programs/${programId}/mentor/application`,
+        application,
+        { withCredentials: true }
       )
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
