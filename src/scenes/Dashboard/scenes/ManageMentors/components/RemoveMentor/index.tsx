@@ -12,7 +12,7 @@ function RemoveMentor(props: Props) {
   const updateMentorState = () => {
     axios
       .put(
-        `http://localhost:8080/admin/mentors/${props.id}/state`,
+        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
         '"REMOVED"',
         { headers: { 'Content-Type': 'application/json', Accept: '*/*' } }
       )

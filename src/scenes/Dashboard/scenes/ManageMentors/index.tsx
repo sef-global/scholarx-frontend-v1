@@ -16,7 +16,7 @@ function ManageMentors() {
 
   const loadMentors = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentors`)
+      .get(`http://localhost:8080/api/scholarx/programs/${programId}/mentors`)
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -37,7 +37,7 @@ function ManageMentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}`)
+      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
       .then((result: any) => {
         if (result.status == 200) {
           setProgramState(result.data.state);

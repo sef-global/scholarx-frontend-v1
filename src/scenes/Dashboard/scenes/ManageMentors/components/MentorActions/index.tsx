@@ -19,7 +19,7 @@ function MentorActions(props: Props) {
     }
     axios
       .put(
-        `http://localhost:8080/admin/mentors/${props.id}/state`,
+        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
         `"${mentorState}"`,
         { headers: { 'Content-Type': 'application/json', Accept: '*/*' } }
       )
