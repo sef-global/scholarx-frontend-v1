@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Typography, List, Avatar, notification, Spin, Empty, Tag } from 'antd';
 import { Mentor } from './interfaces';
 import { useParams } from 'react-router';
@@ -14,28 +14,9 @@ function ManageMentors() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programState, setProgramState] = useState(String);
 
-  useEffect(() => {
-    setIsLoading(true);
+  const loadMentors = () => {
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
-      .then((result: any) => {
-        if (result.status == 200) {
-          setProgramState(result.data.state);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        setIsLoading(false);
-        notification.warning({
-          message: 'Warning!',
-          description:
-            'Something went wrong when fetching the programme detail',
-        });
-      });
-
-    axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}/mentors`)
+      .get(`http://localhost:8080/programs/${programId}/mentors`)
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -51,96 +32,130 @@ function ManageMentors() {
           description: 'Something went wrong when fetching the mentors',
         });
       });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:8080/programs/${programId}`)
+      .then((result: any) => {
+        if (result.status == 200) {
+          setProgramState(result.data.state);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description:
+            'Something went wrong when fetching the programme detail',
+        });
+      });
+    loadMentors();
   }, []);
 
-  let dynamicComponent;
+  const displayEmpty: ReactNode = (
+    <Empty
+      image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+      imageStyle={{
+        height: 60,
+      }}
+      description={<span>You are currently in {programState} state.</span>}
+    ></Empty>
+  );
 
-  switch (programState) {
-    case 'CREATED':
-    case 'COMPLETED':
-    case 'REMOVED':
-      dynamicComponent = (
-        <Empty
-          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-          imageStyle={{
-            height: 60,
-          }}
-          description={<span>You are currently in {programState} state.</span>}
-        ></Empty>
-      );
-      break;
-    case 'MENTOR_APPLICATION':
-    case 'MENTOR_SELECTION':
-    case 'MENTEE_APPLICATION':
-    case 'MENTEE_SELECTION':
-    case 'ONGOING':
-      dynamicComponent = (
-        <List
-          itemLayout="horizontal"
-          size="large"
-          pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
-            pageSize: 8,
-          }}
-          dataSource={mentors}
-          renderItem={(item: Mentor) => {
-            let tagComponent;
+  const displayMentors: ReactNode = (
+    <List
+      itemLayout="horizontal"
+      size="large"
+      pagination={{
+        pageSize: 8,
+      }}
+      dataSource={mentors}
+      renderItem={(mentor: Mentor) => {
+        let mentorState: ReactNode;
 
-            switch (item.state) {
-              case 'PENDING':
-                tagComponent = <Tag color="blue">PENDING</Tag>;
-                break;
-              case 'APPROVED':
-                tagComponent = <Tag color="green">APPROVED</Tag>;
-                break;
-              case 'REJECTED':
-                tagComponent = <Tag color="orange">REJECTED</Tag>;
-                break;
-              case 'REMOVED':
-                tagComponent = <Tag color="red">REMOVED</Tag>;
-                break;
-            }
+        switch (mentor.state) {
+          case 'PENDING':
+            mentorState = <Tag color="blue">PENDING</Tag>;
+            break;
+          case 'APPROVED':
+            mentorState = <Tag color="green">APPROVED</Tag>;
+            break;
+          case 'REJECTED':
+            mentorState = <Tag color="orange">REJECTED</Tag>;
+            break;
+          case 'REMOVED':
+            mentorState = <Tag color="red">REMOVED</Tag>;
+            break;
+        }
 
-            let actionButton;
-            if (programState === 'MENTOR_SELECTION') {
-              actionButton = <MentorActions id={item.id} state={item.state} />;
-            }
+        let actionButton;
+        if (programState === 'MENTOR_SELECTION') {
+          actionButton = (
+            <MentorActions
+              id={mentor.id}
+              state={mentor.state}
+              loadMentors={loadMentors}
+            />
+          );
+        }
 
-            return (
-              <List.Item
-                key={item.id}
-                actions={[
-                  actionButton,
-                  <RemoveMentor key={item.id} id={item.id} />,
-                ]}
-              >
-                <List.Item.Meta
-                  avatar={<Avatar src={item.profile.imageUrl} />}
-                  title={
-                    <div>
-                      <a href={item.profile.linkedinUrl}>
-                        {item.profile.firstName} {item.profile.lastName}
-                      </a>
-                      <br />
-                      {tagComponent}
-                    </div>
-                  }
-                  description={item.profile.headline}
-                />
-              </List.Item>
-            );
-          }}
-        />
-      );
+        return (
+          <List.Item
+            key={mentor.id}
+            actions={[
+              actionButton,
+              <RemoveMentor key={mentor.id} id={mentor.id} />,
+            ]}
+          >
+            <List.Item.Meta
+              avatar={<Avatar src={mentor.profile.imageUrl} />}
+              title={
+                <div>
+                  <a href={mentor.profile.linkedinUrl}>
+                    {mentor.profile.firstName} {mentor.profile.lastName}
+                  </a>
+                  <br />
+                  {mentorState}
+                </div>
+              }
+              description={mentor.profile.headline}
+            />
+          </List.Item>
+        );
+      }}
+    />
+  );
+
+  let mentorView: ReactNode;
+  if (programState === 'CREATED') {
+    mentorView = displayEmpty;
+  } else if (programState === 'MENTOR_APPLICATION') {
+    mentorView = displayMentors;
+  } else if (programState === 'MENTOR_SELECTION') {
+    mentorView = displayMentors;
+  } else if (programState === 'MENTEE_APPLICATION') {
+    mentorView = displayMentors;
+  } else if (programState === 'MENTEE_SELECTION') {
+    mentorView = displayMentors;
+  } else if (programState === 'ONGOING') {
+    mentorView = displayMentors;
+  } else if (programState === 'COMPLETED') {
+    mentorView = displayEmpty;
+  } else if (programState === 'REMOVED') {
+    mentorView = displayEmpty;
+  } else {
+    mentorView = null;
   }
 
   return (
     <div>
       <Title>Manage Mentors</Title>
       <Spin tip="Loading..." spinning={isLoading}>
-        {dynamicComponent}
+        {mentorView}
       </Spin>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { notification, Button, Modal, Divider } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { WarningOutlined } from '@ant-design/icons';
@@ -7,40 +7,21 @@ import styles from './styles.css';
 
 const { confirm } = Modal;
 
-function MentorActions(props: { id: number, state: string }) {
-  const postRejectMentor = () => {
-    axios
-      .put(
-        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-        {
-          enrolmentState: 'REJECTED',
-        }
-      )
-      .then((result: AxiosResponse<Mentor>) => {
-        if (result.status == 200) {
-          notification.success({
-            message: 'Updated!',
-            description: 'Successfully updated the mentor state',
-          });
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        notification.warning({
-          message: 'Warning!',
-          description: 'Something went wrong when updating state',
-        });
-      });
-  };
+type Props = { id: number, state: string, loadMentors: () => void };
 
-  const postApproveMentor = () => {
+function MentorActions(props: Props) {
+  const updateMentorState = (state: number) => {
+    let mentorState: string;
+    if (state === 1) {
+      mentorState = 'APPROVED';
+    } else if (state === 0) {
+      mentorState = 'REJECTED';
+    }
     axios
       .put(
-        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-        {
-          enrolmentState: 'APPROVED',
-        }
+        `http://localhost:8080/admin/mentors/${props.id}/state`,
+        `"${mentorState}"`,
+        { headers: { 'Content-Type': 'application/json', Accept: '*/*' } }
       )
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
@@ -66,7 +47,7 @@ function MentorActions(props: { id: number, state: string }) {
       icon: <WarningOutlined />,
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
-        postRejectMentor();
+        updateMentorState(0);
       },
     });
   };
@@ -77,50 +58,103 @@ function MentorActions(props: { id: number, state: string }) {
       icon: <WarningOutlined />,
       content: 'This action can be changed later. Please confirm below.',
       onOk() {
-        postApproveMentor();
+        updateMentorState(1);
       },
     });
   };
 
-  let actions;
-  switch (props.state) {
-    case 'PENDING':
-      actions = (
-        <>
-          <Button
-            key="approve"
-            onClick={() => approveMentor()}
-            className={styles.approveBtn}
-          >
-            Approve
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            key="reject"
-            type="primary"
-            onClick={() => rejectMentor()}
-            className={styles.rejectBtn}
-          >
-            Reject
-          </Button>
-        </>
-      );
-      break;
-    case 'APPROVED':
-      actions = (
+  let actions: ReactNode;
+  if (props.state === 'PENDING') {
+    actions = (
+      <>
+        <Button
+          key="approve"
+          onClick={approveMentor}
+          className={styles.approveBtn}
+        >
+          Approve
+        </Button>
+        <Divider type="vertical" />
         <Button
           key="reject"
           type="primary"
-          onClick={() => rejectMentor()}
+          onClick={rejectMentor}
           className={styles.rejectBtn}
         >
           Reject
         </Button>
-      );
-      break;
-    case 'REJECTED':
-    case 'REMOVED':
-      break;
+      </>
+    );
+  } else if (props.state === 'APPROVED') {
+    actions = (
+      <>
+        <Button
+          key="approve"
+          onClick={approveMentor}
+          className={styles.approveBtn}
+          disabled
+        >
+          Approve
+        </Button>
+        <Divider type="vertical" />
+        <Button
+          key="reject"
+          type="primary"
+          onClick={rejectMentor}
+          className={styles.rejectBtn}
+        >
+          Reject
+        </Button>
+      </>
+    );
+  } else if (props.state === 'REJECTED') {
+    actions = (
+      <>
+        <Button
+          key="approve"
+          onClick={approveMentor}
+          className={styles.approveBtn}
+          disabled
+        >
+          Approve
+        </Button>
+        <Divider type="vertical" />
+        <Button
+          key="reject"
+          type="primary"
+          onClick={rejectMentor}
+          className={styles.rejectBtn}
+          disabled
+        >
+          Reject
+        </Button>
+      </>
+    );
+  } else if (props.state === 'REMOVED') {
+    actions = (
+      <>
+        <Button
+          key="approve"
+          onClick={approveMentor}
+          className={styles.approveBtn}
+          disabled
+        >
+          Approve
+        </Button>
+        <Divider type="vertical" />
+        <Button
+          key="reject"
+          type="primary"
+          onClick={rejectMentor}
+          className={styles.rejectBtn}
+          disabled
+        >
+          Reject
+        </Button>
+      </>
+    );
+  } else {
+    actions = null;
   }
 
   return <>{actions}</>;

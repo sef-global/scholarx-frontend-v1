@@ -6,14 +6,15 @@ import { Mentor } from '../../interfaces';
 
 const { confirm } = Modal;
 
-function RemoveMentor(props: { id: number }) {
-  const postRemoveMentor = () => {
+type Props = { id: number };
+
+function RemoveMentor(props: Props) {
+  const updateMentorState = () => {
     axios
       .put(
-        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-        {
-          enrolmentState: 'REMOVED',
-        }
+        `http://localhost:8080/admin/mentors/${props.id}/state`,
+        '"REMOVED"',
+        { headers: { 'Content-Type': 'application/json', Accept: '*/*' } }
       )
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
@@ -39,14 +40,14 @@ function RemoveMentor(props: { id: number }) {
       icon: <WarningOutlined />,
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
-        postRemoveMentor();
+        updateMentorState();
       },
     });
   };
 
   return (
     <>
-      <Button key="remove" type="primary" onClick={() => removeMentor()} danger>
+      <Button key="remove" type="primary" onClick={removeMentor} danger>
         Remove
       </Button>
     </>
