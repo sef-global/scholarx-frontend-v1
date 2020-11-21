@@ -6,30 +6,29 @@ import { Mentor } from '../../interfaces';
 
 const { confirm } = Modal;
 
-type Props = { id: number };
+type Props = { id: number, onChange: () => void };
 
 function RemoveMentor(props: Props) {
   const updateMentorState = () => {
     axios
-      .put(
-        `http://localhost:8080/api/scholarx/admin/mentors/${props.id}/state`,
-        '"REMOVED"',
-        { headers: { 'Content-Type': 'application/json', Accept: '*/*' } }
-      )
+      .put(`http://localhost:8080/admin/mentors/${props.id}/state`, {
+        enrolmentState: 'REMOVED',
+      })
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 200) {
           notification.success({
             message: 'Updated!',
             description: 'Successfully updated the mentor state',
           });
+          props.onChange();
         } else {
           throw new Error();
         }
       })
       .catch(() => {
-        notification.warning({
-          message: 'Warning!',
-          description: 'Something went wrong when updating state',
+        notification.error({
+          message: 'Error!',
+          description: 'Something went wrong when updating mentor state',
         });
       });
   };

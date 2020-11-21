@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import MentorActions from './components/MentorActions';
 import RemoveMentor from './components/RemoveMentor';
+import { SavedProgram } from '../../../../interfaces';
 
 const { Title } = Typography;
 
@@ -16,7 +17,7 @@ function ManageMentors() {
 
   const loadMentors = () => {
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}/mentors`)
+      .get(`http://localhost:8080/programs/${programId}/mentors`)
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -27,8 +28,8 @@ function ManageMentors() {
       })
       .catch(() => {
         setIsLoading(false);
-        notification.warning({
-          message: 'Warning!',
+        notification.error({
+          message: 'Error!',
           description: 'Something went wrong when fetching the mentors',
         });
       });
@@ -37,8 +38,8 @@ function ManageMentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
-      .then((result: any) => {
+      .get(`http://localhost:8080/programs/${programId}`)
+      .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setProgramState(result.data.state);
         } else {
@@ -47,10 +48,9 @@ function ManageMentors() {
       })
       .catch(() => {
         setIsLoading(false);
-        notification.warning({
-          message: 'Warning!',
-          description:
-            'Something went wrong when fetching the programme detail',
+        notification.error({
+          message: 'Error!',
+          description: 'Something went wrong when fetching the program details',
         });
       });
     loadMentors();
@@ -98,7 +98,7 @@ function ManageMentors() {
             <MentorActions
               id={mentor.id}
               state={mentor.state}
-              loadMentors={loadMentors}
+              onChange={loadMentors}
             />
           );
         }
@@ -108,7 +108,11 @@ function ManageMentors() {
             key={mentor.id}
             actions={[
               actionButton,
-              <RemoveMentor key={mentor.id} id={mentor.id} />,
+              <RemoveMentor
+                key={mentor.id}
+                id={mentor.id}
+                onChange={loadMentors}
+              />,
             ]}
           >
             <List.Item.Meta
@@ -131,24 +135,14 @@ function ManageMentors() {
   );
 
   let mentorView: ReactNode;
-  if (programState === 'CREATED') {
-    mentorView = displayEmpty;
-  } else if (programState === 'MENTOR_APPLICATION') {
-    mentorView = displayMentors;
-  } else if (programState === 'MENTOR_SELECTION') {
-    mentorView = displayMentors;
-  } else if (programState === 'MENTEE_APPLICATION') {
-    mentorView = displayMentors;
-  } else if (programState === 'MENTEE_SELECTION') {
-    mentorView = displayMentors;
-  } else if (programState === 'ONGOING') {
-    mentorView = displayMentors;
-  } else if (programState === 'COMPLETED') {
-    mentorView = displayEmpty;
-  } else if (programState === 'REMOVED') {
+  if (
+    programState === 'CREATED' ||
+    programState === 'COMPLETED' ||
+    programState === 'REMOVED'
+  ) {
     mentorView = displayEmpty;
   } else {
-    mentorView = null;
+    mentorView = displayMentors;
   }
 
   return (
