@@ -8,7 +8,6 @@ export interface Profile {
   headline: string;
   linkedinUrl: string;
   type: string;
-  programs: SavedProgram[];
 }
 
 export interface SavedProgram extends UnsavedProgram {

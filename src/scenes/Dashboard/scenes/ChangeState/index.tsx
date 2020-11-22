@@ -80,7 +80,9 @@ function ChangeState() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
+      .get(`http://localhost:8080/programs/${programId}`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setCurrentStep(stateEnumVals.indexOf(result.data.state));
@@ -99,7 +101,8 @@ function ChangeState() {
   const handleStepChange = () => {
     axios({
       method: 'put',
-      url: `http://localhost:8080/api/scholarx/admin/programs/${programId}/state`,
+      url: `http://localhost:8080/admin/programs/${programId}/state`,
+      withCredentials: true,
     })
       .then((result) => {
         if (result.status == 200) {

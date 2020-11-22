@@ -15,7 +15,9 @@ function EditProgram() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
+      .get(`http://localhost:8080/programs/${programId}`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -47,10 +49,9 @@ function EditProgram() {
       landingPageUrl: values.landingPageUrl,
     };
     axios
-      .put(
-        `http://localhost:8080/api/scholarx/admin/programs/${programId}`,
-        program
-      )
+      .put(`http://localhost:8080/admin/programs/${programId}`, program, {
+        withCredentials: true,
+      })
       .then((res: AxiosResponse<SavedProgram>) => {
         if (res.status == 200) {
           setIsLoading(false);
