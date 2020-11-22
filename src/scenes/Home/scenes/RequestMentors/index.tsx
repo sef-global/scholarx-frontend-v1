@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, notification, Spin, Tabs, Row, Col } from 'antd';
+import { Typography, notification, Spin, Tabs, Row, Col, Button } from 'antd';
 import { SavedProgram } from '../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MenteeApplication from './scenes/MenteeApplication';
 import styles from '../../styles.css';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 function RequestMentors() {
@@ -53,7 +53,7 @@ function RequestMentors() {
         <div className={styles.container}>
           <Spin tip="Loading..." spinning={isLoading}>
             <Title>{program.title}</Title>
-            <p>{program.headline}</p>
+            <Paragraph>{program.headline}</Paragraph>
           </Spin>
           <Router>
             <Switch>
@@ -73,6 +73,9 @@ function RequestMentors() {
               />
             </Switch>
           </Router>
+          <Button type="primary" href={'/home'}>
+            Back
+          </Button>
         </div>
       </Col>
     </Row>

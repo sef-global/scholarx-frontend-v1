@@ -2,14 +2,15 @@ import React, { useContext } from 'react';
 import NavigationBar from './components/NavigationBar';
 import styles from './styles.css';
 import logo from './scholarx.png';
-import { Col, Row, Tabs } from 'antd';
+import { Col, Row, Tabs, Typography } from 'antd';
 import MentorPrograms from './components/MentorPrograms';
 import MenteePrograms from './components/MenteePrograms';
-import AllPrograms from './components/AllPrograms';
+import ActivePrograms from './components/ActivePrograms';
 import { UserContext } from '../../index';
 import { Profile } from '../../interfaces';
 
 const { TabPane } = Tabs;
+const { Paragraph } = Typography;
 
 const Home = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
@@ -21,41 +22,36 @@ const Home = () => {
           <Row>
             <Col md={12}>
               <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum nec quam odio. Nunc vitae eros ac arcu tempus ornare
-                eu sit amet nulla. Aenean sollicitudin nunc nisi, vel ultricies
-                lorem lacinia non. Duis convallis congue quam, id suscipit
-                tortor dapibus non. Suspendisse justo dolor, commodo eu sapien
-                vitae, fringilla tincidunt diam. Etiam tristique congue orci, et
-                suscipit mauris vehicula a. Phasellus ac eros vitae sem
-                imperdiet pharetra id sed urna. Fusce lorem risus, tempus vitae
-                velit ultrices, consectetur ultrices mi. Sed et tristique felis.
-              </p>
+              <Paragraph>
+                ScholarX is an exclusive program aimed at providing mentoring
+                support to a selected pool of high Potential undergraduate
+                students based in Sri Lanka ideally by a Sri Lankan expat
+                currently engaged with one of the world’s top universities or
+                Fortune 500 companies. It’s our free premium mentoring platform
+                by Sri Lankans for Sri Lankans working towards creating a
+                culture of knowledge and expertise sharing without the
+                limitation of geographical borders.
+              </Paragraph>
             </Col>
           </Row>
-          <Tabs defaultActiveKey="allPrograms">
-            <TabPane tab="All Programs" key="allPrograms">
+          <Tabs defaultActiveKey="ongoingPrograms">
+            <TabPane tab="Ongoing Programs" key="ongoingPrograms">
               <div className={styles.cardWrapper}>
-                <AllPrograms />
+                <ActivePrograms />
               </div>
             </TabPane>
-            {user != null && user.type == 'ADMIN' ? (
+            {user == null || user.type == 'ADMIN' ? (
               ''
             ) : (
               <>
                 <TabPane tab="Programs I mentor" key="mentorPrograms">
                   <div className={styles.cardWrapper}>
-                    <Row gutter={[16, 16]}>
-                      <MentorPrograms />
-                    </Row>
+                    <MentorPrograms />
                   </div>
                 </TabPane>
                 <TabPane tab="Programs I get mentored" key="menteePrograms">
                   <div className={styles.cardWrapper}>
-                    <Row gutter={[16, 16]}>
-                      <MenteePrograms />
-                    </Row>
+                    <MenteePrograms />
                   </div>
                 </TabPane>
               </>

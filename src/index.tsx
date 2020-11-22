@@ -21,6 +21,10 @@ export const UserContext = createContext<Partial<Profile>>({});
 function App() {
   const [user, setUser] = useState<Profile | null>(null);
   useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = () => {
     axios
       .get('http://localhost:8080/me', { withCredentials: true })
       .then((response: AxiosResponse<Profile>) => {
@@ -36,7 +40,7 @@ function App() {
           setUser(null);
         }
       });
-  }, []);
+  };
 
   return (
     <UserContext.Provider value={user}>
