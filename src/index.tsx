@@ -16,6 +16,7 @@ import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';
 import axios, { AxiosResponse } from 'axios';
 import { notification } from 'antd';
+import ManageMentees from './scenes/Home/scenes/ManageMentees';
 export const UserContext = createContext<Partial<Profile>>({});
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
         setUser(response.data);
       })
       .catch((error) => {
-        if (error.reponse.status != 401) {
+        if (error.response.status != 401) {
           notification.error({
             message: 'Something went wrong when fetching the user',
             description: error.toString(),
@@ -58,6 +59,7 @@ function App() {
             path="/program/:programId/mentor/edit"
             component={EditMentorApplication}
           />
+          <Route path="/mentor/program/:programId" component={ManageMentees} />
           <Route path="/program/:programId" component={RequestMentors} />
         </Switch>
       </Router>
