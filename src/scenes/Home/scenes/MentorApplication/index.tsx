@@ -94,7 +94,9 @@ function MentorApplication() {
             <Row>
               <Col md={2} />
               <Col md={12}>
-                <Button htmlType="button">Cancel</Button>
+                <Button href={'/home'} htmlType="button">
+                  Back
+                </Button>
                 <Button
                   htmlType="submit"
                   type="primary"
