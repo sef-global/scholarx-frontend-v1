@@ -19,3 +19,11 @@
 .container {
     margin-top:5rem;
 }
+
+.resultRow {
+    justify-content: center;
+}
+
+.removeBullet {
+    list-style-type:none;
+}
