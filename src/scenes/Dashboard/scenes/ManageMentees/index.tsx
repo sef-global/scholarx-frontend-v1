@@ -24,7 +24,9 @@ function ManageMentees() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}/mentees`)
+      .get(`http://localhost:8080/programs/${programId}/mentees`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -49,7 +51,9 @@ function ManageMentees() {
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
         axios
-          .delete(`http://localhost:8080/api/scholarx/mentees/${id}`)
+          .delete(`http://localhost:8080/mentees/${id}`, {
+            withCredentials: true,
+          })
           .then((result: AxiosResponse) => {
             if (result.status == 200) {
               notification.success({

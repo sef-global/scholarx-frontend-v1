@@ -26,9 +26,9 @@ function AppliedMentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(
-        `http://localhost:8080/api/scholarx/programs/${programId}/mentee/mentors`
-      )
+      .get(`http://localhost:8080/programs/${programId}/mentee/mentors`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200) {
           setIsLoading(false);

@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import NavigationBar from './components/NavigationBar';
-import AddProgram from './components/AddProgram';
 import styles from './styles.css';
 import logo from './scholarx.png';
-import { Button, Card, Col, Menu, Row } from 'antd';
-import { SavedProgram } from '../../interfaces';
-import { Link } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
+import { Col, Row, Tabs } from 'antd';
+import MentorPrograms from './components/MentorPrograms';
+import MenteePrograms from './components/MenteePrograms';
+import AllPrograms from './components/AllPrograms';
+import { UserContext } from '../../index';
+import { Profile } from '../../interfaces';
+
+const { TabPane } = Tabs;
 
 const Home = () => {
-  const [programs, setPrograms] = useState<SavedProgram[]>([]);
-  const [programType] = useState<string>('ongoing');
-
-  useEffect(() => {
-    // Load available programs from the backend
-    axios
-      .get('http://localhost:8080/api/scholarx/programs')
-      .then((response: AxiosResponse<SavedProgram[]>) => {
-        setPrograms(response.data);
-      });
-  }, []);
-
+  const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <div>
       <Row justify="center">
@@ -42,46 +34,33 @@ const Home = () => {
               </p>
             </Col>
           </Row>
-          {/* TODO: Divide the programs into two and display in two tabs as ongoing and past*/}
-          <Menu mode="horizontal" selectedKeys={[programType]}>
-            <Menu.Item key="ongoing">Ongoing Programs</Menu.Item>
-            <Menu.Item key="past">Past Programs</Menu.Item>
-          </Menu>
-          <div className={styles.cardWrapper}>
-            <Row gutter={[16, 16]}>
-              {programs.map((program) => (
-                <Col md={6} key={program.id}>
-                  <Card
-                    className={styles.card}
-                    bordered={false}
-                    cover={<img alt={program.title} src={program.imageUrl} />}
-                  >
-                    <Row>
-                      <Col span={18}>
-                        <h3>
-                          <Link to={program.landingPageUrl}>
-                            {program.title}
-                          </Link>
-                        </h3>
-                      </Col>
-                      <Col span={6} className={styles.programActionButton}>
-                        <Button
-                          type="primary"
-                          href={`/dashboard/${program.id}`}
-                        >
-                          Manage
-                        </Button>
-                      </Col>
+          <Tabs defaultActiveKey="allPrograms">
+            <TabPane tab="All Programs" key="allPrograms">
+              <div className={styles.cardWrapper}>
+                <AllPrograms />
+              </div>
+            </TabPane>
+            {user != null && user.type == 'ADMIN' ? (
+              ''
+            ) : (
+              <>
+                <TabPane tab="Programs I mentor" key="mentorPrograms">
+                  <div className={styles.cardWrapper}>
+                    <Row gutter={[16, 16]}>
+                      <MentorPrograms />
                     </Row>
-                    <p>{program.headline}</p>
-                  </Card>
-                </Col>
-              ))}
-              <Col md={6}>
-                <AddProgram />
-              </Col>
-            </Row>
-          </div>
+                  </div>
+                </TabPane>
+                <TabPane tab="Programs I get mentored" key="menteePrograms">
+                  <div className={styles.cardWrapper}>
+                    <Row gutter={[16, 16]}>
+                      <MenteePrograms />
+                    </Row>
+                  </div>
+                </TabPane>
+              </>
+            )}
+          </Tabs>
         </Col>
       </Row>
     </div>
