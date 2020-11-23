@@ -27,7 +27,7 @@ function EditMentorApplication() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentor/application`, {
+      .get(`http://localhost:8080/programs/${programId}/mentor`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor>) => {
@@ -58,7 +58,7 @@ function EditMentorApplication() {
     };
     axios
       .put(
-        `http://localhost:8080/programs/${programId}/mentor/application`,
+        `http://localhost:8080/programs/${programId}/application`,
         application,
         { withCredentials: true }
       )
@@ -122,7 +122,9 @@ function EditMentorApplication() {
             <Row>
               <Col md={2} />
               <Col md={12}>
-                <Button htmlType="button">Cancel</Button>
+                <Button htmlType="button" href={'/home'}>
+                  Back
+                </Button>
                 <Button
                   htmlType="submit"
                   type="primary"

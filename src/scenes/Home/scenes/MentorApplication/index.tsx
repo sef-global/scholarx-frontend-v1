@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import logo from '../../scholarx.png';
 import styles from './styles.css';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Mentor, Application } from '../../../../interfaces';
 import mainStyles from '../../styles.css';
@@ -23,6 +23,7 @@ function MentorApplication() {
   const [form] = Form.useForm();
   const { programId } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const history = useHistory();
 
   const apply = (values: any) => {
     setIsLoading(true);
@@ -35,12 +36,13 @@ function MentorApplication() {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor>) => {
-        if (result.status == 200) {
+        if (result.status == 201) {
           setIsLoading(false);
           notification.success({
             message: 'Success!',
             description: 'Successfully applied!',
           });
+          history.push(`/program/${programId}/mentor/Edit`);
         } else {
           throw new Error();
         }
