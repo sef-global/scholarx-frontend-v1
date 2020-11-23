@@ -30,7 +30,7 @@ function AppliedMentors() {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
-        if (result.status == 200) {
+        if (result.status == 200 || result.status == 204) {
           setIsLoading(false);
           setMentors(result.data);
         } else {

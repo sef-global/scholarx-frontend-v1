@@ -27,3 +27,7 @@
 .removeBullet {
     list-style-type:none;
 }
+
+.backButton {
+    margin-top: 5rem;
+}

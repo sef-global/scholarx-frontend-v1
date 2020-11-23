@@ -135,7 +135,7 @@ function MentorPrograms() {
                   <Col span={6} className={styles.programActionButton}>
                     <Button
                       type="primary"
-                      href={`/program/${program.id}/mentor`}
+                      href={`/mentor/program/${program.id}`}
                     >
                       Manage
                     </Button>
