@@ -14,45 +14,35 @@ import { Profile } from './interfaces';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
 import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';
+import axios, { AxiosResponse } from 'axios';
+import { notification } from 'antd';
+import ManageMentees from './scenes/Home/scenes/ManageMentees';
 export const UserContext = createContext<Partial<Profile>>({});
 
 function App() {
-  const [user, setUser] = useState<Profile>(null);
+  const [user, setUser] = useState<Profile | null>(null);
   useEffect(() => {
-    const fetchedUser: Profile = {
-      id: 1,
-      headline: '',
-      type: '',
-      lastName: '',
-      firstName: '',
-      email: '',
-      uid: '',
-      linkedinUrl: '',
-      imgUrl:
-        'https://d38we5ntdyxyje.cloudfront.net/858987/profile/GJQSELLC_avatar_medium_square.jpg',
-      programs: [
-        {
-          id: 1,
-          title: 'ScholarX Jr',
-          headline: 'Lorem Ipsum dolor sit amet',
-          imageUrl:
-            'https://codingcompetitions.withgoogle.com/static/kickstart-fb.jpg',
-          landingPageUrl: '',
-          state: 'Created',
-        },
-        {
-          id: 2,
-          title: 'ScholarX Undergraduate',
-          headline: 'Lorem Ipsum dolor sit amet',
-          imageUrl:
-            'https://codingcompetitions.withgoogle.com/static/hashcode-fb.jpg',
-          landingPageUrl: '',
-          state: 'Created',
-        },
-      ],
-    };
-    setUser(fetchedUser);
+    getUser();
   }, []);
+
+  const getUser = () => {
+    axios
+      .get('http://localhost:8080/me', { withCredentials: true })
+      .then((response: AxiosResponse<Profile>) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        if (error.response.status != 401) {
+          notification.error({
+            message: 'Something went wrong when fetching the user',
+            description: error.toString(),
+          });
+        } else {
+          setUser(null);
+        }
+      });
+  };
+
   return (
     <UserContext.Provider value={user}>
       <Router>
@@ -69,6 +59,7 @@ function App() {
             path="/program/:programId/mentor/edit"
             component={EditMentorApplication}
           />
+          <Route path="/mentor/program/:programId" component={ManageMentees} />
           <Route path="/program/:programId" component={RequestMentors} />
         </Switch>
       </Router>

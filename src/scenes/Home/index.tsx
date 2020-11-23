@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import NavigationBar from './components/NavigationBar';
-import AddProgram from './components/AddProgram';
 import styles from './styles.css';
 import logo from './scholarx.png';
-import { Button, Card, Col, Menu, Row } from 'antd';
-import { SavedProgram } from '../../interfaces';
-import { Link } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
+import { Col, Row, Tabs, Typography } from 'antd';
+import MentorPrograms from './components/MentorPrograms';
+import MenteePrograms from './components/MenteePrograms';
+import ActivePrograms from './components/ActivePrograms';
+import { UserContext } from '../../index';
+import { Profile } from '../../interfaces';
+
+const { TabPane } = Tabs;
+const { Paragraph } = Typography;
 
 const Home = () => {
-  const [programs, setPrograms] = useState<SavedProgram[]>([]);
-  const [programType] = useState<string>('ongoing');
-
-  useEffect(() => {
-    // Load available programs from the backend
-    axios
-      .get('http://localhost:8080/api/scholarx/programs')
-      .then((response: AxiosResponse<SavedProgram[]>) => {
-        setPrograms(response.data);
-      });
-  }, []);
-
+  const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <div>
       <Row justify="center">
@@ -29,59 +22,41 @@ const Home = () => {
           <Row>
             <Col md={12}>
               <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum nec quam odio. Nunc vitae eros ac arcu tempus ornare
-                eu sit amet nulla. Aenean sollicitudin nunc nisi, vel ultricies
-                lorem lacinia non. Duis convallis congue quam, id suscipit
-                tortor dapibus non. Suspendisse justo dolor, commodo eu sapien
-                vitae, fringilla tincidunt diam. Etiam tristique congue orci, et
-                suscipit mauris vehicula a. Phasellus ac eros vitae sem
-                imperdiet pharetra id sed urna. Fusce lorem risus, tempus vitae
-                velit ultrices, consectetur ultrices mi. Sed et tristique felis.
-              </p>
+              <Paragraph>
+                ScholarX is an exclusive program aimed at providing mentoring
+                support to a selected pool of high Potential undergraduate
+                students based in Sri Lanka ideally by a Sri Lankan expat
+                currently engaged with one of the world’s top universities or
+                Fortune 500 companies. It’s our free premium mentoring platform
+                by Sri Lankans for Sri Lankans working towards creating a
+                culture of knowledge and expertise sharing without the
+                limitation of geographical borders.
+              </Paragraph>
             </Col>
           </Row>
-          {/* TODO: Divide the programs into two and display in two tabs as ongoing and past*/}
-          <Menu mode="horizontal" selectedKeys={[programType]}>
-            <Menu.Item key="ongoing">Ongoing Programs</Menu.Item>
-            <Menu.Item key="past">Past Programs</Menu.Item>
-          </Menu>
-          <div className={styles.cardWrapper}>
-            <Row gutter={[16, 16]}>
-              {programs.map((program) => (
-                <Col md={6} key={program.id}>
-                  <Card
-                    className={styles.card}
-                    bordered={false}
-                    cover={<img alt={program.title} src={program.imageUrl} />}
-                  >
-                    <Row>
-                      <Col span={18}>
-                        <h3>
-                          <Link to={program.landingPageUrl}>
-                            {program.title}
-                          </Link>
-                        </h3>
-                      </Col>
-                      <Col span={6} className={styles.programActionButton}>
-                        <Button
-                          type="primary"
-                          href={`/dashboard/${program.id}`}
-                        >
-                          Manage
-                        </Button>
-                      </Col>
-                    </Row>
-                    <p>{program.headline}</p>
-                  </Card>
-                </Col>
-              ))}
-              <Col md={6}>
-                <AddProgram />
-              </Col>
-            </Row>
-          </div>
+          <Tabs defaultActiveKey="ongoingPrograms">
+            <TabPane tab="Ongoing Programs" key="ongoingPrograms">
+              <div className={styles.cardWrapper}>
+                <ActivePrograms />
+              </div>
+            </TabPane>
+            {user == null || user.type == 'ADMIN' ? (
+              ''
+            ) : (
+              <>
+                <TabPane tab="Programs I mentor" key="mentorPrograms">
+                  <div className={styles.cardWrapper}>
+                    <MentorPrograms />
+                  </div>
+                </TabPane>
+                <TabPane tab="Programs I get mentored" key="menteePrograms">
+                  <div className={styles.cardWrapper}>
+                    <MenteePrograms />
+                  </div>
+                </TabPane>
+              </>
+            )}
+          </Tabs>
         </Col>
       </Row>
     </div>

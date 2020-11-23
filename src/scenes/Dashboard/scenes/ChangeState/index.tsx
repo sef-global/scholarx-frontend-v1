@@ -17,7 +17,7 @@ import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 const { Step } = Steps;
 const stateEnumVals: string[] = [
   'CREATED',
@@ -80,7 +80,9 @@ function ChangeState() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}`)
+      .get(`http://localhost:8080/programs/${programId}`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setCurrentStep(stateEnumVals.indexOf(result.data.state));
@@ -99,7 +101,8 @@ function ChangeState() {
   const handleStepChange = () => {
     axios({
       method: 'put',
-      url: `http://localhost:8080/api/scholarx/admin/programs/${programId}/state`,
+      url: `http://localhost:8080/admin/programs/${programId}/state`,
+      withCredentials: true,
     })
       .then((result) => {
         if (result.status == 200) {
@@ -125,11 +128,11 @@ function ChangeState() {
       title: 'Warning! This action is irreversible. Do you wish to proceed?',
       icon: <ExclamationCircleOutlined />,
       content: (
-        <p>
+        <Paragraph>
           Changing state of the <b>ScholarX Jr 2020</b> from
           <b> {programStates[currentStep].name}</b> to{' '}
           <b>{programStates[currentStep + 1].name}</b>.
-        </p>
+        </Paragraph>
       ),
       onOk() {
         handleStepChange();
@@ -150,11 +153,11 @@ function ChangeState() {
                 ((currentStep + 1) * 100) / programStates.length
               )}
             />
-            <p>
+            <Paragraph>
               <Text type="warning">Current State: </Text>{' '}
               {programStates[currentStep].name}
-            </p>
-            <p>{programStates[currentStep].description}</p>
+            </Paragraph>
+            <Paragraph>{programStates[currentStep].description}</Paragraph>
             <Button
               type="primary"
               onClick={showConfirm}

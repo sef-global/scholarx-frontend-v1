@@ -8,4 +8,5 @@ export interface Mentor {
     headline: string,
   };
   state: string;
+  prerequisites: string;
 }

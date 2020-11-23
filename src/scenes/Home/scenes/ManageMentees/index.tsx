@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, notification, Spin, Empty, Col, Row } from 'antd';
-import { Mentor } from '../../../../interfaces';
+import { Typography, List, notification, Spin, Empty, Row, Col } from 'antd';
+import { Mentee, SavedProgram } from '../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';
-import { SavedProgram } from '../../../../interfaces';
-import MentorRow from './components/MentorRow';
+import MenteeRow from './components/MenteeRow';
 
 const { Title } = Typography;
 
-function ManageMentors() {
+function ManageMentees() {
   const { programId } = useParams();
-  const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [mentees, setMentees] = useState<Mentee[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [program, setProgram] = useState<SavedProgram | null>(null);
-  const [shouldLoadMentors, setShouldLoadMentors] = useState<boolean>(false);
+  const [shouldLoadMentees, setShouldLoadMentees] = useState<boolean>(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,14 +28,13 @@ function ManageMentors() {
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setProgram(result.data);
-          const shouldLoadMentors = !(
-            result.data.state == 'CREATED' ||
-            result.data.state == 'COMPLETED' ||
-            result.data.state == 'REMOVED'
-          );
-          setShouldLoadMentors(shouldLoadMentors);
-          if (shouldLoadMentors) {
-            getMentors();
+          const shouldLoadMentees =
+            result.data.state == 'MENTEE_APPLICATION' ||
+            result.data.state == 'MENTEE_SELECTION' ||
+            result.data.state == 'ONGOING';
+          setShouldLoadMentees(shouldLoadMentees);
+          if (shouldLoadMentees) {
+            getMentees();
           } else {
             setIsLoading(false);
           }
@@ -48,19 +46,19 @@ function ManageMentors() {
         setIsLoading(false);
         notification.error({
           message: 'Error!',
-          description: 'Something went wrong when fetching program details',
+          description: 'Something went wrong when fetching the program detail',
         });
       });
   };
 
-  const getMentors = () => {
+  const getMentees = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentors`, {
+      .get(`http://localhost:8080/me/programs/${programId}/mentees`, {
         withCredentials: true,
       })
-      .then((result: AxiosResponse<Mentor[]>) => {
+      .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200 || result.status == 204) {
-          setMentors(result.data);
+          setMentees(result.data);
           setIsLoading(false);
         } else {
           throw new Error();
@@ -70,7 +68,7 @@ function ManageMentors() {
         setIsLoading(false);
         notification.error({
           message: 'Error!',
-          description: 'Something went wrong when fetching the mentors',
+          description: 'Something went wrong when fetching the mentees',
         });
       });
   };
@@ -81,8 +79,8 @@ function ManageMentors() {
         <Row>
           <Col md={3} />
           <Col md={15}>
-            <Title>Manage Mentors</Title>
-            {!shouldLoadMentors && program != null && (
+            <Title>Manage Mentees</Title>
+            {!shouldLoadMentees && program != null && (
               <Empty
                 image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                 imageStyle={{
@@ -93,18 +91,18 @@ function ManageMentors() {
                 }
               />
             )}
-            {shouldLoadMentors && (
+            {shouldLoadMentees && (
               <List
                 itemLayout="horizontal"
                 size="large"
                 pagination={{
                   pageSize: 8,
                 }}
-                dataSource={mentors}
-                renderItem={(mentor: Mentor) => (
-                  <MentorRow
-                    key={mentor.id}
-                    mentor={mentor}
+                dataSource={mentees}
+                renderItem={(mentee: Mentee) => (
+                  <MenteeRow
+                    key={mentee.id}
+                    mentee={mentee}
                     programState={program.state}
                   />
                 )}
@@ -116,5 +114,4 @@ function ManageMentors() {
     </div>
   );
 }
-
-export default ManageMentors;
+export default ManageMentees;

@@ -24,7 +24,9 @@ function ManageMentees() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/scholarx/programs/${programId}/mentees`)
+      .get(`http://localhost:8080/programs/${programId}/mentees`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200) {
           setIsLoading(false);
@@ -42,14 +44,16 @@ function ManageMentees() {
       });
   }, []);
 
-  const removeMentee = (id) => {
+  const removeMentee = (id: number) => {
     confirm({
       title: 'Do you want to remove this mentee?',
       icon: <WarningOutlined />,
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
         axios
-          .delete(`http://localhost:8080/api/scholarx/mentees/${id}`)
+          .delete(`http://localhost:8080/mentees/${id}`, {
+            withCredentials: true,
+          })
           .then((result: AxiosResponse) => {
             if (result.status == 200) {
               notification.success({
@@ -96,7 +100,7 @@ function ManageMentees() {
               ]}
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.profile.imgUrl} />}
+                avatar={<Avatar src={item.profile.imageUrl} />}
                 title={
                   <a href={item.profile.linkedinUrl}>
                     {item.profile.firstName} {item.profile.lastName}

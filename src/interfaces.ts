@@ -4,11 +4,10 @@ export interface Profile {
   email: string;
   firstName: string;
   lastName: string;
-  imgUrl: string;
+  imageUrl: string;
   headline: string;
   linkedinUrl: string;
   type: string;
-  programs: SavedProgram[];
 }
 
 export interface SavedProgram extends UnsavedProgram {
@@ -30,6 +29,12 @@ export interface Mentor {
   program: SavedProgram;
   application: string;
   prerequisites: string;
+}
+
+export interface Mentee {
+  id: number;
+  profile: Profile;
+  state: string;
 }
 
 export interface Application {

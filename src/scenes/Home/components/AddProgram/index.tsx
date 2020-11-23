@@ -22,7 +22,9 @@ function AddProgram() {
     };
     setIsLoading(true);
     axios
-      .post('http://localhost:8080/api/scholarx/admin/programs/', program)
+      .post('http://localhost:8080/admin/programs/', program, {
+        withCredentials: true,
+      })
       .then((res: AxiosResponse<SavedProgram>) => {
         if (res.status == 201) {
           setIsLoading(false);
