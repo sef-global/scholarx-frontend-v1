@@ -73,7 +73,7 @@ function RequestMentors() {
               />
             </Switch>
           </Router>
-          <Button type="primary" href={'/home'}>
+          <Button type="primary" href={'/home'} className={styles.backButton}>
             Back
           </Button>
         </div>
