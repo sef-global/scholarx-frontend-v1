@@ -4,6 +4,7 @@ import { Avatar, Button, List, Modal, notification } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
 import StatusTag from './components/StatusTag';
 import axios, { AxiosResponse } from 'axios';
+import styles from './style.css';
 
 function MenteeRow(props: { mentee: Mentee, programState: string }) {
   const actions: ReactNode[] = [];
@@ -78,6 +79,7 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
 
     actions.push(
       <Button
+        className={styles.buttonMargin}
         key="approve"
         type="primary"
         disabled={isApproveDisabled}
@@ -114,7 +116,7 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
               {props.mentee.profile.firstName} {props.mentee.profile.lastName}
             </a>
             <br />
-            <StatusTag state={props.mentee.state} />
+            <StatusTag state={menteeState} />
           </div>
         }
         description={props.mentee.profile.headline}

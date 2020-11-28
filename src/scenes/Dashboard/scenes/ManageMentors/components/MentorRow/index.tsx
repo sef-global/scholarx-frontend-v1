@@ -4,6 +4,7 @@ import { Avatar, Button, List, Modal, notification } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
 import axios, { AxiosResponse } from 'axios';
 import StatusTag from '../StatusTag';
+import styles from './style.css';
 
 function MentorRow(props: { mentor: Mentor, programState: string }) {
   const actions: ReactNode[] = [];
@@ -94,6 +95,7 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
     actions.push(
       <Button
         type="primary"
+        className={styles.buttonMargin}
         disabled={isApproveDisabled}
         onClick={confirmApproval}
       >
@@ -104,6 +106,7 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
     actions.push(
       <Button
         type="primary"
+        className={styles.buttonMargin}
         danger
         disabled={isRejectDisabled}
         onClick={confirmRejection}
