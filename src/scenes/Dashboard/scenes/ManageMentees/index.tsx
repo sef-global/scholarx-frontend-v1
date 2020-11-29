@@ -28,7 +28,7 @@ function ManageMentees() {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee[]>) => {
-        if (result.status == 200) {
+        if (result.status == 200 || result.status == 204) {
           setIsLoading(false);
           setMentees(result.data);
         } else {
