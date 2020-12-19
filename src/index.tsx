@@ -14,6 +14,7 @@ import { Profile } from './interfaces';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
 import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';
+import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
 import axios, { AxiosResponse } from 'axios';
 import { notification } from 'antd';
 import ManageMentees from './scenes/Home/scenes/ManageMentees';
@@ -60,6 +61,10 @@ function App() {
             component={EditMentorApplication}
           />
           <Route path="/mentor/program/:programId" component={ManageMentees} />
+          <Route
+            path="/program/:programId/mentor/confirmation"
+            component={MentorConfirmation}
+          />
           <Route path="/program/:programId" component={RequestMentors} />
         </Switch>
       </Router>
