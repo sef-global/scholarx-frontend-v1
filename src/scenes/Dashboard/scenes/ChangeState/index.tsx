@@ -25,6 +25,7 @@ const stateEnumVals: string[] = [
   'MENTOR_SELECTION',
   'MENTEE_APPLICATION',
   'MENTEE_SELECTION',
+  'MENTOR_CONFIRMATION',
   'ONGOING',
   'COMPLETED',
   'REMOVED',
@@ -62,12 +63,18 @@ const programStates: State[] = [
   },
   {
     stepNo: 5,
-    name: 'Ongoing',
+    name: 'Mentor Confirmation',
     description:
       'Some descriptive text about this particular state of the program',
   },
   {
     stepNo: 6,
+    name: 'Ongoing',
+    description:
+      'Some descriptive text about this particular state of the program',
+  },
+  {
+    stepNo: 7,
     name: 'Completed',
     description:
       'Some descriptive text about this particular state of the program',
@@ -129,7 +136,7 @@ function ChangeState() {
       icon: <ExclamationCircleOutlined />,
       content: (
         <Paragraph>
-          Changing state of the <b>ScholarX Jr 2020</b> from
+          Changing state of the <b>{programTitle}</b> from
           <b> {programStates[currentStep].name}</b> to{' '}
           <b>{programStates[currentStep + 1].name}</b>.
         </Paragraph>
