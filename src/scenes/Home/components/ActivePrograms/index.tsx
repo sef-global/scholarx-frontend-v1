@@ -82,6 +82,18 @@ function ActivePrograms() {
                   ) : (
                     ''
                   )}
+                  {program.state == 'MENTOR_CONFIRMATION' &&
+                  !isUserAdmin &&
+                  user != null ? (
+                    <Button
+                      type="primary"
+                      href={`/program/${program.id}/mentor/confirmation`}
+                    >
+                      My mentor
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                 </Col>
               </Row>
               <Paragraph>{program.headline}</Paragraph>
