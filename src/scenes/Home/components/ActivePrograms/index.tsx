@@ -39,70 +39,76 @@ function ActivePrograms() {
     <Spin tip="Loading..." spinning={isLoading}>
       <Row gutter={[16, 16]}>
         {programs.map((program: SavedProgram) => (
-          <Col md={6} key={program.id}>
-            <Card
-              className={styles.card}
-              bordered={false}
-              cover={<img alt={program.title} src={program.imageUrl} />}
-            >
-              <Row>
-                <Col span={13}>
-                  <Title level={4}>
-                    <a
-                      target={'_blank'}
-                      rel={'noreferrer'}
-                      href={program.landingPageUrl}
-                    >
-                      {program.title}
-                    </a>
-                  </Title>
-                </Col>
-                <Col span={11} className={styles.programActionButton}>
-                  <Button
-                    hidden={!isUserAdmin}
-                    type="primary"
-                    href={`/dashboard/${program.id}`}
-                  >
-                    Manage
-                  </Button>
-                  {program.state == 'MENTOR_APPLICATION' && !isUserAdmin ? (
-                    <Button
-                      type="primary"
-                      href={`/program/${program.id}/mentor/apply`}
-                    >
-                      Apply as a mentor
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                  {program.state == 'MENTEE_APPLICATION' && !isUserAdmin ? (
-                    <Button type="primary" href={`/program/${program.id}`}>
-                      Apply as a mentee
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                  {program.state == 'MENTOR_CONFIRMATION' &&
-                  !isUserAdmin &&
-                  user != null ? (
-                    <Button
-                      type="primary"
-                      href={`/program/${program.id}/mentor/confirmation`}
-                    >
-                      My mentor
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </Col>
-              </Row>
-              <Paragraph>{program.headline}</Paragraph>
-            </Card>
-          </Col>
+          <>
+            {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
+              <Col md={6} key={program.id}>
+                <Card
+                  className={styles.card}
+                  bordered={false}
+                  cover={<img alt={program.title} src={program.imageUrl} />}
+                >
+                  <Row>
+                    <Col span={13}>
+                      <Title level={4}>
+                        <a
+                          target={'_blank'}
+                          rel={'noreferrer'}
+                          href={program.landingPageUrl}
+                        >
+                          {program.title}
+                        </a>
+                      </Title>
+                    </Col>
+                    <Col span={11} className={styles.programActionButton}>
+                      <Button
+                        hidden={!isUserAdmin}
+                        type="primary"
+                        href={`/dashboard/${program.id}`}
+                      >
+                        Manage
+                      </Button>
+                      {program.state == 'MENTOR_APPLICATION' && !isUserAdmin ? (
+                        <Button
+                          type="primary"
+                          href={`/program/${program.id}/mentor/apply`}
+                        >
+                          Apply as a mentor
+                        </Button>
+                      ) : (
+                        ''
+                      )}
+                      {program.state == 'MENTEE_APPLICATION' && !isUserAdmin ? (
+                        <Button type="primary" href={`/program/${program.id}`}>
+                          Apply as a mentee
+                        </Button>
+                      ) : (
+                        ''
+                      )}
+                      {program.state == 'MENTOR_CONFIRMATION' &&
+                      !isUserAdmin &&
+                      user != null ? (
+                        <Button
+                          type="primary"
+                          href={`/program/${program.id}/mentor/confirmation`}
+                        >
+                          My mentor
+                        </Button>
+                      ) : (
+                        ''
+                      )}
+                    </Col>
+                  </Row>
+                  <Paragraph>{program.headline}</Paragraph>
+                </Card>
+              </Col>
+            ) : null}
+          </>
         ))}
-        <Col md={6} hidden={!isUserAdmin}>
-          <AddProgram />
-        </Col>
+        {isUserAdmin ? (
+          <Col md={6}>
+            <AddProgram />
+          </Col>
+        ) : null}
       </Row>
     </Spin>
   );
