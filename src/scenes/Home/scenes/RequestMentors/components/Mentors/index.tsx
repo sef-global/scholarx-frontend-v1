@@ -26,9 +26,12 @@ function Mentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentors`, {
-        withCredentials: true,
-      })
+      .get(
+        `http://localhost:8080/programs/${programId}/mentors?states=APPROVED`,
+        {
+          withCredentials: true,
+        }
+      )
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200) {
           setIsLoading(false);
