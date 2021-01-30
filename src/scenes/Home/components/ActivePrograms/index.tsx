@@ -72,14 +72,14 @@ function ActivePrograms() {
                           type="primary"
                           href={`/program/${program.id}/mentor/apply`}
                         >
-                          Apply as a mentor
+                          Apply as mentor
                         </Button>
                       ) : (
                         ''
                       )}
                       {program.state == 'MENTEE_APPLICATION' && !isUserAdmin ? (
                         <Button type="primary" href={`/program/${program.id}`}>
-                          Apply as a mentee
+                          Apply as mentee
                         </Button>
                       ) : (
                         ''
