@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, notification, Spin, Empty, Row, Col } from 'antd';
+import {
+  Typography,
+  List,
+  notification,
+  Spin,
+  Empty,
+  Row,
+  Col,
+  Button,
+} from 'antd';
 import { Mentee, SavedProgram } from '../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';
 import MenteeRow from './components/MenteeRow';
+import { useHistory } from 'react-router';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 
@@ -14,6 +25,7 @@ function ManageMentees() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [program, setProgram] = useState<SavedProgram | null>(null);
   const [shouldLoadMentees, setShouldLoadMentees] = useState<boolean>(false);
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -75,6 +87,19 @@ function ManageMentees() {
 
   return (
     <div className={styles.container}>
+      <Row>
+        <Col md={3} />
+        <Col md={15}>
+          <Button
+            shape="circle"
+            icon={<ArrowLeftOutlined />}
+            size="large"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </Col>
+      </Row>
       <Spin tip="Loading..." spinning={isLoading}>
         <Row>
           <Col md={3} />

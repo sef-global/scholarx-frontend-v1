@@ -13,11 +13,15 @@ import {
   Radio,
 } from 'antd';
 import { Mentor } from '../../../../interfaces';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import mainStyles from '../../styles.css';
 import styles from './styles.css';
-import { SmileOutlined, WarningOutlined } from '@ant-design/icons';
+import {
+  SmileOutlined,
+  WarningOutlined,
+  ArrowLeftOutlined,
+} from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
 
@@ -27,6 +31,7 @@ function MentorConfirmation() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasUserApplied, setHasUserApplied] = useState<boolean>(false);
   const [selectedMentor, setSelectedMentor] = useState<number>(0);
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -136,6 +141,19 @@ function MentorConfirmation() {
 
   return (
     <div className={mainStyles.container}>
+      <Row>
+        <Col md={3} />
+        <Col md={21}>
+          <Button
+            shape="circle"
+            icon={<ArrowLeftOutlined />}
+            size="large"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </Col>
+      </Row>
       <Spin tip="Loading..." spinning={isLoading}>
         <Row hidden={mentors.length == 0}>
           <Col md={3} />

@@ -15,6 +15,7 @@ import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Mentor, Application } from '../../../../interfaces';
 import mainStyles from '../../styles.css';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -61,6 +62,19 @@ function MentorApplication() {
       <Row>
         <Col md={2} />
         <Col md={12}>
+          <Button
+            shape="circle"
+            icon={<ArrowLeftOutlined />}
+            size="large"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={2} />
+        <Col md={12}>
           <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
           <Title level={2}>Apply as a Mentor</Title>
         </Col>
@@ -96,6 +110,7 @@ function MentorApplication() {
             <Row>
               <Col md={2} />
               <Col md={12}>
+                {/* MJ CHECK */}
                 <Button href={'/home'} htmlType="button">
                   Back
                 </Button>
