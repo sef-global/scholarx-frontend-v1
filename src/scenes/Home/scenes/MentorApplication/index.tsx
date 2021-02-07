@@ -42,7 +42,7 @@ function MentorApplication() {
             message: 'Success!',
             description: 'Successfully applied!',
           });
-          history.push(`/program/${programId}/mentor/Edit`);
+          history.push('/home');
         } else {
           throw new Error();
         }
@@ -62,7 +62,7 @@ function MentorApplication() {
         <Col md={2} />
         <Col md={12}>
           <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
-          <Title level={2}>Apply as a Mentor</Title>
+          <Title level={2}>Apply as Mentor</Title>
         </Col>
       </Row>
       <Spin tip="Loading..." spinning={isLoading}>
