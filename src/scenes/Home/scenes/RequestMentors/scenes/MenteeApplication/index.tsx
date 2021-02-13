@@ -137,7 +137,7 @@ function MenteeApplication() {
 
   return (
     <>
-      <Tabs defaultActiveKey="2" onTabClick={onBack}>
+      <Tabs defaultActiveKey="1" onTabClick={onBack}>
         <TabPane tab="Mentors" key="1" />
         <TabPane tab="Applied Mentors" key="2" />
       </Tabs>
