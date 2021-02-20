@@ -15,6 +15,7 @@ import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Mentor, Application } from '../../../../interfaces';
 import mainStyles from '../../styles.css';
+import NavigationBar from '../../components/NavigationBar';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -57,61 +58,65 @@ function MentorApplication() {
   };
 
   return (
-    <div className={mainStyles.container}>
-      <Row>
-        <Col md={2} />
-        <Col md={12}>
-          <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
-          <Title level={2}>Apply as Mentor</Title>
-        </Col>
-      </Row>
-      <Spin tip="Loading..." spinning={isLoading}>
-        <div className={styles.form}>
-          <Form layout="vertical" size="large" onFinish={apply} form={form}>
-            <Row>
-              <Col md={2} />
-              <Col md={12}>
-                <Title level={3}>
-                  Why do you think you are suitable as a mentor in this program?
-                </Title>
-                <Form.Item name="application" rules={[{ required: true }]}>
-                  <TextArea rows={5} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col md={2} />
-              <Col md={12}>
-                <Title level={3}>
-                  Include the Pre requisites you expect from mentees
-                  <i>(This will be displayed in public)</i>
-                </Title>
-                <Form.Item name="prerequisites" rules={[{ required: true }]}>
-                  <TextArea rows={8} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col md={2} />
-              <Col md={12}>
-                <Button href={'/home'} htmlType="button">
-                  Back
-                </Button>
-                <Button
-                  htmlType="submit"
-                  type="primary"
-                  className={styles.submitButton}
-                >
-                  Submit
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </div>
-      </Spin>
-    </div>
+    <>
+      <NavigationBar />
+      <div className={mainStyles.container}>
+        <Row>
+          <Col md={2} />
+          <Col md={12}>
+            <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
+            <Title level={2}>Apply as Mentor</Title>
+          </Col>
+        </Row>
+        <Spin tip="Loading..." spinning={isLoading}>
+          <div className={styles.form}>
+            <Form layout="vertical" size="large" onFinish={apply} form={form}>
+              <Row>
+                <Col md={2} />
+                <Col md={12}>
+                  <Title level={3}>
+                    Why do you think you are suitable as a mentor in this
+                    program?
+                  </Title>
+                  <Form.Item name="application" rules={[{ required: true }]}>
+                    <TextArea rows={5} />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col md={2} />
+                <Col md={12}>
+                  <Title level={3}>
+                    Include the Pre requisites you expect from mentees
+                    <i>(This will be displayed in public)</i>
+                  </Title>
+                  <Form.Item name="prerequisites" rules={[{ required: true }]}>
+                    <TextArea rows={8} />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col md={2} />
+                <Col md={12}>
+                  <Button href={'/home'} htmlType="button">
+                    Back
+                  </Button>
+                  <Button
+                    htmlType="submit"
+                    type="primary"
+                    className={styles.submitButton}
+                  >
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </div>
+        </Spin>
+      </div>
+    </>
   );
 }
 

@@ -18,6 +18,7 @@ import axios, { AxiosResponse } from 'axios';
 import mainStyles from '../../styles.css';
 import styles from './styles.css';
 import { SmileOutlined, WarningOutlined } from '@ant-design/icons';
+import NavigationBar from '../../components/NavigationBar';
 
 const { Title, Paragraph } = Typography;
 
@@ -135,93 +136,100 @@ function MentorConfirmation() {
   };
 
   return (
-    <div className={mainStyles.container}>
-      <Spin tip="Loading..." spinning={isLoading}>
-        <Row hidden={mentors.length == 0}>
-          <Col md={3} />
-          <Col md={21}>
-            {/* Checks whether user has more than one mentor if it's yes that means the UI has to
-            be changed to the selection UI*/}
-            {mentors.length != 1 ? (
-              <>
-                <Title>Approve a Mentor</Title>
-                <Paragraph>
-                  You have been chosen by multiple mentors. Please select on of
-                  them as your mentor for the program
-                </Paragraph>
-              </>
-            ) : (
-              <>
-                <Title>My Mentor</Title>
-                <Paragraph>Your mentor for the program</Paragraph>
-              </>
-            )}
-            <Radio.Group
-              name="selectedMentor"
-              onChange={handleMentorIdChange}
-              className={styles.mentorMeta}
-            >
-              <List
-                itemLayout="horizontal"
-                size="large"
-                dataSource={mentors}
-                renderItem={(mentor: Mentor) => (
-                  <List.Item key={mentor.id}>
-                    <List.Item.Meta
-                      avatar={<Avatar src={mentor.profile.imageUrl} />}
-                      title={
-                        <div>
-                          <a
-                            href={mentor.profile.linkedinUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {mentor.profile.firstName} {mentor.profile.lastName}
-                          </a>
-                        </div>
-                      }
-                      description={mentor.profile.headline}
-                    />
-                    <div hidden={mentors.length == 1}>
-                      <Radio className={styles.radioStyle} value={mentor.id} />
-                    </div>
-                  </List.Item>
-                )}
-              />
-            </Radio.Group>
-          </Col>
-        </Row>
-        <Row hidden={mentors.length <= 1}>
-          <Col md={3} />
-          <Col>
-            <Button
-              type="primary"
-              className={mainStyles.backButton}
-              disabled={selectedMentor == 0}
-              onClick={confirmApproval}
-            >
-              Confirm
-            </Button>
-          </Col>
-        </Row>
-        {/* If there's no mentors in the array that means the user hasn't got selected or hasn't applied*/}
-        {mentors.length == 0 && (
-          <Result
-            icon={<SmileOutlined />}
-            title={
-              hasUserApplied
-                ? 'Unfortunately, you were not selected as a mentee for this program'
-                : "You haven't applied for this program as a mentee"
-            }
-            extra={
-              <Button href={'/home'} type="primary">
-                View available Programs
+    <>
+      <NavigationBar />
+      <div className={mainStyles.container}>
+        <Spin tip="Loading..." spinning={isLoading}>
+          <Row hidden={mentors.length == 0}>
+            <Col md={3} />
+            <Col md={21}>
+              {/* Checks whether user has more than one mentor if it's yes that means the UI has to
+              be changed to the selection UI*/}
+              {mentors.length != 1 ? (
+                <>
+                  <Title>Approve a Mentor</Title>
+                  <Paragraph>
+                    You have been chosen by multiple mentors. Please select on
+                    of of them as your mentor for the program
+                  </Paragraph>
+                </>
+              ) : (
+                <>
+                  <Title>My Mentor</Title>
+                  <Paragraph>Your mentor for the program</Paragraph>
+                </>
+              )}
+              <Radio.Group
+                name="selectedMentor"
+                onChange={handleMentorIdChange}
+                className={styles.mentorMeta}
+              >
+                <List
+                  itemLayout="horizontal"
+                  size="large"
+                  dataSource={mentors}
+                  renderItem={(mentor: Mentor) => (
+                    <List.Item key={mentor.id}>
+                      <List.Item.Meta
+                        avatar={<Avatar src={mentor.profile.imageUrl} />}
+                        title={
+                          <div>
+                            <a
+                              href={mentor.profile.linkedinUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {mentor.profile.firstName}{' '}
+                              {mentor.profile.lastName}
+                            </a>
+                          </div>
+                        }
+                        description={mentor.profile.headline}
+                      />
+                      <div hidden={mentors.length == 1}>
+                        <Radio
+                          className={styles.radioStyle}
+                          value={mentor.id}
+                        />
+                      </div>
+                    </List.Item>
+                  )}
+                />
+              </Radio.Group>
+            </Col>
+          </Row>
+          <Row hidden={mentors.length <= 1}>
+            <Col md={3} />
+            <Col>
+              <Button
+                type="primary"
+                className={mainStyles.backButton}
+                disabled={selectedMentor == 0}
+                onClick={confirmApproval}
+              >
+                Confirm
               </Button>
-            }
-          />
-        )}
-      </Spin>
-    </div>
+            </Col>
+          </Row>
+          {/* If there's no mentors in the array that means the user hasn't got selected or hasn't applied*/}
+          {mentors.length == 0 && (
+            <Result
+              icon={<SmileOutlined />}
+              title={
+                hasUserApplied
+                  ? 'Unfortunately, you were not selected as a mentee for this program'
+                  : "You haven't applied for this program as a mentee"
+              }
+              extra={
+                <Button href={'/home'} type="primary">
+                  View available Programs
+                </Button>
+              }
+            />
+          )}
+        </Spin>
+      </div>
+    </>
   );
 }
 export default MentorConfirmation;
