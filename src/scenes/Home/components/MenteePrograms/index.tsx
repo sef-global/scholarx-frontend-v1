@@ -114,28 +114,32 @@ function MenteePrograms() {
       ) : (
         <Row gutter={[16, 16]}>
           {programs.map((program: SavedProgram) => (
-            <Col md={6} key={program.id}>
-              <Card
-                className={styles.card}
-                bordered={false}
-                cover={<img alt={program.title} src={program.imageUrl} />}
-              >
-                <Row>
-                  <Col span={18}>
-                    <Title level={4}>
-                      <a
-                        target={'_blank'}
-                        rel={'noreferrer'}
-                        href={program.landingPageUrl}
-                      >
-                        {program.title}
-                      </a>
-                    </Title>
-                  </Col>
-                </Row>
-                <Paragraph>{program.headline}</Paragraph>
-              </Card>
-            </Col>
+            <>
+              {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
+                <Col md={6} key={program.id}>
+                  <Card
+                    className={styles.card}
+                    bordered={false}
+                    cover={<img alt={program.title} src={program.imageUrl} />}
+                  >
+                    <Row>
+                      <Col span={18}>
+                        <Title level={4}>
+                          <a
+                            target={'_blank'}
+                            rel={'noreferrer'}
+                            href={program.landingPageUrl}
+                          >
+                            {program.title}
+                          </a>
+                        </Title>
+                      </Col>
+                    </Row>
+                    <Paragraph>{program.headline}</Paragraph>
+                  </Card>
+                </Col>
+              ) : null}
+            </>
           ))}
         </Row>
       )}

@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';
 import MenteeRow from './components/MenteeRow';
+import NavigationBar from '../../components/NavigationBar';
 
 const { Title } = Typography;
 
@@ -74,44 +75,47 @@ function ManageMentees() {
   };
 
   return (
-    <div className={styles.container}>
-      <Spin tip="Loading..." spinning={isLoading}>
-        <Row>
-          <Col md={3} />
-          <Col md={15}>
-            <Title>Manage Mentees</Title>
-            {!shouldLoadMentees && program != null && (
-              <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                imageStyle={{
-                  height: 60,
-                }}
-                description={
-                  <span>You are currently in {program.state} state.</span>
-                }
-              />
-            )}
-            {shouldLoadMentees && (
-              <List
-                itemLayout="horizontal"
-                size="large"
-                pagination={{
-                  pageSize: 8,
-                }}
-                dataSource={mentees}
-                renderItem={(mentee: Mentee) => (
-                  <MenteeRow
-                    key={mentee.id}
-                    mentee={mentee}
-                    programState={program.state}
-                  />
-                )}
-              />
-            )}
-          </Col>
-        </Row>
-      </Spin>
-    </div>
+    <>
+      <NavigationBar />
+      <div className={styles.container}>
+        <Spin tip="Loading..." spinning={isLoading}>
+          <Row>
+            <Col md={3} />
+            <Col md={15}>
+              <Title>Manage Mentees</Title>
+              {!shouldLoadMentees && program != null && (
+                <Empty
+                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                  imageStyle={{
+                    height: 60,
+                  }}
+                  description={
+                    <span>You are currently in {program.state} state.</span>
+                  }
+                />
+              )}
+              {shouldLoadMentees && (
+                <List
+                  itemLayout="horizontal"
+                  size="large"
+                  pagination={{
+                    pageSize: 8,
+                  }}
+                  dataSource={mentees}
+                  renderItem={(mentee: Mentee) => (
+                    <MenteeRow
+                      key={mentee.id}
+                      mentee={mentee}
+                      programState={program.state}
+                    />
+                  )}
+                />
+              )}
+            </Col>
+          </Row>
+        </Spin>
+      </div>
+    </>
   );
 }
 export default ManageMentees;
