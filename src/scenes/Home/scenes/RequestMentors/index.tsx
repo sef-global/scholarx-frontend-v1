@@ -10,6 +10,7 @@ import MenteeApplication from './scenes/MenteeApplication';
 import styles from '../../styles.css';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import NavigationBar from '../../components/NavigationBar';
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -51,42 +52,45 @@ function RequestMentors() {
   }, []);
 
   return (
-    <Row>
-      <Col span={18} offset={3}>
-        <div className={styles.container}>
-          <Button
-            shape="circle"
-            icon={<ArrowLeftOutlined />}
-            size="large"
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-          <Spin tip="Loading..." spinning={isLoading}>
-            <Title>{program.title}</Title>
-            <Paragraph>{program.headline}</Paragraph>
-          </Spin>
-          <Router>
-            <Switch>
-              <Route exact path="/program/:programId">
-                <Tabs defaultActiveKey="1">
-                  <TabPane tab="Mentors" key="1">
-                    <Mentors />
-                  </TabPane>
-                  <TabPane tab="Applied Mentors" key="2">
-                    <AppliedMentors />
-                  </TabPane>
-                </Tabs>
-              </Route>
-              <Route
-                path="/program/:programId/mentor/:mentorId/application"
-                component={MenteeApplication}
-              />
-            </Switch>
-          </Router>
-        </div>
-      </Col>
-    </Row>
+    <>
+      <NavigationBar />
+      <Row>
+        <Col span={18} offset={3}>
+          <div className={styles.container}>
+            <Button
+              shape="circle"
+              icon={<ArrowLeftOutlined />}
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
+            <Spin tip="Loading..." spinning={isLoading}>
+              <Title>{program.title}</Title>
+              <Paragraph>{program.headline}</Paragraph>
+            </Spin>
+            <Router>
+              <Switch>
+                <Route exact path="/program/:programId">
+                  <Tabs defaultActiveKey="1">
+                    <TabPane tab="Mentors" key="1">
+                      <Mentors />
+                    </TabPane>
+                    <TabPane tab="Applied Mentors" key="2">
+                      <AppliedMentors />
+                    </TabPane>
+                  </Tabs>
+                </Route>
+                <Route
+                  path="/program/:programId/mentor/:mentorId/application"
+                  component={MenteeApplication}
+                />
+              </Switch>
+            </Router>
+          </div>
+        </Col>
+      </Row>
+    </>
   );
 }
 

@@ -16,6 +16,7 @@ import styles from '../../styles.css';
 import MenteeRow from './components/MenteeRow';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import NavigationBar from '../../components/NavigationBar';
 
 const { Title } = Typography;
 
@@ -86,57 +87,60 @@ function ManageMentees() {
   };
 
   return (
-    <div className={styles.container}>
-      <Row>
-        <Col md={3} />
-        <Col md={15}>
-          <Button
-            shape="circle"
-            icon={<ArrowLeftOutlined />}
-            size="large"
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-        </Col>
-      </Row>
-      <Spin tip="Loading..." spinning={isLoading}>
+    <>
+      <NavigationBar />
+      <div className={styles.container}>
         <Row>
           <Col md={3} />
           <Col md={15}>
-            <Title>Manage Mentees</Title>
-            {!shouldLoadMentees && program != null && (
-              <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                imageStyle={{
-                  height: 60,
-                }}
-                description={
-                  <span>You are currently in {program.state} state.</span>
-                }
-              />
-            )}
-            {shouldLoadMentees && (
-              <List
-                itemLayout="horizontal"
-                size="large"
-                pagination={{
-                  pageSize: 8,
-                }}
-                dataSource={mentees}
-                renderItem={(mentee: Mentee) => (
-                  <MenteeRow
-                    key={mentee.id}
-                    mentee={mentee}
-                    programState={program.state}
-                  />
-                )}
-              />
-            )}
+            <Button
+              shape="circle"
+              icon={<ArrowLeftOutlined />}
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
           </Col>
         </Row>
-      </Spin>
-    </div>
+        <Spin tip="Loading..." spinning={isLoading}>
+          <Row>
+            <Col md={3} />
+            <Col md={15}>
+              <Title>Manage Mentees</Title>
+              {!shouldLoadMentees && program != null && (
+                <Empty
+                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                  imageStyle={{
+                    height: 60,
+                  }}
+                  description={
+                    <span>You are currently in {program.state} state.</span>
+                  }
+                />
+              )}
+              {shouldLoadMentees && (
+                <List
+                  itemLayout="horizontal"
+                  size="large"
+                  pagination={{
+                    pageSize: 8,
+                  }}
+                  dataSource={mentees}
+                  renderItem={(mentee: Mentee) => (
+                    <MenteeRow
+                      key={mentee.id}
+                      mentee={mentee}
+                      programState={program.state}
+                    />
+                  )}
+                />
+              )}
+            </Col>
+          </Row>
+        </Spin>
+      </div>
+    </>
   );
 }
 export default ManageMentees;

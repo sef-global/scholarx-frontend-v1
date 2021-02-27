@@ -16,9 +16,9 @@ const Home = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <div>
+      <NavigationBar />
       <Row justify="center">
         <Col md={24} lg={21}>
-          <NavigationBar />
           <Row>
             <Col md={12}>
               <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
