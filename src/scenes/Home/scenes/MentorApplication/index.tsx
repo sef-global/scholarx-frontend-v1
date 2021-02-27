@@ -15,6 +15,7 @@ import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Mentor, Application } from '../../../../interfaces';
 import mainStyles from '../../styles.css';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 
 const { TextArea } = Input;
@@ -61,6 +62,19 @@ function MentorApplication() {
     <>
       <NavigationBar />
       <div className={mainStyles.container}>
+        <Row>
+          <Col md={2} />
+          <Col md={12}>
+            <Button
+              shape="circle"
+              icon={<ArrowLeftOutlined />}
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
+          </Col>
+        </Row>
         <Row>
           <Col md={2} />
           <Col md={12}>

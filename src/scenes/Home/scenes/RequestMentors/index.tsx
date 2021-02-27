@@ -8,6 +8,8 @@ import AppliedMentors from './components/AppliedMentors';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MenteeApplication from './scenes/MenteeApplication';
 import styles from '../../styles.css';
+import { useHistory } from 'react-router';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 
 const { Title, Paragraph } = Typography;
@@ -24,6 +26,7 @@ function RequestMentors() {
     title: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -54,6 +57,14 @@ function RequestMentors() {
       <Row>
         <Col span={18} offset={3}>
           <div className={styles.container}>
+            <Button
+              shape="circle"
+              icon={<ArrowLeftOutlined />}
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
             <Spin tip="Loading..." spinning={isLoading}>
               <Title>{program.title}</Title>
               <Paragraph>{program.headline}</Paragraph>
@@ -76,9 +87,6 @@ function RequestMentors() {
                 />
               </Switch>
             </Router>
-            <Button type="primary" href={'/home'} className={styles.backButton}>
-              Back
-            </Button>
           </div>
         </Col>
       </Row>
