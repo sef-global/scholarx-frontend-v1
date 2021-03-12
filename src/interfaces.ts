@@ -35,6 +35,7 @@ export interface Mentee {
   id: number;
   profile: Profile;
   state: string;
+  submissionUrl: string;
 }
 
 export interface Application {

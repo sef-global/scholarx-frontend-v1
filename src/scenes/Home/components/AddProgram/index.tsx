@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
 import styles from './styles.css';
 import { useHistory } from 'react-router';
+import { API_URL } from '../../../../constants';
 
 function AddProgram() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -22,9 +23,7 @@ function AddProgram() {
     };
     setIsLoading(true);
     axios
-      .post('http://localhost:8080/admin/programs/', program, {
-        withCredentials: true,
-      })
+      .post(`${API_URL}/admin/programs/`, program)
       .then((res: AxiosResponse<SavedProgram>) => {
         if (res.status == 201) {
           setIsLoading(false);

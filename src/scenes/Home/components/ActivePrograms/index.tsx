@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Profile, SavedProgram } from '../../../../interfaces';
 import AddProgram from '../AddProgram';
 import { UserContext } from '../../../../index';
+import { API_URL } from '../../../../constants';
 
 const { Paragraph, Title } = Typography;
 
@@ -21,7 +22,7 @@ function ActivePrograms() {
   const getPrograms = () => {
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/programs', { withCredentials: true })
+      .get(`${API_URL}/programs`, { withCredentials: true })
       .then((response: AxiosResponse<SavedProgram[]>) => {
         setPrograms(response.data);
         setIsLoading(false);

@@ -17,6 +17,7 @@ import MenteeRow from './components/MenteeRow';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import { API_URL } from '../../../../constants';
 
 const { Title } = Typography;
 
@@ -35,9 +36,7 @@ function ManageMentees() {
 
   const getProgram = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
-        withCredentials: true,
-      })
+      .get(`${API_URL}/programs/${programId}`)
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setProgram(result.data);
@@ -66,9 +65,7 @@ function ManageMentees() {
 
   const getMentees = () => {
     axios
-      .get(`http://localhost:8080/me/programs/${programId}/mentees`, {
-        withCredentials: true,
-      })
+      .get(`${API_URL}/me/programs/${programId}/mentees`)
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200 || result.status == 204) {
           setMentees(result.data);

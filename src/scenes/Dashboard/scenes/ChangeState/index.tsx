@@ -16,6 +16,7 @@ import styles from './styles.css';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
+import { API_URL } from '../../../../constants';
 
 const { Title, Text, Paragraph } = Typography;
 const { Step } = Steps;
@@ -87,9 +88,7 @@ function ChangeState() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
-        withCredentials: true,
-      })
+      .get(`${API_URL}/programs/${programId}`)
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
           setCurrentStep(stateEnumVals.indexOf(result.data.state));
@@ -108,8 +107,7 @@ function ChangeState() {
   const handleStepChange = () => {
     axios({
       method: 'put',
-      url: `http://localhost:8080/admin/programs/${programId}/state`,
-      withCredentials: true,
+      url: `${API_URL}/admin/programs/${programId}/state`,
     })
       .then((result) => {
         if (result.status == 200) {

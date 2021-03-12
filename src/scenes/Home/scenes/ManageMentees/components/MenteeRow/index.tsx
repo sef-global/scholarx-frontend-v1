@@ -5,6 +5,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import StatusTag from './components/StatusTag';
 import axios, { AxiosResponse } from 'axios';
 import styles from './style.css';
+import { API_URL } from '../../../../../../constants';
 
 function MenteeRow(props: { mentee: Mentee, programState: string }) {
   const actions: ReactNode[] = [];
@@ -24,12 +25,9 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
 
     axios
       .put(
-        `http://localhost:8080/mentees/${props.mentee.id}/state`,
+        `${API_URL}/mentees/${props.mentee.id}/state`,
         {
           isApproved: isApproved,
-        },
-        {
-          withCredentials: true,
         }
       )
       .then((result: AxiosResponse<Mentee>) => {
@@ -116,6 +114,7 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
               {props.mentee.profile.firstName} {props.mentee.profile.lastName}
             </a>
             <br />
+            <a href={props.mentee.submissionUrl}>View Application</a>
             <StatusTag state={menteeState} />
           </div>
         }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Menu, Layout, Avatar } from 'antd';
+import React, { useContext } from 'react';
+import { Menu, Layout, Avatar, Button } from 'antd';
 import {
   AppstoreOutlined,
   EditOutlined,
@@ -20,11 +20,15 @@ import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
+import { UserContext } from '../../index';
+import { Profile } from '../../interfaces';
+import { LOGIN_URL } from '../../constants';
 
 const { Content, Sider, Header } = Layout;
 
 function Dashboard() {
   const { programId } = useParams();
+  const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <Router>
       <Layout>
@@ -34,7 +38,7 @@ function Dashboard() {
           collapsedWidth="0"
         >
           <div>
-            <Link to="/dashboard/home">
+            <Link to="/">
               <div className={styles.logo}>
                 <img src={logo} alt="SEF Logo" />
               </div>
@@ -68,11 +72,22 @@ function Dashboard() {
             <Menu mode="horizontal" className={styles.rightAlignedMenu}>
               <Menu.SubMenu
                 title={
-                  <Avatar className={styles.avatar} icon={<UserOutlined />} />
+                  user != null ? (
+                    <Avatar
+                      src={user.imageUrl}
+                      className={styles.loginComponents}
+                    />
+                  ) : (
+                    <a href={`${LOGIN_URL}/oauth2/authorization/linkedin`}>
+                      <Button type="primary" className={styles.loginComponents}>
+                        Sign In
+                      </Button>
+                    </a>
+                  )
                 }
               >
                 <Menu.ItemGroup title={localStorage.username}>
-                  <Menu.Item disabled={true}>Logout</Menu.Item>
+                  <Menu.Item>Logout</Menu.Item>
                 </Menu.ItemGroup>
               </Menu.SubMenu>
             </Menu>

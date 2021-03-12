@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Avatar, Button } from 'antd';
 import styles from './styles.css';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../interfaces';
 import logo from '../../scholarx.png';
+import { LOGIN_URL } from '../../../../constants';
 
 const NavigationBar = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
@@ -17,11 +17,11 @@ const NavigationBar = () => {
       {user != null ? (
         <Avatar src={user.imageUrl} className={styles.loginComponents} />
       ) : (
-        <Link to={'/sign-in'}>
+        <a href={`${LOGIN_URL}/oauth2/authorization/linkedin`}>
           <Button type="primary" className={styles.loginComponents}>
             Sign In
           </Button>
-        </Link>
+        </a>
       )}
     </div>
   );

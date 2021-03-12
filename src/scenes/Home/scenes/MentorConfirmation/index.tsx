@@ -23,6 +23,7 @@ import {
   ArrowLeftOutlined,
 } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import { API_URL } from '../../../../constants';
 
 const { Title, Paragraph } = Typography;
 
@@ -43,9 +44,7 @@ function MentorConfirmation() {
   const getAppliedMentors = () => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentee/mentors`, {
-        withCredentials: true,
-      })
+      .get(`${API_URL}/programs/${programId}/mentee/mentors`)
       .then((result: AxiosResponse<Mentor[]>) => {
         setIsLoading(false);
         if (result.status == 200) {
@@ -70,10 +69,7 @@ function MentorConfirmation() {
     setIsLoading(true);
     axios
       .get(
-        `http://localhost:8080/programs/${programId}/mentee/mentors?menteeStates=APPROVED`,
-        {
-          withCredentials: true,
-        }
+        `${API_URL}/programs/${programId}/mentee/mentors?menteeStates=APPROVED`
       )
       .then((result: AxiosResponse<Mentor[]>) => {
         setIsLoading(false);
@@ -98,11 +94,7 @@ function MentorConfirmation() {
     setIsLoading(true);
     axios
       .put(
-        `http://localhost:8080/me/mentor/${mentorId}/confirmation`,
-        {},
-        {
-          withCredentials: true,
-        }
+        `${API_URL}/me/mentor/${mentorId}/confirmation`
       )
       .then((result: AxiosResponse<Mentor>) => {
         setIsLoading(false);

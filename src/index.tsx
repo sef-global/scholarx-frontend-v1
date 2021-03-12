@@ -8,7 +8,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import Home from './scenes/Home';
-import SignIn from './scenes/SignIn';
 import Dashboard from './scenes/Dashboard';
 import { Profile } from './interfaces';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
@@ -18,6 +17,7 @@ import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
 import axios, { AxiosResponse } from 'axios';
 import { notification } from 'antd';
 import ManageMentees from './scenes/Home/scenes/ManageMentees';
+import { API_URL } from './constants';
 export const UserContext = createContext<Partial<Profile>>({});
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
 
   const getUser = () => {
     axios
-      .get('http://localhost:8080/me', { withCredentials: true })
+      .get(`${API_URL}/me`, { withCredentials: true })
       .then((response: AxiosResponse<Profile>) => {
         setUser(response.data);
       })
@@ -50,7 +50,6 @@ function App() {
         <Switch>
           <Redirect exact from="/" to="/home" />
           <Route exact path="/home" component={Home} />
-          <Route exact path="/sign-in" component={SignIn} />
           <Route path="/dashboard/:programId" component={Dashboard} />
           <Route
             path="/program/:programId/mentor/apply"
