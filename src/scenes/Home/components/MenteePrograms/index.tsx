@@ -26,13 +26,19 @@ function MenteePrograms() {
   }, []);
 
   const getMenteePrograms = () => {
+    const menteePrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
       .get('http://localhost:8080/me/programs/mentee', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
-        setPrograms(response.data);
+        response.data.map((program) => {
+          if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
+            menteePrograms.push(program);
+          }
+        });
+        setPrograms(menteePrograms);
         if (response.status == 204) {
           getMenteeApplicationPrograms();
         }

@@ -26,13 +26,19 @@ function MentorPrograms() {
   }, []);
 
   const getMentorPrograms = () => {
+    const mentorPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
       .get('http://localhost:8080/me/programs/mentor', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
-        setPrograms(response.data);
+        response.data.map((program) => {
+          if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
+            mentorPrograms.push(program);
+          }
+        });
+        setPrograms(mentorPrograms);
         if (response.status == 204) {
           getMentorApplicationPrograms();
         }

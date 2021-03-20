@@ -6,6 +6,7 @@ import { Col, Row, Tabs, Typography } from 'antd';
 import MentorPrograms from './components/MentorPrograms';
 import MenteePrograms from './components/MenteePrograms';
 import ActivePrograms from './components/ActivePrograms';
+import PastPrograms from './components/PastPrograms';
 import { UserContext } from '../../index';
 import { Profile } from '../../interfaces';
 
@@ -56,6 +57,11 @@ const Home = () => {
                 </TabPane>
               </>
             )}
+            <TabPane tab="Past Programs" key="pastPrograms">
+              <div className={styles.cardWrapper}>
+                <PastPrograms />
+              </div>
+            </TabPane>
           </Tabs>
         </Col>
       </Row>
