@@ -26,13 +26,19 @@ function MenteePrograms() {
   }, []);
 
   const getMenteePrograms = () => {
+    const menteePrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
       .get('http://localhost:8080/me/programs/mentee', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
-        setPrograms(response.data);
+        response.data.map((program) => {
+          if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
+            menteePrograms.push(program);
+          }
+        });
+        setPrograms(menteePrograms);
         if (response.status == 204) {
           getMenteeApplicationPrograms();
         }
@@ -114,32 +120,28 @@ function MenteePrograms() {
       ) : (
         <Row gutter={[16, 16]}>
           {programs.map((program: SavedProgram) => (
-            <>
-              {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
-                <Col md={6} key={program.id}>
-                  <Card
-                    className={styles.card}
-                    bordered={false}
-                    cover={<img alt={program.title} src={program.imageUrl} />}
-                  >
-                    <Row>
-                      <Col span={18}>
-                        <Title level={4}>
-                          <a
-                            target={'_blank'}
-                            rel={'noreferrer'}
-                            href={program.landingPageUrl}
-                          >
-                            {program.title}
-                          </a>
-                        </Title>
-                      </Col>
-                    </Row>
-                    <Paragraph>{program.headline}</Paragraph>
-                  </Card>
-                </Col>
-              ) : null}
-            </>
+            <Col md={6} key={program.id}>
+              <Card
+                className={styles.card}
+                bordered={false}
+                cover={<img alt={program.title} src={program.imageUrl} />}
+              >
+                <Row>
+                  <Col span={18}>
+                    <Title level={4}>
+                      <a
+                        target={'_blank'}
+                        rel={'noreferrer'}
+                        href={program.landingPageUrl}
+                      >
+                        {program.title}
+                      </a>
+                    </Title>
+                  </Col>
+                </Row>
+                <Paragraph>{program.headline}</Paragraph>
+              </Card>
+            </Col>
           ))}
         </Row>
       )}

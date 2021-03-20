@@ -26,13 +26,19 @@ function MentorPrograms() {
   }, []);
 
   const getMentorPrograms = () => {
+    const mentorPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
       .get('http://localhost:8080/me/programs/mentor', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
-        setPrograms(response.data);
+        response.data.map((program) => {
+          if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
+            mentorPrograms.push(program);
+          }
+        });
+        setPrograms(mentorPrograms);
         if (response.status == 204) {
           getMentorApplicationPrograms();
         }
@@ -114,40 +120,36 @@ function MentorPrograms() {
       ) : (
         <Row gutter={[16, 16]}>
           {programs.map((program: SavedProgram) => (
-            <>
-              {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
-                <Col md={6} key={program.id}>
-                  <Card
-                    className={styles.card}
-                    bordered={false}
-                    cover={<img alt={program.title} src={program.imageUrl} />}
-                  >
-                    <Row>
-                      <Col span={18}>
-                        <Title level={4}>
-                          <a
-                            target={'_blank'}
-                            rel={'noreferrer'}
-                            href={program.landingPageUrl}
-                          >
-                            {program.title}
-                          </a>
-                        </Title>
-                      </Col>
-                      <Col span={6} className={styles.programActionButton}>
-                        <Button
-                          type="primary"
-                          href={`/mentor/program/${program.id}`}
-                        >
-                          Manage
-                        </Button>
-                      </Col>
-                    </Row>
-                    <Paragraph>{program.headline}</Paragraph>
-                  </Card>
-                </Col>
-              ) : null}
-            </>
+            <Col md={6} key={program.id}>
+              <Card
+                className={styles.card}
+                bordered={false}
+                cover={<img alt={program.title} src={program.imageUrl} />}
+              >
+                <Row>
+                  <Col span={18}>
+                    <Title level={4}>
+                      <a
+                        target={'_blank'}
+                        rel={'noreferrer'}
+                        href={program.landingPageUrl}
+                      >
+                        {program.title}
+                      </a>
+                    </Title>
+                  </Col>
+                  <Col span={6} className={styles.programActionButton}>
+                    <Button
+                      type="primary"
+                      href={`/mentor/program/${program.id}`}
+                    >
+                      Manage
+                    </Button>
+                  </Col>
+                </Row>
+                <Paragraph>{program.headline}</Paragraph>
+              </Card>
+            </Col>
           ))}
         </Row>
       )}
