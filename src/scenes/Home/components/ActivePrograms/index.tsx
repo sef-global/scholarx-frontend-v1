@@ -11,17 +11,21 @@ const { Paragraph, Title } = Typography;
 function ActivePrograms() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programs, setPrograms] = useState<SavedProgram[]>([]);
+  const [mentoringPrograms, setMentoringPrograms] = useState<SavedProgram[]>(
+    []
+  );
   const user: Partial<Profile | null> = useContext(UserContext);
   const isUserAdmin: boolean = user != null && user.type == 'ADMIN';
 
   useEffect(() => {
     getPrograms();
+    getMyMentoringPrograms();
   }, []);
 
   const getPrograms = () => {
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/programs', { withCredentials: true })
+      .get('http://localhost:8080/api/programs', { withCredentials: true })
       .then((response: AxiosResponse<SavedProgram[]>) => {
         setPrograms(response.data);
         setIsLoading(false);
@@ -31,6 +35,26 @@ function ActivePrograms() {
         notification.error({
           message: error.toString(),
           description: 'Something went wrong when fetching the program',
+        });
+      });
+  };
+
+  const getMyMentoringPrograms = () => {
+    setIsLoading(true);
+    axios
+      .get('http://localhost:8080/api/me/programs/mentor', {
+        withCredentials: true,
+      })
+      .then((response: AxiosResponse<SavedProgram[]>) => {
+        setMentoringPrograms(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        notification.error({
+          message: error.toString(),
+          description:
+            'Something went wrong when fetching the mentoring programs',
         });
       });
   };
@@ -67,35 +91,38 @@ function ActivePrograms() {
                       >
                         Manage
                       </Button>
-                      {program.state == 'MENTOR_APPLICATION' && !isUserAdmin ? (
+                      {program.state == 'MENTOR_APPLICATION' && !isUserAdmin && (
                         <Button
                           type="primary"
                           href={`/program/${program.id}/mentor/apply`}
                         >
                           Apply as mentor
                         </Button>
-                      ) : (
-                        ''
                       )}
-                      {program.state == 'MENTEE_APPLICATION' && !isUserAdmin ? (
-                        <Button type="primary" href={`/program/${program.id}`}>
-                          Apply as mentee
-                        </Button>
-                      ) : (
-                        ''
-                      )}
+                      {program.state == 'MENTEE_APPLICATION' &&
+                        !isUserAdmin &&
+                        mentoringPrograms &&
+                        !mentoringPrograms.find(
+                          (mentoringProgram: SavedProgram) =>
+                            mentoringProgram.id === program.id
+                        ) && (
+                          <Button
+                            type="primary"
+                            href={`/program/${program.id}`}
+                          >
+                            Apply as mentee
+                          </Button>
+                        )}
                       {program.state == 'MENTOR_CONFIRMATION' &&
-                      !isUserAdmin &&
-                      user != null ? (
-                        <Button
-                          type="primary"
-                          href={`/program/${program.id}/mentor/confirmation`}
-                        >
-                          My mentor
-                        </Button>
-                      ) : (
-                        ''
-                      )}
+                        !isUserAdmin &&
+                        user != null && (
+                          <Button
+                            type="primary"
+                            href={`/program/${program.id}/mentor/confirmation`}
+                          >
+                            My mentor
+                          </Button>
+                        )}
                     </Col>
                   </Row>
                   <Paragraph>{program.headline}</Paragraph>
@@ -104,11 +131,11 @@ function ActivePrograms() {
             ) : null}
           </>
         ))}
-        {isUserAdmin ? (
+        {isUserAdmin && (
           <Col md={6}>
             <AddProgram />
           </Col>
-        ) : null}
+        )}
       </Row>
     </Spin>
   );

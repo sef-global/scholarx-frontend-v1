@@ -28,7 +28,7 @@ function MentorPrograms() {
   const getMentorPrograms = () => {
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/me/programs/mentor', {
+      .get('http://localhost:8080/api/me/programs/mentor', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
@@ -54,7 +54,7 @@ function MentorPrograms() {
     const mentorApplicationPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/programs', {
+      .get('http://localhost:8080/api/programs', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {

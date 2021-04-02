@@ -87,7 +87,7 @@ function ChangeState() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
+      .get(`http://localhost:8080/api/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -108,7 +108,7 @@ function ChangeState() {
   const handleStepChange = () => {
     axios({
       method: 'put',
-      url: `http://localhost:8080/admin/programs/${programId}/state`,
+      url: `http://localhost:8080/api/admin/programs/${programId}/state`,
       withCredentials: true,
     })
       .then((result) => {

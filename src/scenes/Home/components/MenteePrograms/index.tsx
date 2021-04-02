@@ -28,7 +28,7 @@ function MenteePrograms() {
   const getMenteePrograms = () => {
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/me/programs/mentee', {
+      .get('http://localhost:8080/api/me/programs/mentee', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
@@ -54,7 +54,7 @@ function MenteePrograms() {
     const menteeApplicationPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/programs', {
+      .get('http://localhost:8080/api/programs', {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {

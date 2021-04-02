@@ -28,7 +28,7 @@ function App() {
 
   const getUser = () => {
     axios
-      .get('http://localhost:8080/me', { withCredentials: true })
+      .get('http://localhost:8080/api/me', { withCredentials: true })
       .then((response: AxiosResponse<Profile>) => {
         setUser(response.data);
       })

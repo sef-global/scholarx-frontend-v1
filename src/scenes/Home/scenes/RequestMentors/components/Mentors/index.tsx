@@ -27,7 +27,7 @@ function Mentors() {
     setIsLoading(true);
     axios
       .get(
-        `http://localhost:8080/programs/${programId}/mentors?states=APPROVED`,
+        `http://localhost:8080/api/programs/${programId}/mentors?states=APPROVED`,
         {
           withCredentials: true,
         }

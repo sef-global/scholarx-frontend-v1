@@ -28,7 +28,7 @@ function EditMentorApplication() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentor`, {
+      .get(`http://localhost:8080/api/programs/${programId}/mentor`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor>) => {
@@ -59,7 +59,7 @@ function EditMentorApplication() {
     };
     axios
       .put(
-        `http://localhost:8080/programs/${programId}/application`,
+        `http://localhost:8080/api/programs/${programId}/application`,
         application,
         { withCredentials: true }
       )

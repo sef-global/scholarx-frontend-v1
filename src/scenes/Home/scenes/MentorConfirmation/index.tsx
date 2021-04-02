@@ -43,7 +43,7 @@ function MentorConfirmation() {
   const getAppliedMentors = () => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentee/mentors`, {
+      .get(`http://localhost:8080/api/programs/${programId}/mentee/mentors`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
@@ -70,7 +70,7 @@ function MentorConfirmation() {
     setIsLoading(true);
     axios
       .get(
-        `http://localhost:8080/programs/${programId}/mentee/mentors?menteeStates=APPROVED`,
+        `http://localhost:8080/api/programs/${programId}/mentee/mentors?menteeStates=APPROVED`,
         {
           withCredentials: true,
         }
@@ -98,7 +98,7 @@ function MentorConfirmation() {
     setIsLoading(true);
     axios
       .put(
-        `http://localhost:8080/me/mentor/${mentorId}/confirmation`,
+        `http://localhost:8080/api/me/mentor/${mentorId}/confirmation`,
         {},
         {
           withCredentials: true,

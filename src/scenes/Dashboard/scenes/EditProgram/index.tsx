@@ -15,7 +15,7 @@ function EditProgram() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
+      .get(`http://localhost:8080/api/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -49,7 +49,7 @@ function EditProgram() {
       landingPageUrl: values.landingPageUrl,
     };
     axios
-      .put(`http://localhost:8080/admin/programs/${programId}`, program, {
+      .put(`http://localhost:8080/api/admin/programs/${programId}`, program, {
         withCredentials: true,
       })
       .then((res: AxiosResponse<SavedProgram>) => {

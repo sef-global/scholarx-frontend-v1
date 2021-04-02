@@ -23,7 +23,7 @@ function ManageMentors() {
 
   const getProgram = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
+      .get(`http://localhost:8080/api/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -55,7 +55,7 @@ function ManageMentors() {
 
   const getMentors = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentors`, {
+      .get(`http://localhost:8080/api/programs/${programId}/mentors`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
