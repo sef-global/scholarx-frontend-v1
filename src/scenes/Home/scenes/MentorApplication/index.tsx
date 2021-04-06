@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Row,
@@ -9,11 +9,10 @@ import {
   Spin,
   Typography,
 } from 'antd';
-import logo from '../../scholarx.png';
 import styles from './styles.css';
 import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
-import { Mentor, Application } from '../../../../interfaces';
+import { Mentor, Application, SavedProgram } from '../../../../interfaces';
 import mainStyles from '../../styles.css';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
@@ -24,8 +23,36 @@ const { Title } = Typography;
 function MentorApplication() {
   const [form] = Form.useForm();
   const { programId } = useParams();
+  const [programTitle, setProgramTitle] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const history = useHistory();
+
+  useEffect(() => {
+    setIsLoading(true);
+    getProgram();
+  }, []);
+
+  const getProgram = () => {
+    axios
+      .get(`http://localhost:8080/programs/${programId}`, {
+        withCredentials: true,
+      })
+      .then((result: AxiosResponse<SavedProgram>) => {
+        if (result.status == 200) {
+          setProgramTitle(result.data.title);
+          setIsLoading(false);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.error({
+          message: 'Error!',
+          description: 'Something went wrong when fetching the program detail',
+        });
+      });
+  };
 
   const apply = (values: any) => {
     setIsLoading(true);
@@ -78,7 +105,7 @@ function MentorApplication() {
         <Row>
           <Col md={2} />
           <Col md={12}>
-            <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
+            <Title level={1}>{programTitle}</Title>
             <Title level={2}>Apply as Mentor</Title>
           </Col>
         </Row>
@@ -88,7 +115,7 @@ function MentorApplication() {
               <Row>
                 <Col md={2} />
                 <Col md={12}>
-                  <Title level={3}>
+                  <Title level={4}>
                     Why do you think you are suitable as a mentor in this
                     program?
                   </Title>
@@ -101,7 +128,7 @@ function MentorApplication() {
               <Row>
                 <Col md={2} />
                 <Col md={12}>
-                  <Title level={3}>
+                  <Title level={4}>
                     Include the Pre requisites you expect from mentees
                     <i>(This will be displayed in public)</i>
                   </Title>
@@ -114,9 +141,6 @@ function MentorApplication() {
               <Row>
                 <Col md={2} />
                 <Col md={12}>
-                  <Button href={'/home'} htmlType="button">
-                    Back
-                  </Button>
                   <Button
                     htmlType="submit"
                     type="primary"
