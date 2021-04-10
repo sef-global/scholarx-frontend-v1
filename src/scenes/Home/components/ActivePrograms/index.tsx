@@ -19,9 +19,7 @@ function ActivePrograms() {
 
   useEffect(() => {
     getPrograms();
-    if (user !== null) {
-      getMyMentoringPrograms();
-    }
+    getMyMentoringPrograms();
   }, []);
 
   const getPrograms = () => {
@@ -55,11 +53,12 @@ function ActivePrograms() {
       })
       .catch((error) => {
         setIsLoading(false);
-        notification.error({
-          message: error.toString(),
-          description:
-            'Something went wrong when fetching the mentoring programs',
-        });
+        if (error.response.status != 401) {
+          notification.error({
+            message: 'Something went wrong when fetching the user',
+            description: error.toString(),
+          });
+        }
       });
   };
 
@@ -95,15 +94,28 @@ function ActivePrograms() {
                       >
                         Manage
                       </Button>
-                      {program.state == 'MENTOR_APPLICATION' && !isUserAdmin && (
-                        <Button
-                          type="primary"
-                          href={`/program/${program.id}/mentor/apply`}
-                        >
-                          Apply as mentor
-                        </Button>
-                      )}
-                      {program.state == 'MENTEE_APPLICATION' &&
+                      {program.state === 'MENTOR_APPLICATION' &&
+                        !isUserAdmin &&
+                        mentoringPrograms &&
+                        (!mentoringPrograms.find(
+                          (mentoringProgram: SavedProgram) =>
+                            mentoringProgram.id === program.id
+                        ) ? (
+                          <Button
+                            type="primary"
+                            href={`/program/${program.id}/mentor/apply`}
+                          >
+                            Apply as mentor
+                          </Button>
+                        ) : (
+                          <Button
+                            type="primary"
+                            href={`/program/${program.id}/mentor/edit`}
+                          >
+                            Edit application
+                          </Button>
+                        ))}
+                      {program.state === 'MENTEE_APPLICATION' &&
                         !isUserAdmin &&
                         mentoringPrograms &&
                         !mentoringPrograms.find(
@@ -117,7 +129,7 @@ function ActivePrograms() {
                             Apply as mentee
                           </Button>
                         )}
-                      {program.state == 'MENTOR_CONFIRMATION' &&
+                      {program.state === 'MENTOR_CONFIRMATION' &&
                         !isUserAdmin &&
                         user != null && (
                           <Button
