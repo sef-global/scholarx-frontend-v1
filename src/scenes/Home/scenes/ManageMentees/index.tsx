@@ -35,7 +35,7 @@ function ManageMentees() {
 
   const getProgram = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
+      .get(`http://localhost:8080/api/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -66,7 +66,7 @@ function ManageMentees() {
 
   const getMentees = () => {
     axios
-      .get(`http://localhost:8080/me/programs/${programId}/mentees`, {
+      .get(`http://localhost:8080/api/me/programs/${programId}/mentees`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee[]>) => {

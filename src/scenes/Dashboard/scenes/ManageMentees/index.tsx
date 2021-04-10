@@ -24,7 +24,7 @@ function ManageMentees() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/programs/${programId}/mentees`, {
+      .get(`http://localhost:8080/api/programs/${programId}/mentees`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee[]>) => {
@@ -51,7 +51,7 @@ function ManageMentees() {
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
         axios
-          .delete(`http://localhost:8080/mentees/${id}`, {
+          .delete(`http://localhost:8080/api/mentees/${id}`, {
             withCredentials: true,
           })
           .then((result: AxiosResponse) => {

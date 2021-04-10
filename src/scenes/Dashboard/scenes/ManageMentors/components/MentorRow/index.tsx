@@ -26,7 +26,7 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
 
     axios
       .put(
-        `http://localhost:8080/admin/mentors/${props.mentor.id}/state`,
+        `http://localhost:8080/api/admin/mentors/${props.mentor.id}/state`,
         {
           state: mentorState,
         },

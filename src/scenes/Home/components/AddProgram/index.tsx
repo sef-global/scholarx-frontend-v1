@@ -22,7 +22,7 @@ function AddProgram() {
     };
     setIsLoading(true);
     axios
-      .post('http://localhost:8080/admin/programs/', program, {
+      .post('http://localhost:8080/api/admin/programs/', program, {
         withCredentials: true,
       })
       .then((res: AxiosResponse<SavedProgram>) => {

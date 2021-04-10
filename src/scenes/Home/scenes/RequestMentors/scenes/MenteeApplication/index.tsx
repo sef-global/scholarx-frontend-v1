@@ -44,7 +44,7 @@ function MenteeApplication() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/mentors/${mentorId}`, {
+      .get(`http://localhost:8080/api/mentors/${mentorId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor>) => {
@@ -64,7 +64,7 @@ function MenteeApplication() {
       });
 
     axios
-      .get(`http://localhost:8080/mentors/${mentorId}/mentee`, {
+      .get(`http://localhost:8080/api/mentors/${mentorId}/mentee`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee>) => {
@@ -99,7 +99,7 @@ function MenteeApplication() {
     }
     axios({
       method: method,
-      url: `http://localhost:8080/mentors/${mentorId}/mentee`,
+      url: `http://localhost:8080/api/mentors/${mentorId}/mentee`,
       data: { submissionUrl: submissionUrl },
       withCredentials: true,
     })

@@ -24,7 +24,7 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
 
     axios
       .put(
-        `http://localhost:8080/mentees/${props.mentee.id}/state`,
+        `http://localhost:8080/api/mentees/${props.mentee.id}/state`,
         {
           isApproved: isApproved,
         },
