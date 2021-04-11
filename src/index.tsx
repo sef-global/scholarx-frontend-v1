@@ -8,7 +8,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import Home from './scenes/Home';
-import SignIn from './scenes/SignIn';
 import Dashboard from './scenes/Dashboard';
 import { Profile } from './interfaces';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
@@ -50,7 +49,6 @@ function App() {
         <Switch>
           <Redirect exact from="/" to="/home" />
           <Route exact path="/home" component={Home} />
-          <Route exact path="/sign-in" component={SignIn} />
           <Route path="/dashboard/:programId" component={Dashboard} />
           <Route
             path="/program/:programId/mentor/apply"
