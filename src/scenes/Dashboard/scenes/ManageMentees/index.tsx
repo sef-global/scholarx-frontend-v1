@@ -24,7 +24,7 @@ function ManageMentees() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/programs/${programId}/mentees`, {
+      .get(`http://localhost:8080/api/admin/programs/${programId}/mentees`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee[]>) => {

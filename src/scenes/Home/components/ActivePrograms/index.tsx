@@ -46,7 +46,9 @@ function ActivePrograms() {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
-        setMentoringPrograms(response.data);
+        response.status === 204
+          ? setMentoringPrograms([])
+          : setMentoringPrograms(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
