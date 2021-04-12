@@ -18,7 +18,7 @@ function PastPrograms() {
     const pastPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/programs', { withCredentials: true })
+      .get('http://localhost:8080/api/programs', { withCredentials: true })
       .then((response: AxiosResponse<SavedProgram[]>) => {
         response.data.map((program) => {
           if (program.state === 'COMPLETED') {
