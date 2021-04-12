@@ -19,7 +19,9 @@ function ActivePrograms() {
 
   useEffect(() => {
     getPrograms();
-    getMyMentoringPrograms();
+    if (user !== null) {
+      getMyMentoringPrograms();
+    }
   }, []);
 
   const getPrograms = () => {
