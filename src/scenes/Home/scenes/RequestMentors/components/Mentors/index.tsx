@@ -14,6 +14,7 @@ import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
+import { API_URL } from '../../../../../../constants';
 
 const { Title, Paragraph } = Typography;
 
@@ -26,12 +27,9 @@ function Mentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(
-        `http://localhost:8080/api/programs/${programId}/mentors?states=APPROVED`,
-        {
-          withCredentials: true,
-        }
-      )
+      .get(`${API_URL}/programs/${programId}/mentors?states=APPROVED`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200) {
           setIsLoading(false);

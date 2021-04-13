@@ -13,6 +13,7 @@ import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
 import { SmileOutlined } from '@ant-design/icons';
+import { API_URL } from '../../../../constants';
 
 const { Paragraph, Title } = Typography;
 
@@ -29,7 +30,7 @@ function MenteePrograms() {
     const menteePrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/api/me/programs/mentee', {
+      .get(`${API_URL}/me/programs/mentee`, {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
@@ -60,7 +61,7 @@ function MenteePrograms() {
     const menteeApplicationPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/api/programs', {
+      .get(`${API_URL}/programs`, {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {

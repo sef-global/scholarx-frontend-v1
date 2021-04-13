@@ -12,6 +12,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import { Mentee } from './interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
+import { API_URL } from '../../../../constants';
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -24,7 +25,7 @@ function ManageMentees() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/admin/programs/${programId}/mentees`, {
+      .get(`${API_URL}/admin/programs/${programId}/mentees`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee[]>) => {
@@ -51,7 +52,7 @@ function ManageMentees() {
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
         axios
-          .delete(`http://localhost:8080/api/mentees/${id}`, {
+          .delete(`${API_URL}/mentees/${id}`, {
             withCredentials: true,
           })
           .then((result: AxiosResponse) => {

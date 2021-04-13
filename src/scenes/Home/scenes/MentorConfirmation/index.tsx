@@ -23,6 +23,7 @@ import {
   ArrowLeftOutlined,
 } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import { API_URL } from '../../../../constants';
 
 const { Title, Paragraph } = Typography;
 
@@ -43,7 +44,7 @@ function MentorConfirmation() {
   const getAppliedMentors = () => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/programs/${programId}/mentee/mentors`, {
+      .get(`${API_URL}/programs/${programId}/mentee/mentors`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
@@ -70,7 +71,7 @@ function MentorConfirmation() {
     setIsLoading(true);
     axios
       .get(
-        `http://localhost:8080/api/programs/${programId}/mentee/mentors?menteeStates=APPROVED`,
+        `${API_URL}/programs/${programId}/mentee/mentors?menteeStates=APPROVED`,
         {
           withCredentials: true,
         }
@@ -98,7 +99,7 @@ function MentorConfirmation() {
     setIsLoading(true);
     axios
       .put(
-        `http://localhost:8080/api/me/mentor/${mentorId}/confirmation`,
+        `${API_URL}/me/mentor/${mentorId}/confirmation`,
         {},
         {
           withCredentials: true,

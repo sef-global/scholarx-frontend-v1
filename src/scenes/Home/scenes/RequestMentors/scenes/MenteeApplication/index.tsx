@@ -17,6 +17,7 @@ import { Mentee } from '../../../../../Dashboard/scenes/ManageMentees/interfaces
 import { Mentor } from '../../../../../Dashboard/scenes/ManageMentors/interfaces';
 import styles from './styles.css';
 import { LinkedinOutlined } from '@ant-design/icons';
+import { API_URL } from '../../../../../../constants';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -44,7 +45,7 @@ function MenteeApplication() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/mentors/${mentorId}`, {
+      .get(`${API_URL}/mentors/${mentorId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor>) => {
@@ -64,7 +65,7 @@ function MenteeApplication() {
       });
 
     axios
-      .get(`http://localhost:8080/api/mentors/${mentorId}/mentee`, {
+      .get(`${API_URL}/mentors/${mentorId}/mentee`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentee>) => {
@@ -99,7 +100,7 @@ function MenteeApplication() {
     }
     axios({
       method: method,
-      url: `http://localhost:8080/api/mentors/${mentorId}/mentee`,
+      url: `${API_URL}/mentors/${mentorId}/mentee`,
       data: { submissionUrl: submissionUrl },
       withCredentials: true,
     })
