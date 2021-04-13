@@ -11,6 +11,7 @@ import styles from '../../styles.css';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import { API_URL } from '../../../../constants';
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -31,7 +32,7 @@ function RequestMentors() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/programs/${programId}`, {
+      .get(`${API_URL}/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {

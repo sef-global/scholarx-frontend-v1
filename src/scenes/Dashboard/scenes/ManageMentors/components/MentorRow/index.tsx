@@ -5,6 +5,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import axios, { AxiosResponse } from 'axios';
 import StatusTag from '../StatusTag';
 import styles from './style.css';
+import { API_URL } from '../../../../../../constants';
 
 function MentorRow(props: { mentor: Mentor, programState: string }) {
   const actions: ReactNode[] = [];
@@ -26,7 +27,7 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
 
     axios
       .put(
-        `http://localhost:8080/api/admin/mentors/${props.mentor.id}/state`,
+        `${API_URL}/admin/mentors/${props.mentor.id}/state`,
         {
           state: mentorState,
         },

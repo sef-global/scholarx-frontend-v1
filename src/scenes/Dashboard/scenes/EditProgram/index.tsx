@@ -4,6 +4,7 @@ import { Form, Input, Button } from 'antd';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram, UnsavedProgram } from '../../../../interfaces';
+import { API_URL } from '../../../../constants';
 
 const { Title } = Typography;
 
@@ -15,7 +16,7 @@ function EditProgram() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/api/programs/${programId}`, {
+      .get(`${API_URL}/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -49,7 +50,7 @@ function EditProgram() {
       landingPageUrl: values.landingPageUrl,
     };
     axios
-      .put(`http://localhost:8080/api/admin/programs/${programId}`, program, {
+      .put(`${API_URL}/admin/programs/${programId}`, program, {
         withCredentials: true,
       })
       .then((res: AxiosResponse<SavedProgram>) => {

@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';
 import { SavedProgram } from '../../../../interfaces';
 import MentorRow from './components/MentorRow';
+import { API_URL } from '../../../../constants';
 
 const { Title } = Typography;
 
@@ -23,7 +24,7 @@ function ManageMentors() {
 
   const getProgram = () => {
     axios
-      .get(`http://localhost:8080/api/programs/${programId}`, {
+      .get(`${API_URL}/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -55,7 +56,7 @@ function ManageMentors() {
 
   const getMentors = () => {
     axios
-      .get(`http://localhost:8080/api/programs/${programId}/mentors`, {
+      .get(`${API_URL}/programs/${programId}/mentors`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {

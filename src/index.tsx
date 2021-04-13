@@ -17,6 +17,7 @@ import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
 import axios, { AxiosResponse } from 'axios';
 import { notification } from 'antd';
 import ManageMentees from './scenes/Home/scenes/ManageMentees';
+import { API_URL } from './constants';
 export const UserContext = createContext<Partial<Profile>>({});
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
 
   const getUser = () => {
     axios
-      .get('http://localhost:8080/api/me', { withCredentials: true })
+      .get(`${API_URL}/me`, { withCredentials: true })
       .then((response: AxiosResponse<Profile>) => {
         setUser(response.data);
       })

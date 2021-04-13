@@ -3,6 +3,7 @@ import { Card, Col, notification, Row, Spin, Typography } from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
+import { API_URL } from '../../../../constants';
 
 const { Paragraph, Title } = Typography;
 
@@ -18,7 +19,7 @@ function PastPrograms() {
     const pastPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get('http://localhost:8080/api/programs', { withCredentials: true })
+      .get(`${API_URL}/programs`, { withCredentials: true })
       .then((response: AxiosResponse<SavedProgram[]>) => {
         response.data.map((program) => {
           if (program.state === 'COMPLETED') {
