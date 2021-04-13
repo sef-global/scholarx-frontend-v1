@@ -6,7 +6,8 @@
     "start": "webpack-dev-server --mode development",
     "build": "webpack",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
-    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src --color --fix"
+    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src --color --fix",
+    "prepare": "husky install"
   },
   "license": "Apache-2.0",
   "devDependencies": {
@@ -30,7 +31,9 @@
     "eslint-plugin-react": "^7.20.5",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.5.1",
+    "husky": "^6.0.0",
     "less-loader": "^6.2.0",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.0.5",
     "react-hot-loader": "^4.12.21",
     "style-loader": "^1.2.1",
@@ -45,5 +48,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
   }
 }
