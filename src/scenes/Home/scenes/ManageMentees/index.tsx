@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Typography,
   List,
@@ -9,7 +9,7 @@ import {
   Col,
   Button,
 } from 'antd';
-import { Mentee, SavedProgram } from '../../../../interfaces';
+import { Mentee, Profile, SavedProgram } from '../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';
@@ -18,6 +18,8 @@ import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 import { API_URL } from '../../../../constants';
+import { UserContext } from '../../../../index';
+import LogInModal from '../../../../components /LogInModal';
 
 const { Title } = Typography;
 
@@ -27,6 +29,7 @@ function ManageMentees() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [program, setProgram] = useState<SavedProgram | null>(null);
   const [shouldLoadMentees, setShouldLoadMentees] = useState<boolean>(false);
+  const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -89,6 +92,7 @@ function ManageMentees() {
 
   return (
     <>
+      <LogInModal isModalVisible={user === null} onCancel={null} />
       <NavigationBar />
       <div className={styles.container}>
         <Row>

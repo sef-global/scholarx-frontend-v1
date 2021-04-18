@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Row,
@@ -12,11 +12,18 @@ import {
 import styles from './styles.css';
 import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
-import { Mentor, Application, SavedProgram } from '../../../../interfaces';
+import {
+  Mentor,
+  Application,
+  SavedProgram,
+  Profile,
+} from '../../../../interfaces';
 import mainStyles from '../../styles.css';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 import { API_URL } from '../../../../constants';
+import { UserContext } from '../../../../index';
+import LogInModal from '../../../../components /LogInModal';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -26,6 +33,7 @@ function MentorApplication() {
   const { programId } = useParams();
   const [programTitle, setProgramTitle] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -35,7 +43,7 @@ function MentorApplication() {
 
   const getProgram = () => {
     axios
-      .get(`http://localhost:8080/programs/${programId}`, {
+      .get(`${API_URL}/programs/${programId}`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<SavedProgram>) => {
@@ -88,6 +96,7 @@ function MentorApplication() {
 
   return (
     <>
+      <LogInModal isModalVisible={user === null} onCancel={null} />
       <NavigationBar />
       <div className={mainStyles.container}>
         <Row>
