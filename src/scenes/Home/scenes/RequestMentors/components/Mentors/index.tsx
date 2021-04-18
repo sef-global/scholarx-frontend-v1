@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  List,
-  Avatar,
-  notification,
-  Spin,
-  Row,
-  Card,
-  Col,
-} from 'antd';
-import { Mentor } from '../../../../../../interfaces';
+import React, { useContext, useEffect, useState } from 'react';
+import { List, notification, Spin } from 'antd';
+import { Mentor, Profile } from '../../../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
 import { API_URL } from '../../../../../../constants';
-
-const { Title, Paragraph } = Typography;
+import LogInModal from '../../../../../../components /LogInModal';
+import { UserContext } from '../../../../../../index';
+import MentorCard from '../MentorCard';
 
 function Mentors() {
   const { programId } = useParams();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const user: Partial<Profile> = useContext(UserContext);
   const match = useRouteMatch();
 
   useEffect(() => {
@@ -47,8 +41,20 @@ function Mentors() {
       });
   }, []);
 
+  const handleModalPopUp = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div className={styles.container}>
+      <LogInModal
+        isModalVisible={isModalVisible}
+        onCancel={handleModalCancel}
+      />
       <Spin tip="Loading..." spinning={isLoading}>
         <List
           grid={{
@@ -68,21 +74,15 @@ function Mentors() {
           dataSource={mentors}
           renderItem={(item: Mentor) => (
             <List.Item key={item.id}>
-              <Link to={`${match.url}/mentor/${item.id}/application`}>
-                <Card hoverable className={styles.mentorCardHeight}>
-                  <Row justify="center">
-                    <Col>
-                      <Row justify="center">
-                        <Avatar size={64} src={item.profile.imageUrl} />
-                        <Title level={4} className={styles.cardTitle}>
-                          {item.profile.firstName} {item.profile.lastName}
-                        </Title>
-                        <Paragraph>{item.profile.headline}</Paragraph>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Card>
-              </Link>
+              {user !== null ? (
+                <Link to={`${match.url}/mentor/${item.id}/application`}>
+                  <MentorCard item={item} />
+                </Link>
+              ) : (
+                <div onClick={handleModalPopUp}>
+                  <MentorCard item={item} />
+                </div>
+              )}
             </List.Item>
           )}
         />

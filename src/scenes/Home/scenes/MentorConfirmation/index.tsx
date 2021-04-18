@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Typography,
   List,
@@ -12,7 +12,7 @@ import {
   Result,
   Radio,
 } from 'antd';
-import { Mentor } from '../../../../interfaces';
+import { Mentor, Profile } from '../../../../interfaces';
 import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import mainStyles from '../../styles.css';
@@ -24,6 +24,8 @@ import {
 } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 import { API_URL } from '../../../../constants';
+import { UserContext } from '../../../../index';
+import LogInModal from '../../../../components /LogInModal';
 
 const { Title, Paragraph } = Typography;
 
@@ -33,6 +35,7 @@ function MentorConfirmation() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasUserApplied, setHasUserApplied] = useState<boolean>(false);
   const [selectedMentor, setSelectedMentor] = useState<number>(0);
+  const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -143,6 +146,7 @@ function MentorConfirmation() {
 
   return (
     <>
+      <LogInModal isModalVisible={user === null} onCancel={null} />
       <NavigationBar />
       <div className={mainStyles.container}>
         <Row>

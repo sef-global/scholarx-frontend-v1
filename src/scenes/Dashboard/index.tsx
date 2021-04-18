@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Menu, Layout, Avatar } from 'antd';
 import {
   AppstoreOutlined,
   EditOutlined,
   TeamOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import {
   Link,
@@ -20,13 +19,18 @@ import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
+import { Profile } from '../../interfaces';
+import { UserContext } from '../../index';
+import LogInModal from '../../components /LogInModal';
 
 const { Content, Sider, Header } = Layout;
 
 function Dashboard() {
   const { programId } = useParams();
+  const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <Router>
+      <LogInModal isModalVisible={user === null} onCancel={null} />
       <Layout>
         <Sider
           className={styles.siderPosition}
@@ -68,7 +72,7 @@ function Dashboard() {
             <Menu mode="horizontal" className={styles.rightAlignedMenu}>
               <Menu.SubMenu
                 title={
-                  <Avatar className={styles.avatar} icon={<UserOutlined />} />
+                  <Avatar className={styles.avatar} src={user?.imageUrl} />
                 }
               >
                 <Menu.ItemGroup title={localStorage.username}>

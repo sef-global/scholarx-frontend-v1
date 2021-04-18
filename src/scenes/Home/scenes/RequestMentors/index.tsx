@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Typography, notification, Spin, Tabs, Row, Col, Button } from 'antd';
-import { SavedProgram } from '../../../../interfaces';
+import { Profile, SavedProgram } from '../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import Mentors from './components/Mentors';
@@ -12,6 +12,7 @@ import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 import { API_URL } from '../../../../constants';
+import { UserContext } from '../../../../index';
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -27,6 +28,7 @@ function RequestMentors() {
     title: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -77,9 +79,11 @@ function RequestMentors() {
                     <TabPane tab="Mentors" key="1">
                       <Mentors />
                     </TabPane>
-                    <TabPane tab="Applied Mentors" key="2">
-                      <AppliedMentors />
-                    </TabPane>
+                    {user !== null && (
+                      <TabPane tab="Applied Mentors" key="2">
+                        <AppliedMentors />
+                      </TabPane>
+                    )}
                   </Tabs>
                 </Route>
                 <Route

@@ -6,6 +6,7 @@ import { Profile, SavedProgram } from '../../../../interfaces';
 import AddProgram from '../AddProgram';
 import { UserContext } from '../../../../index';
 import { API_URL } from '../../../../constants';
+import LogInModal from '../../../../components /LogInModal';
 
 const { Paragraph, Title } = Typography;
 
@@ -15,6 +16,7 @@ function ActivePrograms() {
   const [mentoringPrograms, setMentoringPrograms] = useState<SavedProgram[]>(
     []
   );
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const user: Partial<Profile | null> = useContext(UserContext);
   const isUserAdmin: boolean = user != null && user.type == 'ADMIN';
 
@@ -63,8 +65,20 @@ function ActivePrograms() {
       });
   };
 
+  const handleModalPopUp = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <Spin tip="Loading..." spinning={isLoading}>
+      <LogInModal
+        isModalVisible={isModalVisible}
+        onCancel={handleModalCancel}
+      />
       <Row gutter={[16, 16]}>
         {programs.map((program: SavedProgram) => (
           <>
@@ -97,6 +111,7 @@ function ActivePrograms() {
                       </Button>
                       {program.state === 'MENTOR_APPLICATION' &&
                         !isUserAdmin &&
+                        user !== null &&
                         mentoringPrograms &&
                         (!mentoringPrograms.find(
                           (mentoringProgram: SavedProgram) =>
@@ -116,6 +131,11 @@ function ActivePrograms() {
                             Edit application
                           </Button>
                         ))}
+                      {program.state === 'MENTOR_APPLICATION' && user === null && (
+                        <Button type="primary" onClick={handleModalPopUp}>
+                          Apply as mentor
+                        </Button>
+                      )}
                       {program.state === 'MENTEE_APPLICATION' &&
                         !isUserAdmin &&
                         mentoringPrograms &&

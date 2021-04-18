@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  List,
-  Avatar,
-  notification,
-  Spin,
-  Row,
-  Col,
-  Card,
-} from 'antd';
+import { List, notification, Spin } from 'antd';
 import { Mentor } from '../../../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
 import { API_URL } from '../../../../../../constants';
-
-const { Title, Paragraph } = Typography;
+import MentorCard from '../MentorCard';
 
 function AppliedMentors() {
   const { programId } = useParams();
@@ -69,19 +59,7 @@ function AppliedMentors() {
           renderItem={(item: Mentor) => (
             <List.Item key={item.id}>
               <Link to={`${match.url}/mentor/${item.id}/application`}>
-                <Card hoverable className={styles.mentorCardHeight}>
-                  <Row justify="center">
-                    <Col>
-                      <Row justify="center">
-                        <Avatar size={64} src={item.profile.imageUrl} />
-                        <Title level={4} className={styles.cardTitle}>
-                          {item.profile.firstName} {item.profile.lastName}
-                        </Title>
-                        <Paragraph>{item.profile.headline}</Paragraph>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Card>
+                <MentorCard item={item} />
               </Link>
             </List.Item>
           )}

@@ -4,6 +4,7 @@ import styles from './styles.css';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../interfaces';
 import logo from '../../scholarx.png';
+import { AUTH_URL } from '../../../../constants';
 
 const NavigationBar = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
@@ -16,7 +17,7 @@ const NavigationBar = () => {
       {user != null ? (
         <Avatar src={user.imageUrl} className={styles.loginComponents} />
       ) : (
-        <a href={'http://localhost:8080/oauth2/authorization/linkedin'}>
+        <a href={AUTH_URL}>
           <Button type="primary" className={styles.loginComponents}>
             Sign In
           </Button>
