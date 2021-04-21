@@ -4,7 +4,7 @@ import styles from './styles.css';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../interfaces';
 import logo from '../../scholarx.png';
-import { AUTH_URL } from '../../../../constants';
+import { AUTH_URL, LOGOUT_URL } from '../../../../constants';
 
 const NavigationBar = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
@@ -15,7 +15,16 @@ const NavigationBar = () => {
         Home
       </Button>
       {user != null ? (
-        <Avatar src={user.imageUrl} className={styles.loginComponents} />
+        <>
+          <Button
+            className={styles.loginComponents}
+            href={LOGOUT_URL}
+            type={'text'}
+          >
+            logout
+          </Button>
+          <Avatar src={user.imageUrl} className={styles.loginComponents} />
+        </>
       ) : (
         <a href={AUTH_URL}>
           <Button type="primary" className={styles.loginComponents}>

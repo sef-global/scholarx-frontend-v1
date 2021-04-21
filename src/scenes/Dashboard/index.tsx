@@ -22,6 +22,7 @@ import ChangeState from './scenes/ChangeState';
 import { Profile } from '../../interfaces';
 import { UserContext } from '../../index';
 import LogInModal from '../../components /LogInModal';
+import { LOGOUT_URL } from '../../constants';
 
 const { Content, Sider, Header } = Layout;
 
@@ -76,7 +77,9 @@ function Dashboard() {
                 }
               >
                 <Menu.ItemGroup title={localStorage.username}>
-                  <Menu.Item disabled={true}>Logout</Menu.Item>
+                  <Menu.Item>
+                    <a href={LOGOUT_URL}>logout</a>
+                  </Menu.Item>
                 </Menu.ItemGroup>
               </Menu.SubMenu>
             </Menu>
