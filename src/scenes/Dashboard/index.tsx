@@ -39,11 +39,11 @@ function Dashboard() {
           collapsedWidth="0"
         >
           <div>
-            <Link to="/dashboard/home">
+            <a href="/">
               <div className={styles.logo}>
                 <img src={logo} alt="SEF Logo" />
               </div>
-            </Link>
+            </a>
           </div>
           <Menu theme="dark" mode="inline">
             <Menu.Item key="1">

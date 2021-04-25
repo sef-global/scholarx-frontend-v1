@@ -1,47 +1,68 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Card,
-  Col,
-  notification,
-  Result,
-  Row,
-  Spin,
-  Typography,
-} from 'antd';
+import { Button, Col, notification, Result, Row, Spin, Typography } from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
 import { SmileOutlined } from '@ant-design/icons';
 import { API_URL } from '../../../../constants';
+import MentorProgramCard from './components/MentorProgramCard';
 
-const { Paragraph, Title } = Typography;
+const { Paragraph } = Typography;
+// The count of empty program lists, ranges from 0 to 3
+let emptyCount = 0;
 
 function MentorPrograms() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [programs, setPrograms] = useState<SavedProgram[]>([]);
   const [mentorPrograms, setMentorPrograms] = useState<SavedProgram[]>([]);
+  const [pendingMentorPrograms, setPendingMentorPrograms] = useState<
+    SavedProgram[]
+  >([]);
+  const [approvedMentorPrograms, setApprovedMentorPrograms] = useState<
+    SavedProgram[]
+  >([]);
+  const [rejectedMentorPrograms, setRejectedMentorPrograms] = useState<
+    SavedProgram[]
+  >([]);
 
   useEffect(() => {
-    getMentorPrograms();
+    getMentorPrograms('PENDING');
+    getMentorPrograms('APPROVED');
+    getMentorPrograms('REJECTED');
   }, []);
 
-  const getMentorPrograms = () => {
+  const getMentorPrograms = (enrolmentState: string) => {
     const mentorPrograms: SavedProgram[] = [];
     setIsLoading(true);
     axios
-      .get(`${API_URL}/me/programs/mentor`, {
+      .get(`${API_URL}/me/programs/mentor?mentorState=${enrolmentState}`, {
         withCredentials: true,
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
-        response.data.map((program) => {
-          if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
-            mentorPrograms.push(program);
+        if (response.status == 200) {
+          response.data.map((program) => {
+            if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
+              mentorPrograms.push(program);
+            }
+          });
+          switch (enrolmentState) {
+            case 'APPROVED':
+              setApprovedMentorPrograms(mentorPrograms);
+              break;
+            case 'PENDING':
+              setPendingMentorPrograms(mentorPrograms);
+              break;
+            case 'REJECTED':
+              setRejectedMentorPrograms(mentorPrograms);
+              break;
           }
-        });
-        setPrograms(mentorPrograms);
-        if (response.status == 204) {
-          getMentorApplicationPrograms();
+        } else if (response.status == 204) {
+          emptyCount++;
+          // Checks if the empty count is 3 to get the additional programs list
+          if (emptyCount == 3) {
+            getMentorApplicationPrograms();
+          }
+        } else {
+          throw new Error();
         }
         setIsLoading(false);
       })
@@ -86,7 +107,7 @@ function MentorPrograms() {
 
   return (
     <Spin tip="Loading..." spinning={isLoading}>
-      {programs.length == 0 ? (
+      {emptyCount == 3 ? (
         <Row className={styles.resultRow}>
           <Col>
             <Result
@@ -120,37 +141,30 @@ function MentorPrograms() {
         </Row>
       ) : (
         <Row gutter={[16, 16]}>
-          {programs.map((program: SavedProgram) => (
-            <Col md={6} key={program.id}>
-              <Card
-                className={styles.card}
-                bordered={false}
-                cover={<img alt={program.title} src={program.imageUrl} />}
-              >
-                <Row>
-                  <Col span={18}>
-                    <Title level={4}>
-                      <a
-                        target={'_blank'}
-                        rel={'noreferrer'}
-                        href={program.landingPageUrl}
-                      >
-                        {program.title}
-                      </a>
-                    </Title>
-                  </Col>
-                  <Col span={6} className={styles.programActionButton}>
-                    <Button
-                      type="primary"
-                      href={`/mentor/program/${program.id}`}
-                    >
-                      Manage
-                    </Button>
-                  </Col>
-                </Row>
-                <Paragraph>{program.headline}</Paragraph>
-              </Card>
-            </Col>
+          {pendingMentorPrograms.map((program: SavedProgram) => (
+            <MentorProgramCard
+              key={program.id}
+              program={program}
+              href={`/program/${program.id}/mentor/edit`}
+              buttonText={'Edit Application'}
+              isRejected={false}
+            />
+          ))}
+          {approvedMentorPrograms.map((program: SavedProgram) => (
+            <MentorProgramCard
+              key={program.id}
+              program={program}
+              href={`/mentor/program/${program.id}`}
+              buttonText={'Manage'}
+              isRejected={false}
+            />
+          ))}
+          {rejectedMentorPrograms.map((program: SavedProgram) => (
+            <MentorProgramCard
+              key={program.id}
+              program={program}
+              isRejected={true}
+            />
           ))}
         </Row>
       )}
