@@ -6,7 +6,7 @@ import { Profile, SavedProgram } from '../../../../interfaces';
 import AddProgram from '../AddProgram';
 import { UserContext } from '../../../../index';
 import { API_URL } from '../../../../constants';
-import LogInModal from '../../../../components /LogInModal';
+import LogInModal from '../../../../components/LogInModal';
 
 const { Paragraph, Title } = Typography;
 
