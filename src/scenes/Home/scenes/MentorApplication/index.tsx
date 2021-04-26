@@ -23,7 +23,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
-import LogInModal from '../../../../components /LogInModal';
+import LogInModal from '../../../../components/LogInModal';
 
 const { TextArea } = Input;
 const { Title } = Typography;
