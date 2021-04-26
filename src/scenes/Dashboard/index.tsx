@@ -21,7 +21,7 @@ import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
 import { Profile } from '../../interfaces';
 import { UserContext } from '../../index';
-import LogInModal from '../../components /LogInModal';
+import LogInModal from '../../components/LogInModal';
 import { LOGOUT_URL } from '../../constants';
 
 const { Content, Sider, Header } = Layout;

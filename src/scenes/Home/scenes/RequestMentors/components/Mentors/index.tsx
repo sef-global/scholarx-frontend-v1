@@ -6,7 +6,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
 import { API_URL } from '../../../../../../constants';
-import LogInModal from '../../../../../../components /LogInModal';
+import LogInModal from '../../../../../../components/LogInModal';
 import { UserContext } from '../../../../../../index';
 import MentorCard from '../MentorCard';
 
