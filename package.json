@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack",
+    "build": "webpack --mode production",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src --color --fix",
     "prepare": "husky install"
