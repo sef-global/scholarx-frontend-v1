@@ -21,6 +21,7 @@ import {
 import mainStyles from '../../styles.css';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
 import LogInModal from '../../../../components/LogInModal';
 import { UserContext } from '../../../../index';
@@ -185,6 +186,7 @@ function EditMentorApplication() {
           </div>
         </Spin>
       </div>
+      <Footer />
     </>
   );
 }
