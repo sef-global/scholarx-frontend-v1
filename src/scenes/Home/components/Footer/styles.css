@@ -1,0 +1,9 @@
+.footer {
+    z-index: 1;
+    text-align : center;
+    margin-top: 60px;
+}
+
+.footerLink {
+    margin-left: 5px;
+}

@@ -11,6 +11,7 @@ import styles from '../../styles.css';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 
@@ -95,6 +96,7 @@ function RequestMentors() {
           </div>
         </Col>
       </Row>
+      <Footer />
     </>
   );
 }

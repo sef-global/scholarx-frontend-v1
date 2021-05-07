@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import NavigationBar from './components/NavigationBar';
+import Footer from './components/Footer';
 import styles from './styles.css';
 import logo from './scholarx.png';
 import { Col, Row, Tabs, Typography } from 'antd';
@@ -65,6 +66,7 @@ const Home = () => {
           </Tabs>
         </Col>
       </Row>
+      <Footer />
     </div>
   );
 };
