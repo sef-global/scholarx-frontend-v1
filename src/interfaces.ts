@@ -41,3 +41,9 @@ export interface Application {
   application: string;
   prerequisites: string;
 }
+
+export interface Question {
+  id: number;
+  question: string;
+  category: string;
+}

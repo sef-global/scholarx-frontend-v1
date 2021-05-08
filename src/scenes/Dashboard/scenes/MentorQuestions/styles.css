@@ -1,0 +1,18 @@
+.switch {
+    right: 0;
+    top: 0.5rem;
+    vertical-align: center;
+    position: absolute;
+}
+
+.switchWrapper {
+    position: relative;
+}
+
+.marginTop {
+    margin-top: 1rem;
+}
+
+.marginBottom {
+    margin-bottom: 1rem;
+}
