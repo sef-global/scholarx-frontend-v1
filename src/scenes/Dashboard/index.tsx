@@ -4,6 +4,7 @@ import {
   AppstoreOutlined,
   EditOutlined,
   TeamOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import {
   Link,
@@ -23,6 +24,7 @@ import { Profile } from '../../interfaces';
 import { UserContext } from '../../index';
 import LogInModal from '../../components/LogInModal';
 import { LOGOUT_URL } from '../../constants';
+import MentorQuestions from './scenes/MentorQuestions';
 
 const { Content, Sider, Header } = Layout;
 
@@ -64,6 +66,11 @@ function Dashboard() {
             <Menu.Item key="4">
               <Link to={`/dashboard/${programId}/manage-mentees`}>
                 <TeamOutlined /> Manage Mentees
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="5">
+              <Link to={`/dashboard/${programId}/mentor-questions`}>
+                <ProfileOutlined /> Mentor Questions
               </Link>
             </Menu.Item>
           </Menu>
@@ -110,6 +117,11 @@ function Dashboard() {
                 exact
                 path="/dashboard/:programId/manage-mentees"
                 component={ManageMentees}
+              />
+              <Route
+                exact
+                path="/dashboard/:programId/mentor-questions"
+                component={MentorQuestions}
               />
             </Switch>
           </Content>
