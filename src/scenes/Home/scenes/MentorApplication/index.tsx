@@ -8,6 +8,7 @@ import {
   notification,
   Spin,
   Typography,
+  Card,
 } from 'antd';
 import styles from './styles.css';
 import { useHistory, useParams } from 'react-router';
@@ -25,6 +26,7 @@ import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import LogInModal from '../../../../components/LogInModal';
+import Result from '../../components/ResultScreen';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -34,6 +36,7 @@ function MentorApplication() {
   const { programId } = useParams();
   const [programTitle, setProgramTitle] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isApplySuccess, setIsApplySuccess] = useState(false);
   const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
@@ -77,11 +80,7 @@ function MentorApplication() {
       .then((result: AxiosResponse<Mentor>) => {
         if (result.status == 201) {
           setIsLoading(false);
-          notification.success({
-            message: 'Success!',
-            description: 'Successfully applied!',
-          });
-          history.push('/home');
+          setIsApplySuccess(true);
         } else {
           throw new Error();
         }
@@ -121,48 +120,59 @@ function MentorApplication() {
           </Col>
         </Row>
         <Spin tip="Loading..." spinning={isLoading}>
-          <div className={styles.form}>
-            <Form layout="vertical" size="large" onFinish={apply} form={form}>
-              <Row>
-                <Col md={2} />
-                <Col md={12}>
-                  <Title level={4}>
-                    Why do you think you are suitable as a mentor in this
-                    program?
-                  </Title>
-                  <Form.Item name="application" rules={[{ required: true }]}>
-                    <TextArea rows={5} />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col md={2} />
-                <Col md={12}>
-                  <Title level={4}>
-                    Include the Pre requisites you expect from mentees
-                    <i>(This will be displayed in public)</i>
-                  </Title>
-                  <Form.Item name="prerequisites" rules={[{ required: true }]}>
-                    <TextArea rows={8} />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col md={2} />
-                <Col md={12}>
-                  <Button
-                    htmlType="submit"
-                    type="primary"
-                    className={styles.submitButton}
-                  >
-                    Submit
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+          {isApplySuccess ? (
+            <div className={styles.wrapper}>
+              <Card className={styles.card}>
+                <Result programId={programId} />
+              </Card>
+            </div>
+          ) : (
+            <div className={styles.form}>
+              <Form layout="vertical" size="large" onFinish={apply} form={form}>
+                <Row>
+                  <Col md={2} />
+                  <Col md={12}>
+                    <Title level={4}>
+                      Why do you think you are suitable as a mentor in this
+                      program?
+                    </Title>
+                    <Form.Item name="application" rules={[{ required: true }]}>
+                      <TextArea rows={5} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col md={2} />
+                  <Col md={12}>
+                    <Title level={4}>
+                      Include the Pre requisites you expect from mentees
+                      <i>(This will be displayed in public)</i>
+                    </Title>
+                    <Form.Item
+                      name="prerequisites"
+                      rules={[{ required: true }]}
+                    >
+                      <TextArea rows={8} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col md={2} />
+                  <Col md={12}>
+                    <Button
+                      htmlType="submit"
+                      type="primary"
+                      className={styles.submitButton}
+                    >
+                      Submit
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </div>
+          )}
         </Spin>
       </div>
       <Footer />

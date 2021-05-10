@@ -11,3 +11,16 @@
 .submitButton {
     margin-left: 1.5rem;
 }
+
+.card{
+    width: 900px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 50px;
+    margin-bottom: 190px;
+}
+
