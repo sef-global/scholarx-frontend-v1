@@ -8,6 +8,7 @@ import MentorPrograms from './components/MentorPrograms';
 import MenteePrograms from './components/MenteePrograms';
 import ActivePrograms from './components/ActivePrograms';
 import PastPrograms from './components/PastPrograms';
+import CompletedPrograms from './components/CompletedPrograms';
 import { UserContext } from '../../index';
 import { Profile } from '../../interfaces';
 
@@ -54,6 +55,11 @@ const Home = () => {
                 <TabPane tab="Programs I get mentored" key="menteePrograms">
                   <div className={styles.cardWrapper}>
                     <MenteePrograms />
+                  </div>
+                </TabPane>
+                <TabPane tab="Completed Programs" key="completedPrograms">
+                  <div className={styles.cardWrapper}>
+                    <CompletedPrograms />
                   </div>
                 </TabPane>
               </>
