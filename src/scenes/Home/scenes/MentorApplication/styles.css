@@ -28,3 +28,16 @@
     height: 70px;
 }
 
+.center-text {
+    text-align: center;
+}
+
+.form-container {
+    background-color: #ececec;
+    padding: 2rem;
+    margin: 1rem 3rem 1rem 3rem;
+}
+
+.form-card {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
