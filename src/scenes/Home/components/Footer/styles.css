@@ -7,3 +7,12 @@
 .footerLink {
     margin-left: 5px;
 }
+
+@media screen and (min-height: 920px) and (max-height: 1081px) {
+    .footer{
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+}
+
