@@ -52,6 +52,7 @@ function EditMentorApplication() {
   const history = useHistory();
 
   useEffect(() => {
+    console.log('Here');
     setIsLoading(true);
     getProgram();
   }, []);
