@@ -31,3 +31,8 @@
 .backButton {
     margin-top: 5rem;
 }
+
+.footer, .push {
+    height: 70px;
+}
+
