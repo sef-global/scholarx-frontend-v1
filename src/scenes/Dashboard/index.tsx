@@ -25,6 +25,7 @@ import { UserContext } from '../../index';
 import LogInModal from '../../components/LogInModal';
 import { LOGOUT_URL } from '../../constants';
 import MentorQuestions from './scenes/MentorQuestions';
+import MenteeQuestions from './scenes/MenteeQuestions';
 
 const { Content, Sider, Header } = Layout;
 
@@ -71,6 +72,11 @@ function Dashboard() {
             <Menu.Item key="5">
               <Link to={`/dashboard/${programId}/mentor-questions`}>
                 <ProfileOutlined /> Mentor Questions
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="6">
+              <Link to={`/dashboard/${programId}/mentee-questions`}>
+                <ProfileOutlined /> Mentee Questions
               </Link>
             </Menu.Item>
           </Menu>
@@ -122,6 +128,11 @@ function Dashboard() {
                 exact
                 path="/dashboard/:programId/mentor-questions"
                 component={MentorQuestions}
+              />
+              <Route
+                exact
+                path="/dashboard/:programId/mentee-questions"
+                component={MenteeQuestions}
               />
             </Switch>
           </Content>
