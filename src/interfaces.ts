@@ -76,3 +76,8 @@ export interface UpdateQuestion {
   };
   response: string;
 }
+
+export interface FormData {
+  key: number;
+  value: string;
+}
