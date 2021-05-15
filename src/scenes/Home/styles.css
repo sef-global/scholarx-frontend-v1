@@ -32,6 +32,10 @@
     margin-top: 5rem;
 }
 
+.tag{
+    border-radius: 5px;
+}
+
 .footer, .push {
     height: 70px;
 }

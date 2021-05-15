@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Col, notification, Row, Spin, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  notification,
+  Row,
+  Spin,
+  Typography,
+  Tag,
+} from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
 import { Profile, SavedProgram } from '../../../../interfaces';
@@ -136,6 +145,11 @@ function ActivePrograms() {
                           Apply as mentor
                         </Button>
                       )}
+                      {program.state === 'MENTOR_SELECTION' && (
+                        <Tag className={styles.tag} color="green">
+                          Mentor Selection Period
+                        </Tag>
+                      )}
                       {program.state === 'MENTEE_APPLICATION' &&
                         !isUserAdmin &&
                         mentoringPrograms &&
@@ -150,6 +164,11 @@ function ActivePrograms() {
                             Apply as mentee
                           </Button>
                         )}
+                      {program.state === 'MENTEE_SELECTION' && (
+                        <Tag className={styles.tag} color="green">
+                          Mentee Selection Period
+                        </Tag>
+                      )}
                       {program.state === 'MENTOR_CONFIRMATION' &&
                         !isUserAdmin &&
                         user != null && (
