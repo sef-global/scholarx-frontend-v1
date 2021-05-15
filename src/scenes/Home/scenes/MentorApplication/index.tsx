@@ -174,8 +174,11 @@ function MentorApplication() {
             </div>
           )}
         </Spin>
+        <div className={styles.push} />
       </div>
-      <Footer />
+      <div className={styles.footer}>
+        <Footer />
+      </div>
     </>
   );
 }

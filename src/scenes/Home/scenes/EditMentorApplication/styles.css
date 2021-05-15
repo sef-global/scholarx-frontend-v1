@@ -11,3 +11,8 @@
 .submitButton {
     margin-left: 1.5rem;
 }
+
+.footer, .push {
+    height: 70px;
+}
+

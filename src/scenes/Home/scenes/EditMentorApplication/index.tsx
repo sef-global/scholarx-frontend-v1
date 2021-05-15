@@ -185,8 +185,11 @@ function EditMentorApplication() {
             </Form>
           </div>
         </Spin>
+        <div className={styles.push} />
       </div>
-      <Footer />
+      <div className={styles.footer}>
+        <Footer />
+      </div>
     </>
   );
 }
