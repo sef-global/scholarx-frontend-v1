@@ -21,12 +21,12 @@ function AddQuestions() {
 
   useEffect(() => {
     setIsLoading(true);
-    getMentorQuestions();
+    getMenteeQuestions();
   }, []);
 
-  const getMentorQuestions = () => {
+  const getMenteeQuestions = () => {
     axios
-      .get(`${API_URL}/programs/${programId}/questions/MENTOR`, {
+      .get(`${API_URL}/programs/${programId}/questions/MENTEE`, {
         withCredentials: true,
       })
       .then((response: AxiosResponse<Question[]>) => {
@@ -55,7 +55,7 @@ function AddQuestions() {
     ];
     axios
       .post(
-        `${API_URL}/admin/programs/${programId}/questions/MENTOR`,
+        `${API_URL}/admin/programs/${programId}/questions/MENTEE`,
         questions,
         {
           withCredentials: true,
@@ -67,7 +67,7 @@ function AddQuestions() {
             message: 'Success!!',
             description: 'Question saved',
           });
-          getMentorQuestions();
+          getMenteeQuestions();
         } else {
           throw new Error();
         }
@@ -89,7 +89,7 @@ function AddQuestions() {
             <Form.Item name="question">
               <Input
                 allowClear={true}
-                placeholder="Ex: What is your highest level of education?"
+                placeholder="Ex: Please let us know your top areas of interest (maximum 5 areas)"
               />
             </Form.Item>
             <Button type="primary" htmlType="submit">

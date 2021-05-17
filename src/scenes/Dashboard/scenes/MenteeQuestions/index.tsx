@@ -6,7 +6,7 @@ import styles from '../styles.css';
 
 const { Title } = Typography;
 
-function MentorQuestions() {
+function MenteeQuestions() {
   const [isEditOn, setIsEditOn] = useState<boolean>(false);
 
   const onSwitch = (checked: boolean) => {
@@ -18,7 +18,7 @@ function MentorQuestions() {
       <Col span={23}>
         <Row>
           <Col span={20}>
-            <Title>Mentor Questions</Title>
+            <Title>Mentee Questions</Title>
           </Col>
           <Col offset={2} span={2} className={styles.switchWrapper}>
             <Switch
@@ -37,4 +37,4 @@ function MentorQuestions() {
   );
 }
 
-export default MentorQuestions;
+export default MenteeQuestions;

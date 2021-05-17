@@ -18,7 +18,7 @@ function EditQuestions() {
 
   const getQuestions = () => {
     axios
-      .get(`${API_URL}/programs/${programId}/questions/MENTOR`, {
+      .get(`${API_URL}/programs/${programId}/questions/MENTEE`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Question[]>) => {
@@ -48,7 +48,6 @@ function EditQuestions() {
       editedQuestions.push(question);
     }
 
-    setIsLoading(true);
     axios
       .put(`${API_URL}/admin/questions`, editedQuestions, {
         withCredentials: true,
