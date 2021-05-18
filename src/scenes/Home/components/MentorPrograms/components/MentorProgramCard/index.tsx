@@ -7,11 +7,17 @@ const { Paragraph, Title, Text } = Typography;
 
 function MentorProgramCard(props: MentorProgramCardProps) {
   return (
-    <Col md={6} key={props.program.id}>
+    <Col className={styles.col} md={6} key={props.program.id}>
       <Card
         className={styles.card}
         bordered={false}
-        cover={<img alt={props.program.title} src={props.program.imageUrl} />}
+        cover={
+          <img
+            className={styles.img}
+            alt={props.program.title}
+            src={props.program.imageUrl}
+          />
+        }
       >
         <Row>
           <Col span={13}>

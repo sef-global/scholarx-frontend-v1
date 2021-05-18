@@ -98,11 +98,17 @@ function CompletedPrograms() {
       ) : (
         <Row gutter={[16, 16]}>
           {programs.map((program: SavedProgram) => (
-            <Col md={6} key={program.id}>
+            <Col className={styles.col} md={6} key={program.id}>
               <Card
                 className={styles.card}
                 bordered={false}
-                cover={<img alt={program.title} src={program.imageUrl} />}
+                cover={
+                  <img
+                    className={styles.img}
+                    alt={program.title}
+                    src={program.imageUrl}
+                  />
+                }
               >
                 <Row>
                   <Col span={13}>
