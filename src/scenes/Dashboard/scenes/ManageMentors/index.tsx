@@ -95,7 +95,7 @@ function ManageMentors() {
             )}
           </Col>
         </Row>
-        <Row>
+        <Row className={styles.mentorRow}>
           <Col>
             {shouldLoadMentors && (
               <List
