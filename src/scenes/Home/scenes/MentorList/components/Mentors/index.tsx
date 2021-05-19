@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { List, notification, Spin } from 'antd';
+import {
+  Avatar,
+  Card,
+  Col,
+  List,
+  notification,
+  Row,
+  Spin,
+  Typography,
+} from 'antd';
 import { Mentor } from '../../../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
-import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
 import { API_URL } from '../../../../../../constants';
-import MentorCard from '../MentorCard';
 
-function AppliedMentors() {
+function Mentors() {
   const { programId } = useParams();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const match = useRouteMatch();
+  const { Title, Paragraph } = Typography;
 
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${API_URL}/programs/${programId}/mentee/mentors`, {
+      .get(`${API_URL}/programs/${programId}/mentors?states=APPROVED`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
-        if (result.status == 200 || result.status == 204) {
+        if (result.status == 200) {
           setIsLoading(false);
           setMentors(result.data);
         } else {
@@ -32,7 +39,7 @@ function AppliedMentors() {
         setIsLoading(false);
         notification.error({
           message: error.toString(),
-          description: 'Something went wrong when fetching the applied mentors',
+          description: 'Something went wrong when fetching the mentors',
         });
       });
   }, []);
@@ -58,9 +65,19 @@ function AppliedMentors() {
           dataSource={mentors}
           renderItem={(item: Mentor) => (
             <List.Item key={item.id}>
-              <Link to={`${match.url}/mentor/${item.id}/application`}>
-                <MentorCard item={item} />
-              </Link>
+              <Card hoverable className={styles.mentorCardHeight}>
+                <Row justify="center">
+                  <Col>
+                    <Row justify="center">
+                      <Avatar size={64} src={item.profile.imageUrl} />
+                      <Title level={4} className={styles.cardTitle}>
+                        {item.profile.firstName} {item.profile.lastName}
+                      </Title>
+                      <Paragraph>{item.profile.headline}</Paragraph>
+                    </Row>
+                  </Col>
+                </Row>
+              </Card>
             </List.Item>
           )}
         />
@@ -69,4 +86,4 @@ function AppliedMentors() {
   );
 }
 
-export default AppliedMentors;
+export default Mentors;

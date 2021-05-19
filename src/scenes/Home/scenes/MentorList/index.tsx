@@ -1,24 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Typography, notification, Spin, Tabs, Row, Col, Button } from 'antd';
-import { Profile, SavedProgram } from '../../../../interfaces';
+import React, { useEffect, useState } from 'react';
+import { Typography, notification, Spin, Row, Col, Button } from 'antd';
+import { SavedProgram } from '../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import Mentors from './components/Mentors';
-import AppliedMentors from './components/AppliedMentors';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import MenteeApplication from './scenes/MenteeApplication';
 import styles from '../../styles.css';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
-import { UserContext } from '../../../../index';
 
 const { Title, Paragraph } = Typography;
-const { TabPane } = Tabs;
 
-function RequestMentors() {
+function MentorList() {
   const { programId } = useParams();
   const [program, setProgram] = useState<SavedProgram>({
     headline: '',
@@ -29,7 +25,6 @@ function RequestMentors() {
     title: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -76,21 +71,8 @@ function RequestMentors() {
             <Router>
               <Switch>
                 <Route exact path="/program/:programId">
-                  <Tabs defaultActiveKey="1">
-                    <TabPane tab="Mentors" key="1">
-                      <Mentors />
-                    </TabPane>
-                    {user !== null && (
-                      <TabPane tab="Applied Mentors" key="2">
-                        <AppliedMentors />
-                      </TabPane>
-                    )}
-                  </Tabs>
+                  <Mentors />
                 </Route>
-                <Route
-                  path="/program/:programId/mentor/:mentorId/application"
-                  component={MenteeApplication}
-                />
               </Switch>
             </Router>
           </div>
@@ -101,4 +83,4 @@ function RequestMentors() {
   );
 }
 
-export default RequestMentors;
+export default MentorList;
