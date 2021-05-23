@@ -1,15 +1,36 @@
-import { Mentor } from '../../../../../../interfaces';
 import React, { ReactNode, useState } from 'react';
-import { Avatar, Button, List, Modal, notification } from 'antd';
+
+import {
+  Avatar,
+  Button,
+  Col,
+  Divider,
+  Drawer,
+  List,
+  Modal,
+  notification,
+  Row,
+  Typography,
+} from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
 import axios, { AxiosResponse } from 'axios';
+import { useParams } from 'react-router-dom';
+
 import StatusTag from '../StatusTag';
-import styles from './style.css';
+import { Mentor } from '../../../../../../interfaces';
+import { MentorResponse, Props } from './interfaces';
 import { API_URL } from '../../../../../../constants';
 
-function MentorRow(props: { mentor: Mentor, programState: string }) {
+import styles from './style.css';
+
+const { Title, Text } = Typography;
+
+function MentorRow({ mentor, programState }: Props) {
   const actions: ReactNode[] = [];
-  const [mentorState, setMentorState] = useState<string>(props.mentor.state);
+  const { programId } = useParams();
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [mentorState, setMentorState] = useState<string>(mentor.state);
+  const [mentorResponse, setMentorResponse] = useState<MentorResponse[]>([]);
 
   const updateMentorState = (mentorState: string) => {
     let successMessage: string;
@@ -27,7 +48,7 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
 
     axios
       .put(
-        `${API_URL}/admin/mentors/${props.mentor.id}/state`,
+        `${API_URL}/admin/mentors/${mentor.id}/state`,
         {
           state: mentorState,
         },
@@ -87,11 +108,47 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
     });
   };
 
-  if (props.programState === 'MENTOR_SELECTION') {
+  const getMentorResponse = () => {
+    axios
+      .get(
+        `${API_URL}/programs/${programId}/responses/mentor?mentorId=${mentor.id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((result: AxiosResponse<MentorResponse[]>) => {
+        if (result.status == 200) {
+          setMentorResponse(result.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.error({
+          message: 'Error!',
+          description: 'Something went wrong when fetching mentor response',
+        });
+      });
+  };
+
+  if (programState === 'MENTOR_SELECTION') {
     const isApproveDisabled: boolean =
       mentorState == 'APPROVED' || mentorState == 'REMOVED';
     const isRejectDisabled: boolean =
       mentorState == 'REJECTED' || mentorState == 'REMOVED';
+
+    actions.push(
+      <Button
+        type="link"
+        className={styles.buttonMargin}
+        onClick={() => {
+          setIsDrawerVisible(true);
+          getMentorResponse();
+        }}
+      >
+        View Application
+      </Button>
+    );
 
     actions.push(
       <Button
@@ -131,25 +188,70 @@ function MentorRow(props: { mentor: Mentor, programState: string }) {
   );
 
   return (
-    <List.Item key={props.mentor.id} actions={[actions]}>
-      <List.Item.Meta
-        avatar={<Avatar src={props.mentor.profile.imageUrl} />}
-        title={
-          <div>
-            <a
-              href={props.mentor.profile.linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {props.mentor.profile.firstName} {props.mentor.profile.lastName}
-              <br />
-              <StatusTag state={mentorState} />
-            </a>
-          </div>
-        }
-        description={props.mentor.profile.headline}
-      />
-    </List.Item>
+    <>
+      <List.Item key={mentor.id} actions={[actions]}>
+        <List.Item.Meta
+          avatar={<Avatar src={mentor.profile.imageUrl} />}
+          title={
+            <div>
+              <a
+                href={mentor.profile.linkedinUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {mentor.profile.firstName} {mentor.profile.lastName}
+                <br />
+                <StatusTag state={mentorState} />
+              </a>
+            </div>
+          }
+          description={mentor.profile.headline}
+        />
+      </List.Item>
+      <Drawer
+        width={640}
+        placement="right"
+        closable={false}
+        onClose={() => setIsDrawerVisible(false)}
+        visible={isDrawerVisible}
+      >
+        <Row className={styles.mentorProfile}>
+          <Col>
+            <Avatar size={64} src={mentor.profile.imageUrl} />
+          </Col>
+          <Col>
+            <Row>
+              <Title level={3} style={{ alignSelf: 'center', marginLeft: 16 }}>
+                {mentor.profile.firstName} {mentor.profile.lastName}
+              </Title>
+            </Row>
+            <Row>
+              <a
+                href={`mailto:${mentor.profile.email}`}
+                style={{ alignSelf: 'center', marginLeft: 16 }}
+              >
+                {mentor.profile.email}
+              </a>
+            </Row>
+          </Col>
+        </Row>
+        {mentorResponse.map((response: MentorResponse, index: number) => {
+          return (
+            <div key={response.id.mentorId}>
+              <Row>
+                <Text strong>
+                  {index + 1}. {response.question.question}
+                </Text>
+              </Row>
+              <Row>
+                <Text>{response.response}</Text>
+              </Row>
+              <Divider />
+            </div>
+          );
+        })}
+      </Drawer>
+    </>
   );
 }
 
