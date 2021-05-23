@@ -1,34 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Avatar,
-  Card,
-  Col,
-  List,
-  notification,
-  Row,
-  Spin,
-  Typography,
-} from 'antd';
+import { List, notification, Spin } from 'antd';
 import { Mentor } from '../../../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
+import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
 import { API_URL } from '../../../../../../constants';
+import MentorCard from '../MentorCard';
 
-function Mentors() {
+function AppliedMentors() {
   const { programId } = useParams();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { Title, Paragraph } = Typography;
+  const match = useRouteMatch();
 
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${API_URL}/programs/${programId}/mentors?states=APPROVED`, {
+      .get(`${API_URL}/programs/${programId}/mentee/mentors`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
-        if (result.status == 200) {
+        if (result.status == 200 || result.status == 204) {
           setIsLoading(false);
           setMentors(result.data);
         } else {
@@ -39,7 +32,7 @@ function Mentors() {
         setIsLoading(false);
         notification.error({
           message: error.toString(),
-          description: 'Something went wrong when fetching the mentors',
+          description: 'Something went wrong when fetching the applied mentors',
         });
       });
   }, []);
@@ -65,19 +58,9 @@ function Mentors() {
           dataSource={mentors}
           renderItem={(item: Mentor) => (
             <List.Item key={item.id}>
-              <Card hoverable className={styles.mentorCardHeight}>
-                <Row justify="center">
-                  <Col>
-                    <Row justify="center">
-                      <Avatar size={64} src={item.profile.imageUrl} />
-                      <Title level={4} className={styles.cardTitle}>
-                        {item.profile.firstName} {item.profile.lastName}
-                      </Title>
-                      <Paragraph>{item.profile.headline}</Paragraph>
-                    </Row>
-                  </Col>
-                </Row>
-              </Card>
+              <Link to={`${match.url}/mentor/${item.id}/application`}>
+                <MentorCard item={item} />
+              </Link>
             </List.Item>
           )}
         />
@@ -86,4 +69,4 @@ function Mentors() {
   );
 }
 
-export default Mentors;
+export default AppliedMentors;

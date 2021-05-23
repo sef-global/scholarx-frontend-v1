@@ -12,7 +12,7 @@ import Dashboard from './scenes/Dashboard';
 import { Profile } from './interfaces';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
 import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
-import MentorList from './scenes/Home/scenes/MentorList';
+import RequestMentors from './scenes/Home/scenes/RequestMentors';
 import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
 import axios, { AxiosResponse } from 'axios';
 import { notification } from 'antd';
@@ -64,7 +64,7 @@ function App() {
             path="/program/:programId/mentor/confirmation"
             component={MentorConfirmation}
           />
-          <Route path="/program/:programId" component={MentorList} />
+          <Route path="/program/:programId" component={RequestMentors} />
         </Switch>
       </Router>
     </UserContext.Provider>
