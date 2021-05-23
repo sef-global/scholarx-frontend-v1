@@ -153,7 +153,6 @@ function ActivePrograms() {
                       )}
                       {program.state === 'MENTEE_APPLICATION' &&
                         !isUserAdmin &&
-                        user !== null &&
                         mentoringPrograms &&
                         !mentoringPrograms.find(
                           (mentoringProgram: SavedProgram) =>
@@ -166,11 +165,6 @@ function ActivePrograms() {
                             Apply as mentee
                           </Button>
                         )}
-                      {program.state === 'MENTEE_APPLICATION' && user === null && (
-                        <Button type="primary" onClick={handleModalPopUp}>
-                          Apply as mentee
-                        </Button>
-                      )}
                       {program.state === 'MENTOR_CONFIRMATION' &&
                         !isUserAdmin &&
                         user != null && (
