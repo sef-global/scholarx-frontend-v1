@@ -12,10 +12,6 @@
     margin-left: 1.5rem;
 }
 
-.card{
-    width: 900px;
-}
-
 .wrapper {
     display: flex;
     justify-content: center;
@@ -28,3 +24,12 @@
     height: 70px;
 }
 
+.center-text {
+    text-align: center;
+}
+
+.form-card {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    border-radius: 20px;
+    padding: 40px 0px 40px 0px;
+}

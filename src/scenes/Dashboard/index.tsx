@@ -91,7 +91,7 @@ function Dashboard() {
               >
                 <Menu.ItemGroup title={localStorage.username}>
                   <Menu.Item>
-                    <a href={LOGOUT_URL}>logout</a>
+                    <a href={LOGOUT_URL}>Logout</a>
                   </Menu.Item>
                 </Menu.ItemGroup>
               </Menu.SubMenu>
