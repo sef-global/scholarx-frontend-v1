@@ -1,7 +1,13 @@
 .textPadding {
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .contentMargin {
     margin-left: 3rem;
 }
+
+.button{
+    margin-top: 10px;
+}
+
