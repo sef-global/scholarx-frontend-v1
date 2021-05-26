@@ -11,6 +11,7 @@ import {
   Input,
   Tabs,
 } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse, Method } from 'axios';
 import { Mentee } from '../../../../../Dashboard/scenes/ManageMentees/interfaces';
@@ -18,6 +19,7 @@ import { Mentor } from '../../../../../Dashboard/scenes/ManageMentors/interfaces
 import styles from './styles.css';
 import { LinkedinOutlined } from '@ant-design/icons';
 import { API_URL } from '../../../../../../constants';
+import { APPLICATION_TEMPLATE } from '../../../../../../constants';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -160,8 +162,6 @@ function MenteeApplication() {
               Prerequisites
             </Title>
             <Text>{mentor.prerequisites}</Text>
-            <br />
-            <br />
             <a href={mentor.profile.linkedinUrl}>
               <LinkedinOutlined />
               {''} {mentor.profile.firstName}&apos;s LinkedIn profile
@@ -183,11 +183,11 @@ function MenteeApplication() {
               {isFormVisible ? (
                 <>
                   <Text className={styles.textPadding}>
-                    Provide a GoogleDrive link to a document that contains your
-                    resume. The file should be in pdf format. Include any
-                    additional information to your document if the mentor has
-                    requested any in the prerequisites section. (You can edit
-                    this link later)
+                    Download the template from the link below and make a
+                    document containing your information. Upload the document to
+                    a cloud storage platfrom (Ex: GoogleDrive, iCloud, OneDrive,
+                    etc) and provide a link. Make sure the document is in pdf
+                    and format and it is accessible to anybody with the link.
                   </Text>
                   <Form
                     layout="vertical"
@@ -195,6 +195,17 @@ function MenteeApplication() {
                     onFinish={requestMentor}
                     form={form}
                   >
+                    <Row>
+                      <Button
+                        className={styles.button}
+                        type="primary"
+                        icon={<DownloadOutlined />}
+                        href={APPLICATION_TEMPLATE}
+                        target="_blank"
+                      >
+                        Download Template
+                      </Button>
+                    </Row>
                     <Form.Item
                       className={styles.textPadding}
                       name="submissionURL"
