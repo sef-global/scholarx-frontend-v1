@@ -1,4 +1,4 @@
-import { Mentee } from '../../../../../../interfaces';
+import { Mentee } from '../../../../../Dashboard/scenes/ManageMentees/interfaces';
 import React, { ReactNode, useState } from 'react';
 import { Avatar, Button, List, Modal, notification } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
@@ -77,6 +77,17 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
   if (props.programState === 'MENTEE_SELECTION') {
     const isApproveDisabled: boolean = menteeState == 'APPROVED';
     const isRejectDisabled: boolean = menteeState == 'REJECTED';
+
+    actions.push(
+      <a
+        className={styles.buttonMargin}
+        href={props.mentee.submissionUrl}
+        target={'_blank'}
+        rel="noopener noreferrer"
+      >
+        View Application
+      </a>
+    );
 
     actions.push(
       <Button
