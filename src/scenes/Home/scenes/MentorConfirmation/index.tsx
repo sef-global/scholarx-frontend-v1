@@ -151,10 +151,9 @@ function MentorConfirmation() {
       <NavigationBar />
       <div className={mainStyles.container}>
         <Row>
-          <Col md={3} />
-          <Col md={21}>
+          <Col md={3} className={styles.backButtonColumn}>
             <Button
-              shape="circle"
+              className={styles.backButton}
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {
@@ -162,6 +161,7 @@ function MentorConfirmation() {
               }}
             />
           </Col>
+          <Col md={15} />
         </Row>
         <Spin tip="Loading..." spinning={isLoading}>
           <Row hidden={mentors.length == 0}>
