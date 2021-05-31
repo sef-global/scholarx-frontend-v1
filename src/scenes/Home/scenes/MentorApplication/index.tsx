@@ -86,7 +86,7 @@ function MentorApplication() {
           <Col md={2} />
           <Col md={2}>
             <Button
-              shape="circle"
+              className={styles.backButton}
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {

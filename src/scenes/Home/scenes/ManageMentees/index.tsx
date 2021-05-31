@@ -97,10 +97,9 @@ function ManageMentees() {
       <NavigationBar />
       <div className={styles.container}>
         <Row>
-          <Col md={3} />
-          <Col md={15}>
+          <Col md={3} className={styles.backButtonColumn}>
             <Button
-              shape="circle"
+              className={styles.backButton}
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {
@@ -108,6 +107,7 @@ function ManageMentees() {
               }}
             />
           </Col>
+          <Col md={15} />
         </Row>
         <Spin tip="Loading..." spinning={isLoading}>
           <Row>

@@ -1,3 +1,16 @@
 .mentorMeta {
     width: 75%;
 }
+
+.backButton {
+    margin-top: 1rem;
+    border: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+.backButtonColumn {
+    display: grid;
+    justify-content: center;
+}
+

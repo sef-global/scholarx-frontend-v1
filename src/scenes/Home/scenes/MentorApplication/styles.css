@@ -33,3 +33,10 @@
     border-radius: 20px;
     padding: 40px 0px 40px 0px;
 }
+
+.backButton {
+    margin-top: 1rem;
+    border: transparent;
+    background: transparent;
+    box-shadow: none;
+}
