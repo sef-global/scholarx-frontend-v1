@@ -25,6 +25,12 @@ import {
 import mainStyles from '../../styles.css';
 import styles from './styles.css';
 
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import NavigationBar from '../../components/NavigationBar';
+import { API_URL } from '../../../../constants';
+import LogInModal from '../../../../components/LogInModal';
+import { UserContext } from '../../../../index';
+
 const { TextArea } = Input;
 const { Title } = Typography;
 
