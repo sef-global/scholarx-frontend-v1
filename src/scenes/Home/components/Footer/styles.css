@@ -1,0 +1,19 @@
+.footer {
+    z-index: 1;
+    text-align : center;
+    margin-top: 60px;
+}
+
+.footerLink {
+    margin-left: 5px;
+}
+
+@media screen and (min-height: 800px){
+    .footer{
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+}
+
+

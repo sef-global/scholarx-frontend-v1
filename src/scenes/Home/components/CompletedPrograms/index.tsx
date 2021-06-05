@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Result,
   Button,
   Card,
   Col,
   notification,
+  Result,
   Row,
   Spin,
   Typography,
@@ -12,20 +12,47 @@ import {
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
 import { SavedProgram } from '../../../../interfaces';
-import { SmileOutlined } from '@ant-design/icons';
 import { API_URL } from '../../../../constants';
+import { SmileOutlined } from '@ant-design/icons';
 
 const { Paragraph, Title } = Typography;
 
-function MenteePrograms() {
+function CompletedPrograms() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programs, setPrograms] = useState<SavedProgram[]>([]);
-  const [menteePrograms, setMenteePrograms] = useState<SavedProgram[]>([]);
 
   useEffect(() => {
+    getMentoredPrograms();
     getMenteePrograms();
   }, []);
-
+  // Get the programs that user mentored as a mentor.
+  const getMentoredPrograms = () => {
+    const mentoredPrograms: SavedProgram[] = [];
+    setIsLoading(true);
+    axios
+      .get(`${API_URL}/me/programs/mentor`, {
+        withCredentials: true,
+      })
+      .then((response: AxiosResponse<SavedProgram[]>) => {
+        response.data.map((program) => {
+          if (program.state === 'COMPLETED') {
+            mentoredPrograms.push(program);
+          }
+        });
+        setPrograms(mentoredPrograms);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        if (error.response.status != 401) {
+          notification.error({
+            message: 'Something went wrong when fetching the user',
+            description: error.toString(),
+          });
+        }
+      });
+  };
+  // Get the programs that user was a mentee.
   const getMenteePrograms = () => {
     const menteePrograms: SavedProgram[] = [];
     setIsLoading(true);
@@ -35,14 +62,11 @@ function MenteePrograms() {
       })
       .then((response: AxiosResponse<SavedProgram[]>) => {
         response.data.map((program) => {
-          if (program.state !== 'COMPLETED' && program.state !== 'REMOVED') {
+          if (program.state === 'COMPLETED') {
             menteePrograms.push(program);
           }
         });
         setPrograms(menteePrograms);
-        if (response.status == 204) {
-          getMenteeApplicationPrograms();
-        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -55,35 +79,6 @@ function MenteePrograms() {
         }
       });
   };
-
-  // Get the programs that in MENTEE_APPLICATION state to show if the user haven't apply as a mentee
-  const getMenteeApplicationPrograms = () => {
-    const menteeApplicationPrograms: SavedProgram[] = [];
-    setIsLoading(true);
-    axios
-      .get(`${API_URL}/programs`, {
-        withCredentials: true,
-      })
-      .then((response: AxiosResponse<SavedProgram[]>) => {
-        response.data.map((program) => {
-          if (program.state == 'MENTEE_APPLICATION') {
-            menteeApplicationPrograms.push(program);
-          }
-        });
-        setMenteePrograms(menteeApplicationPrograms);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        if (error.response.status != 401) {
-          notification.error({
-            message: 'Something went wrong when fetching the program',
-            description: error.toString(),
-          });
-        }
-      });
-  };
-
   return (
     <Spin tip="Loading..." spinning={isLoading}>
       {programs.length == 0 ? (
@@ -91,25 +86,7 @@ function MenteePrograms() {
           <Col>
             <Result
               icon={<SmileOutlined />}
-              title="You haven't applied for any program as a mentee"
-              subTitle={
-                menteePrograms.length != 0 ? (
-                  <Paragraph>
-                    You can apply for following programs
-                    <ul>
-                      {menteePrograms.map((program) => (
-                        <li key={program.id} className={styles.removeBullet}>
-                          <a key={program.id} href={program.landingPageUrl}>
-                            {program.title}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </Paragraph>
-                ) : (
-                  ''
-                )
-              }
+              title="You haven't completed any programs"
               extra={
                 <Button href={'/home'} type="primary">
                   View available Programs
@@ -134,7 +111,7 @@ function MenteePrograms() {
                 }
               >
                 <Row>
-                  <Col span={18}>
+                  <Col span={13}>
                     <Title level={4}>
                       <a
                         target={'_blank'}
@@ -156,4 +133,4 @@ function MenteePrograms() {
   );
 }
 
-export default MenteePrograms;
+export default CompletedPrograms;

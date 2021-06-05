@@ -11,3 +11,25 @@
 .submitButton {
     margin-left: 1.5rem;
 }
+
+.form-card {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    border-radius: 20px;
+    padding: 40px 0px 40px 0px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.footer, .push {
+    height: 70px;
+}
+
+.backButton {
+    margin-top: 1rem;
+    border: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+

@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Col, notification, Row, Spin, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  notification,
+  Row,
+  Spin,
+  Typography,
+  Tag,
+} from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
 import { Profile, SavedProgram } from '../../../../interfaces';
@@ -83,11 +92,17 @@ function ActivePrograms() {
         {programs.map((program: SavedProgram) => (
           <>
             {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
-              <Col md={6} key={program.id}>
+              <Col className={styles.col} md={6} key={program.id}>
                 <Card
                   className={styles.card}
                   bordered={false}
-                  cover={<img alt={program.title} src={program.imageUrl} />}
+                  cover={
+                    <img
+                      className={styles.img}
+                      alt={program.title}
+                      src={program.imageUrl}
+                    />
+                  }
                 >
                   <Row>
                     <Col span={13}>
@@ -162,6 +177,16 @@ function ActivePrograms() {
                         )}
                     </Col>
                   </Row>
+                  {program.state === 'MENTOR_SELECTION' && !isUserAdmin && (
+                    <Tag className={styles.tag} color="green">
+                      Mentor Selection Period
+                    </Tag>
+                  )}
+                  {program.state === 'MENTEE_SELECTION' && !isUserAdmin && (
+                    <Tag className={styles.tag} color="green">
+                      Mentee Selection Period
+                    </Tag>
+                  )}
                   <Paragraph>{program.headline}</Paragraph>
                 </Card>
               </Col>

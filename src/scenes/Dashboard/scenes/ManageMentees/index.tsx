@@ -13,6 +13,7 @@ import { Mentee } from './interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { API_URL } from '../../../../constants';
+import styles from '../../styles.css';
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -76,7 +77,7 @@ function ManageMentees() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Title>Manage Mentees</Title>
       <Spin tip="Loading..." spinning={isLoading}>
         <List

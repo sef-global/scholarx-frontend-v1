@@ -21,7 +21,7 @@ const NavigationBar = () => {
             href={LOGOUT_URL}
             type={'text'}
           >
-            logout
+            Logout
           </Button>
           <Avatar src={user.imageUrl} className={styles.loginComponents} />
         </>

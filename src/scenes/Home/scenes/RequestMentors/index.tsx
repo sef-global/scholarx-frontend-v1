@@ -11,6 +11,7 @@ import styles from '../../styles.css';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 
@@ -58,16 +59,21 @@ function RequestMentors() {
     <>
       <NavigationBar />
       <Row>
+        <Col md={3} className={styles.backButtonColumn}>
+          <Button
+            className={styles.backButton}
+            icon={<ArrowLeftOutlined />}
+            size="large"
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </Col>
+        <Col md={15} />
+      </Row>
+      <Row>
         <Col span={18} offset={3}>
           <div className={styles.container}>
-            <Button
-              shape="circle"
-              icon={<ArrowLeftOutlined />}
-              size="large"
-              onClick={() => {
-                history.goBack();
-              }}
-            />
             <Spin tip="Loading..." spinning={isLoading}>
               <Title>{program.title}</Title>
               <Paragraph>{program.headline}</Paragraph>
@@ -95,6 +101,7 @@ function RequestMentors() {
           </div>
         </Col>
       </Row>
+      <Footer />
     </>
   );
 }

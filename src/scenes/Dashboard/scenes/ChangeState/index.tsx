@@ -9,6 +9,7 @@ import {
   Progress,
   Modal,
   notification,
+  Spin,
 } from 'antd';
 import { State } from './interfaces';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -86,6 +87,7 @@ function ChangeState() {
   const { programId } = useParams();
   const [programTitle, setProgramTitle] = useState<string>('');
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     axios
       .get(`${API_URL}/programs/${programId}`, {
@@ -107,12 +109,14 @@ function ChangeState() {
       });
   });
   const handleStepChange = () => {
+    setIsLoading(true);
     axios({
       method: 'put',
       url: `${API_URL}/admin/programs/${programId}/state`,
       withCredentials: true,
     })
       .then((result) => {
+        setIsLoading(false);
         if (result.status == 200) {
           setCurrentStep(currentStep + 1);
           notification.success({
@@ -124,6 +128,7 @@ function ChangeState() {
         }
       })
       .catch(() => {
+        setIsLoading(false);
         notification.warning({
           message: 'Warning!',
           description: 'Something went wrong when changing the state',
@@ -148,49 +153,51 @@ function ChangeState() {
     });
   };
   return (
-    <div className={styles.contentWrapper}>
-      <Title>Change State</Title>
-      <Row justify="center">
-        <Col md={20}>
-          <Card className={styles.cardWrapper}>
-            <Title level={3}>{programTitle}</Title>
-            <Progress
-              className={styles.progress}
-              type="circle"
-              percent={Math.round(
-                ((currentStep + 1) * 100) / programStates.length
-              )}
-            />
-            <Paragraph>
-              <Text type="warning">Current State: </Text>{' '}
-              {programStates[currentStep].name}
-            </Paragraph>
-            <Paragraph>{programStates[currentStep].description}</Paragraph>
-            <Button
-              type="primary"
-              onClick={showConfirm}
-              disabled={currentStep >= programStates.length - 1}
-            >
-              Change State
-            </Button>
-          </Card>
-          <br />
-        </Col>
-      </Row>
-      <div className={styles.bottomDoc}>
-        <Steps progressDot current={currentStep}>
-          {programStates.map((step: State) => {
-            return (
-              <Step
-                key={step.stepNo}
-                title={'Phase ' + (step.stepNo + 1)}
-                description={step.name}
+    <Spin tip="Loading..." spinning={isLoading}>
+      <div className={styles.contentWrapper}>
+        <Title>Change State</Title>
+        <Row justify="center">
+          <Col md={20}>
+            <Card className={styles.cardWrapper}>
+              <Title level={3}>{programTitle}</Title>
+              <Progress
+                className={styles.progress}
+                type="circle"
+                percent={Math.round(
+                  ((currentStep + 1) * 100) / programStates.length
+                )}
               />
-            );
-          })}
-        </Steps>
+              <Paragraph>
+                <Text type="warning">Current State: </Text>{' '}
+                {programStates[currentStep].name}
+              </Paragraph>
+              <Paragraph>{programStates[currentStep].description}</Paragraph>
+              <Button
+                type="primary"
+                onClick={showConfirm}
+                disabled={currentStep >= programStates.length - 1}
+              >
+                Change State
+              </Button>
+            </Card>
+            <br />
+          </Col>
+        </Row>
+        <div className={styles.bottomDoc}>
+          <Steps progressDot current={currentStep}>
+            {programStates.map((step: State) => {
+              return (
+                <Step
+                  key={step.stepNo}
+                  title={'Phase ' + (step.stepNo + 1)}
+                  description={step.name}
+                />
+              );
+            })}
+          </Steps>
+        </div>
       </div>
-    </div>
+    </Spin>
   );
 }
 

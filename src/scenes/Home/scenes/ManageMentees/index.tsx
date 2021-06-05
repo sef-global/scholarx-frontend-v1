@@ -17,6 +17,7 @@ import MenteeRow from './components/MenteeRow';
 import { useHistory } from 'react-router';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import LogInModal from '../../../../components/LogInModal';
@@ -96,10 +97,9 @@ function ManageMentees() {
       <NavigationBar />
       <div className={styles.container}>
         <Row>
-          <Col md={3} />
-          <Col md={15}>
+          <Col md={3} className={styles.backButtonColumn}>
             <Button
-              shape="circle"
+              className={styles.backButton}
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {
@@ -107,6 +107,7 @@ function ManageMentees() {
               }}
             />
           </Col>
+          <Col md={15} />
         </Row>
         <Spin tip="Loading..." spinning={isLoading}>
           <Row>
@@ -145,6 +146,7 @@ function ManageMentees() {
           </Row>
         </Spin>
       </div>
+      <Footer />
     </>
   );
 }

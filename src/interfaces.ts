@@ -8,11 +8,19 @@ export interface Profile {
   headline: string;
   linkedinUrl: string;
   type: string;
+  name: string;
+  attributes: string;
+  authorities: [
+    {
+      authority: string,
+    }
+  ];
 }
 
 export interface SavedProgram extends UnsavedProgram {
   id: number;
   state: string;
+  imageUrl: string;
 }
 
 export interface UnsavedProgram {
@@ -38,6 +46,38 @@ export interface Mentee {
 }
 
 export interface Application {
-  application: string;
-  prerequisites: string;
+  response: string;
+  question: {
+    id: number,
+  };
+}
+export interface Question {
+  id: number;
+  question: string;
+  category: string;
+}
+export interface MentorQuestion extends Question {
+  program: SavedProgram;
+}
+export interface QuestionResponse {
+  id: {
+    questionId: number,
+    mentorId: number,
+  };
+  question: MentorQuestion;
+  mentor: Mentor;
+  response: string;
+}
+
+export interface UpdateQuestion {
+  id: {
+    questionId: number,
+    mentorId: number,
+  };
+  response: string;
+}
+
+export interface FormData {
+  key: number;
+  value: string;
 }

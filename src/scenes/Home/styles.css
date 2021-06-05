@@ -11,13 +11,24 @@
     box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07) !important;
 }
 
+.img{
+    max-width: 408px;
+    height: 250px;
+    object-fit: scale-down;
+}
+
+.col{
+    display: flex;
+    min-width: 320px;
+}
+
 .programActionButton {
     text-align: right;
     margin-bottom: 10px;
 }
 
 .container {
-    margin-top:5rem;
+    margin-top:1rem;
 }
 
 .resultRow {
@@ -29,5 +40,23 @@
 }
 
 .backButton {
-    margin-top: 5rem;
+    margin-top: 1rem;
+    border: transparent;
+    background: transparent;
+    box-shadow: none;
 }
+
+.backButtonColumn {
+    display: grid;
+    justify-content: center;
+}
+
+.tag{
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.footer, .push {
+    height: 70px;
+}
+

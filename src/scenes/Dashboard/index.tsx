@@ -4,6 +4,7 @@ import {
   AppstoreOutlined,
   EditOutlined,
   TeamOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import {
   Link,
@@ -23,6 +24,8 @@ import { Profile } from '../../interfaces';
 import { UserContext } from '../../index';
 import LogInModal from '../../components/LogInModal';
 import { LOGOUT_URL } from '../../constants';
+import MentorQuestions from './scenes/MentorQuestions';
+import MenteeQuestions from './scenes/MenteeQuestions';
 
 const { Content, Sider, Header } = Layout;
 
@@ -66,6 +69,16 @@ function Dashboard() {
                 <TeamOutlined /> Manage Mentees
               </Link>
             </Menu.Item>
+            <Menu.Item key="5">
+              <Link to={`/dashboard/${programId}/mentor-questions`}>
+                <ProfileOutlined /> Mentor Questions
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="6">
+              <Link to={`/dashboard/${programId}/mentee-questions`}>
+                <ProfileOutlined /> Mentee Questions
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -78,7 +91,7 @@ function Dashboard() {
               >
                 <Menu.ItemGroup title={localStorage.username}>
                   <Menu.Item>
-                    <a href={LOGOUT_URL}>logout</a>
+                    <a href={LOGOUT_URL}>Logout</a>
                   </Menu.Item>
                 </Menu.ItemGroup>
               </Menu.SubMenu>
@@ -110,6 +123,16 @@ function Dashboard() {
                 exact
                 path="/dashboard/:programId/manage-mentees"
                 component={ManageMentees}
+              />
+              <Route
+                exact
+                path="/dashboard/:programId/mentor-questions"
+                component={MentorQuestions}
+              />
+              <Route
+                exact
+                path="/dashboard/:programId/mentee-questions"
+                component={MenteeQuestions}
               />
             </Switch>
           </Content>
