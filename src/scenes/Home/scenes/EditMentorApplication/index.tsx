@@ -2,12 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Row, Col, Input, Form, Spin, Typography, Card } from 'antd';
 import { useHistory, useParams } from 'react-router';
 import { AxiosResponse } from 'axios';
-import { ArrowLeftOutlined } from '@ant-design/icons';
 
-import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
-import { UserContext } from '../../../../index';
-import LogInModal from '../../../../components/LogInModal';
 import Result from '../../components/ResultScreen';
 
 import {
@@ -27,7 +23,6 @@ import styles from './styles.css';
 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import NavigationBar from '../../components/NavigationBar';
-import { API_URL } from '../../../../constants';
 import LogInModal from '../../../../components/LogInModal';
 import { UserContext } from '../../../../index';
 
