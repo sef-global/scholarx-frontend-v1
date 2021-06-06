@@ -110,6 +110,10 @@ function ManageMentees() {
                 }
                 description={item.profile.headline}
               />
+              <span>
+                Mentor: {item.mentor.profile.firstName}{' '}
+                {item.mentor.profile.lastName}
+              </span>
             </List.Item>
           )}
         />
