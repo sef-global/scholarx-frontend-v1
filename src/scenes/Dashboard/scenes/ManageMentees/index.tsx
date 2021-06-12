@@ -53,11 +53,11 @@ function ManageMentees() {
       content: 'This action is not reversible. Please confirm below.',
       onOk() {
         axios
-          .delete(`${API_URL}/mentees/${id}`, {
+          .delete(`${API_URL}/admin/mentees/${id}`, {
             withCredentials: true,
           })
           .then((result: AxiosResponse) => {
-            if (result.status == 200) {
+            if (result.status == 204) {
               notification.success({
                 message: 'Success!',
                 description: 'Successfully removed the mentee',
@@ -89,12 +89,12 @@ function ManageMentees() {
           dataSource={mentees}
           renderItem={(item: Mentee) => (
             <List.Item
-              key={item.profile.id}
+              key={item.id}
               actions={[
                 <Button
                   key="remove"
                   type="primary"
-                  onClick={() => removeMentee(item.profile.id)}
+                  onClick={() => removeMentee(item.id)}
                   danger
                 >
                   Remove
