@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Button, Table, Row, Col, Input, Spin, notification, Form } from 'antd';
 import { API_URL } from '../../../../../../constants';
 import { Question } from '../../../../../../interfaces';
+import { AddQuestionsProps } from './interfaces';
 import styles from '../../../styles.css';
 
 const columns = [
@@ -14,7 +15,7 @@ const columns = [
   },
 ];
 
-function AddQuestions() {
+function AddQuestions({ isProgramStateValid }: AddQuestionsProps) {
   const { programId } = useParams();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -83,21 +84,23 @@ function AddQuestions() {
 
   return (
     <Spin tip="Loading..." spinning={isLoading}>
-      <Row gutter={16} className={styles.marginBottom}>
-        <Col span={24}>
-          <Form onFinish={addQuestion}>
-            <Form.Item name="question">
-              <Input
-                allowClear={true}
-                placeholder="Ex: What is your highest level of education?"
-              />
-            </Form.Item>
-            <Button type="primary" htmlType="submit">
-              Add
-            </Button>
-          </Form>
-        </Col>
-      </Row>
+      {isProgramStateValid && (
+        <Row gutter={16} className={styles.marginBottom}>
+          <Col span={24}>
+            <Form onFinish={addQuestion}>
+              <Form.Item name="question">
+                <Input
+                  allowClear={true}
+                  placeholder="Ex: What is your highest level of education?"
+                />
+              </Form.Item>
+              <Button type="primary" htmlType="submit">
+                Add
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      )}
       <Table
         columns={columns}
         dataSource={questions}
