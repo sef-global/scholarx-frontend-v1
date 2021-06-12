@@ -74,11 +74,6 @@ function Dashboard() {
                 <ProfileOutlined /> Mentor Questions
               </Link>
             </Menu.Item>
-            <Menu.Item key="6">
-              <Link to={`/dashboard/${programId}/mentee-questions`}>
-                <ProfileOutlined /> Mentee Questions
-              </Link>
-            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
