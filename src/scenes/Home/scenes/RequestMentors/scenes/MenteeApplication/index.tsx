@@ -39,7 +39,6 @@ function MenteeApplication() {
       linkedinUrl: '',
     },
     state: '',
-    prerequisites: '',
   });
   const [form] = Form.useForm();
   const history = useHistory();
@@ -158,10 +157,6 @@ function MenteeApplication() {
             </Col>
           </Row>
           <div className={styles.contentMargin}>
-            <Title className={styles.textPadding} level={4}>
-              Prerequisites
-            </Title>
-            <Text>{mentor.prerequisites}</Text>
             <a href={mentor.profile.linkedinUrl}>
               <LinkedinOutlined />
               {''} {mentor.profile.firstName}&apos;s LinkedIn profile

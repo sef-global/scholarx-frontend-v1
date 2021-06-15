@@ -36,7 +36,6 @@ export interface Mentor {
   state: string;
   program: SavedProgram;
   application: string;
-  prerequisites: string;
 }
 
 export interface Mentee {
