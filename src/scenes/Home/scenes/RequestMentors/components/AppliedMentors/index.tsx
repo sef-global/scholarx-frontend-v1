@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { List, notification, Spin } from 'antd';
-import { Mentor } from '../../../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Link, useRouteMatch } from 'react-router-dom';
 import styles from '../styles.css';
 import { API_URL } from '../../../../../../constants';
 import MentorCard from '../MentorCard';
+import { Mentor } from '../../../../../../types';
 
 function AppliedMentors() {
   const { programId } = useParams();

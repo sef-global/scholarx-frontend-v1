@@ -14,8 +14,7 @@ import {
 import { DownloadOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse, Method } from 'axios';
-import { Mentee } from '../../../../../Dashboard/scenes/ManageMentees/interfaces';
-import { Mentor } from '../../../../../Dashboard/scenes/ManageMentors/interfaces';
+import { Mentee, Mentor } from '../../../../../../types';
 import styles from './styles.css';
 import { LinkedinOutlined } from '@ant-design/icons';
 import { API_URL } from '../../../../../../constants';
@@ -29,17 +28,7 @@ function MenteeApplication() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApplied, setIsApplied] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-  const [mentor, setMentor] = useState<Mentor>({
-    id: 0,
-    profile: {
-      firstName: '',
-      headline: '',
-      imageUrl: '',
-      lastName: '',
-      linkedinUrl: '',
-    },
-    state: '',
-  });
+  const [mentor, setMentor] = useState<Mentor>(null);
   const [form] = Form.useForm();
   const history = useHistory();
 

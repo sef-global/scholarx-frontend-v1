@@ -10,8 +10,8 @@ import {
   Profile,
   QuestionResponse,
   UpdateQuestion,
-  FormData,
-} from '../../../../interfaces';
+  ApplicationFormData,
+} from '../../../../types';
 import { getProgramDetails } from '../../../../util/program-services';
 import {
   getResponses,
@@ -56,7 +56,7 @@ function MentorApplication() {
     setIsLoading(false);
   };
 
-  const apply = async (values: FormData) => {
+  const apply = async (values: ApplicationFormData) => {
     setIsLoading(true);
     const application: UpdateQuestion[] = [];
     for (const [key, value] of Object.entries(values)) {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { notification } from 'antd';
 
 import { API_URL } from '../constants';
-import { Application, UpdateQuestion } from '../interfaces';
+import { Application, UpdateQuestion } from '../types';
 
 export const applyForProgram = async (
   application: Application[],

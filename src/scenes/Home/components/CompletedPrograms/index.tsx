@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
-import { SavedProgram } from '../../../../interfaces';
+import { SavedProgram } from '../../../../types';
 import { API_URL } from '../../../../constants';
 import { SmileOutlined } from '@ant-design/icons';
 

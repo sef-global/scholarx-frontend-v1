@@ -3,7 +3,7 @@ import { notification, Spin, Typography } from 'antd';
 import { Form, Input, Button } from 'antd';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
-import { SavedProgram, UnsavedProgram } from '../../../../interfaces';
+import { SavedProgram, UnsavedProgram } from '../../../../types';
 import { API_URL } from '../../../../constants';
 
 const { Title } = Typography;

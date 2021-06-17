@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Button, Input, Spin, notification, Form } from 'antd';
 import { API_URL } from '../../../../../../constants';
-import { Question } from '../../../../../../interfaces';
+import { Question } from '../../../../../../types';
 
 function EditQuestions() {
   const { programId } = useParams();

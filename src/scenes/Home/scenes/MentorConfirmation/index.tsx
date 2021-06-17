@@ -12,7 +12,6 @@ import {
   Result,
   Radio,
 } from 'antd';
-import { Mentor, Profile } from '../../../../interfaces';
 import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import mainStyles from '../../styles.css';
@@ -27,6 +26,7 @@ import Footer from '../../components/Footer';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import LogInModal from '../../../../components/LogInModal';
+import { Mentor, Profile } from '../../../../types';
 
 const { Title, Paragraph } = Typography;
 

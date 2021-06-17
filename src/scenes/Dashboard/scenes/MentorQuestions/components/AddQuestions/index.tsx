@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Button, Table, Row, Col, Input, Spin, notification, Form } from 'antd';
 import { API_URL } from '../../../../../../constants';
-import { Question } from '../../../../../../interfaces';
+import { Question } from '../../../../../../types';
 import { AddQuestionsProps } from './interfaces';
 import styles from '../../../styles.css';
 

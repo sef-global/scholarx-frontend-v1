@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
-import { Profile, SavedProgram } from '../../../../interfaces';
+import { Profile, SavedProgram } from '../../../../types';
 import AddProgram from '../AddProgram';
 import { UserContext } from '../../../../index';
 import { API_URL } from '../../../../constants';

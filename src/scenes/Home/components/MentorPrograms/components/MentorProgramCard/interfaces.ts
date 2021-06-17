@@ -1,4 +1,4 @@
-import { SavedProgram } from '../../../../../../interfaces';
+import { SavedProgram } from '../../../../../../types';
 
 export interface MentorProgramCardProps {
   program: SavedProgram;
