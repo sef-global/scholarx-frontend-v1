@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, notification, Row, Spin, Typography } from 'antd';
 import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
-import { SavedProgram } from '../../../../interfaces';
+import { SavedProgram } from '../../../../types';
 import { API_URL } from '../../../../constants';
 
 const { Paragraph, Title } = Typography;

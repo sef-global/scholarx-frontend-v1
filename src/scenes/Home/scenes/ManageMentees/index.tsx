@@ -9,7 +9,7 @@ import {
   Col,
   Button,
 } from 'antd';
-import { Mentee, Profile, SavedProgram } from '../../../../interfaces';
+import { Mentee, Profile, SavedProgram } from '../../../../types';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';

@@ -16,7 +16,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './styles.css';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
-import { SavedProgram } from '../../../../interfaces';
+import { SavedProgram } from '../../../../types';
 import { API_URL } from '../../../../constants';
 
 const { Title, Text, Paragraph } = Typography;

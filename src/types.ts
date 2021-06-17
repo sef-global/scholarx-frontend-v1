@@ -42,6 +42,8 @@ export interface Mentee {
   id: number;
   profile: Profile;
   state: string;
+  submissionUrl: string;
+  mentor: Mentor;
 }
 
 export interface Application {
@@ -50,14 +52,17 @@ export interface Application {
     id: number,
   };
 }
+
 export interface Question {
   id: number;
   question: string;
   category: string;
 }
+
 export interface MentorQuestion extends Question {
   program: SavedProgram;
 }
+
 export interface QuestionResponse {
   id: {
     questionId: number,
@@ -76,7 +81,17 @@ export interface UpdateQuestion {
   response: string;
 }
 
-export interface FormData {
+export interface ApplicationFormData {
   key: number;
   value: string;
+}
+
+export interface MentorResponse {
+  id: {
+    questionId: number,
+    mentorId: number,
+  };
+  question: Question;
+  mentor: Mentor;
+  response: string;
 }

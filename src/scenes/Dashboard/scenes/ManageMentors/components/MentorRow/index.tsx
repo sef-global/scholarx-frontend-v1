@@ -17,8 +17,8 @@ import axios, { AxiosResponse } from 'axios';
 import { useParams } from 'react-router-dom';
 
 import StatusTag from '../StatusTag';
-import { Mentor } from '../../../../../../interfaces';
-import { MentorResponse, Props } from './interfaces';
+import { Mentor, MentorResponse } from '../../../../../../types';
+import { Props } from './interfaces';
 import { API_URL } from '../../../../../../constants';
 
 import styles from './style.css';
