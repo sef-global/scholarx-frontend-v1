@@ -1,4 +1,4 @@
-import { Mentor } from '../../../../../../interfaces';
+import { Mentor } from '../../../../../../types';
 
 export interface MentorCardProps {
   item: Mentor;

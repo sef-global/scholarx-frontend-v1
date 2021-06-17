@@ -1,4 +1,4 @@
-import { Mentee } from '../../../../../Dashboard/scenes/ManageMentees/interfaces';
+import { Mentee } from '../../../../../../types';
 import React, { ReactNode, useState } from 'react';
 import { Avatar, Button, List, Modal, notification } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';

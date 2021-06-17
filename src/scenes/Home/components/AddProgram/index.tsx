@@ -3,10 +3,10 @@ import { Button } from 'antd';
 import { Modal, Form, Input, notification, Spin, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios, { AxiosResponse } from 'axios';
-import { SavedProgram } from '../../../../interfaces';
 import styles from './styles.css';
 import { useHistory } from 'react-router';
 import { API_URL } from '../../../../constants';
+import { SavedProgram } from '../../../../types';
 
 function AddProgram() {
   const [isVisible, setIsVisible] = useState<boolean>(false);

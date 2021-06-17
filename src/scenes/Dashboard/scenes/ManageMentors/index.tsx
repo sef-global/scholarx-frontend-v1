@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, List, notification, Spin, Empty, Col, Row } from 'antd';
-import { Mentor } from '../../../../interfaces';
+import { Mentor, SavedProgram } from '../../../../types';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import styles from '../../styles.css';
-import { SavedProgram } from '../../../../interfaces';
 import MentorRow from './components/MentorRow';
 import { API_URL } from '../../../../constants';
 

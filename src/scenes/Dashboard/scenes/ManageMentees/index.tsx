@@ -9,7 +9,7 @@ import {
   Modal,
 } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
-import { Mentee } from './interfaces';
+import { Mentee } from '../../../../types';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { API_URL } from '../../../../constants';

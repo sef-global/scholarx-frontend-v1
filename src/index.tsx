@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import Home from './scenes/Home';
 import Dashboard from './scenes/Dashboard';
-import { Profile } from './interfaces';
+import { Profile } from './types';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
 import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';

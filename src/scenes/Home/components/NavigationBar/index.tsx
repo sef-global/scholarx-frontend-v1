@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Avatar, Button } from 'antd';
 import styles from './styles.css';
 import { UserContext } from '../../../../index';
-import { Profile } from '../../../../interfaces';
+import { Profile } from '../../../../types';
 import logo from '../../scholarx.png';
 import { AUTH_URL, LOGOUT_URL } from '../../../../constants';
 

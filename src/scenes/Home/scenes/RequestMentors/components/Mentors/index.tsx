@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { List, notification, Spin } from 'antd';
-import { Mentor, Profile } from '../../../../../../interfaces';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import { Link, useRouteMatch } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { API_URL } from '../../../../../../constants';
 import LogInModal from '../../../../../../components/LogInModal';
 import { UserContext } from '../../../../../../index';
 import MentorCard from '../MentorCard';
+import { Mentor, Profile } from '../../../../../../types';
 
 function Mentors() {
   const { programId } = useParams();

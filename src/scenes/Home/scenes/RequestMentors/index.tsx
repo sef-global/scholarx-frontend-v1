@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Typography, notification, Spin, Tabs, Row, Col, Button } from 'antd';
-import { Profile, SavedProgram } from '../../../../interfaces';
+import { Profile, SavedProgram } from '../../../../types';
 import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
 import Mentors from './components/Mentors';

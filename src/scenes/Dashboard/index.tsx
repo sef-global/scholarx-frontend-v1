@@ -20,7 +20,7 @@ import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import ChangeState from './scenes/ChangeState';
-import { Profile } from '../../interfaces';
+import { Profile } from '../../types';
 import { UserContext } from '../../index';
 import LogInModal from '../../components/LogInModal';
 import { LOGOUT_URL } from '../../constants';

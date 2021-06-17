@@ -10,7 +10,7 @@ import ActivePrograms from './components/ActivePrograms';
 import PastPrograms from './components/PastPrograms';
 import CompletedPrograms from './components/CompletedPrograms';
 import { UserContext } from '../../index';
-import { Profile } from '../../interfaces';
+import { Profile } from '../../types';
 
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
