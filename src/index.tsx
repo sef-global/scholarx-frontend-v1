@@ -1,4 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
+
+import { notification } from 'antd';
+import axios, { AxiosResponse } from 'axios';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.less';
 import {
@@ -7,17 +10,17 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import Home from './scenes/Home';
-import Dashboard from './scenes/Dashboard';
-import { Profile } from './types';
-import MentorApplication from './scenes/Home/scenes/MentorApplication';
-import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
-import RequestMentors from './scenes/Home/scenes/RequestMentors';
-import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
-import axios, { AxiosResponse } from 'axios';
-import { notification } from 'antd';
-import ManageMentees from './scenes/Home/scenes/ManageMentees';
+
 import { API_URL } from './constants';
+import Dashboard from './scenes/Dashboard';
+import Home from './scenes/Home';
+import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
+import ManageMentees from './scenes/Home/scenes/ManageMentees';
+import MentorApplication from './scenes/Home/scenes/MentorApplication';
+import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
+import RequestMentors from './scenes/Home/scenes/RequestMentors';
+import { Profile } from './types';
+
 export const UserContext = createContext<Partial<Profile>>({});
 
 function App() {

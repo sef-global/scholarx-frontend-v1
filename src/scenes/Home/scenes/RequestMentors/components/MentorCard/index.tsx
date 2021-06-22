@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from '../styles.css';
+
 import { Avatar, Card, Col, Row, Typography } from 'antd';
+
+import styles from '../styles.css';
 import { MentorCardProps } from './interfaces';
 
 const { Title, Paragraph } = Typography;

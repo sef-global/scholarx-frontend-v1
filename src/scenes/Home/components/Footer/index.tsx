@@ -1,7 +1,9 @@
-import styles from './styles.css';
-import Moment from 'react-moment';
 import React from 'react';
+
 import { Layout } from 'antd';
+import Moment from 'react-moment';
+
+import styles from './styles.css';
 
 const date = new Date();
 const footer = () => {

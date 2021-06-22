@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import {
   Typography,
   List,
@@ -9,18 +11,17 @@ import {
   Col,
   Button,
 } from 'antd';
-import { Mentee, Profile, SavedProgram } from '../../../../types';
-import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
-import styles from '../../styles.css';
-import MenteeRow from './components/MenteeRow';
-import { useHistory } from 'react-router';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import NavigationBar from '../../components/NavigationBar';
-import Footer from '../../components/Footer';
+import { useParams, useHistory } from 'react-router';
+
+import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
-import LogInModal from '../../../../components/LogInModal';
+import { Mentee, Profile, SavedProgram } from '../../../../types';
+import Footer from '../../components/Footer';
+import NavigationBar from '../../components/NavigationBar';
+import styles from '../../styles.css';
+import MenteeRow from './components/MenteeRow';
 
 const { Title } = Typography;
 

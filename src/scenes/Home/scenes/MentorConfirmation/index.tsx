@@ -1,4 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
+
+import {
+  SmileOutlined,
+  WarningOutlined,
+  ArrowLeftOutlined,
+} from '@ant-design/icons';
 import {
   Typography,
   List,
@@ -12,21 +18,17 @@ import {
   Result,
   Radio,
 } from 'antd';
-import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
-import mainStyles from '../../styles.css';
-import styles from './styles.css';
-import {
-  SmileOutlined,
-  WarningOutlined,
-  ArrowLeftOutlined,
-} from '@ant-design/icons';
-import NavigationBar from '../../components/NavigationBar';
-import Footer from '../../components/Footer';
+import { useHistory, useParams } from 'react-router';
+
+import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
-import LogInModal from '../../../../components/LogInModal';
 import { Mentor, Profile } from '../../../../types';
+import Footer from '../../components/Footer';
+import NavigationBar from '../../components/NavigationBar';
+import mainStyles from '../../styles.css';
+import styles from './styles.css';
 
 const { Title, Paragraph } = Typography;
 

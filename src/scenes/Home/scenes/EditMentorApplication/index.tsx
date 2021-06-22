@@ -1,30 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
+
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Row, Col, Input, Form, Spin, Typography, Card } from 'antd';
-import { useHistory, useParams } from 'react-router';
 import { AxiosResponse } from 'axios';
+import { useHistory, useParams } from 'react-router';
 
-import Footer from '../../components/Footer';
-import Result from '../../components/ResultScreen';
-
+import LogInModal from '../../../../components/LogInModal';
+import { UserContext } from '../../../../index';
 import {
   Profile,
   QuestionResponse,
   UpdateQuestion,
   ApplicationFormData,
 } from '../../../../types';
-import { getProgramDetails } from '../../../../util/program-services';
 import {
   getResponses,
   updateApplication,
 } from '../../../../util/mentor-services';
-
+import { getProgramDetails } from '../../../../util/program-services';
+import Footer from '../../components/Footer';
+import NavigationBar from '../../components/NavigationBar';
+import Result from '../../components/ResultScreen';
 import mainStyles from '../../styles.css';
 import styles from './styles.css';
-
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import NavigationBar from '../../components/NavigationBar';
-import LogInModal from '../../../../components/LogInModal';
-import { UserContext } from '../../../../index';
 
 const { TextArea } = Input;
 const { Title } = Typography;

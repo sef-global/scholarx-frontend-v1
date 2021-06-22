@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+
 import {
   Button,
   Card,
@@ -9,13 +10,14 @@ import {
   Typography,
   Tag,
 } from 'antd';
-import styles from '../../styles.css';
 import axios, { AxiosResponse } from 'axios';
-import { Profile, SavedProgram } from '../../../../types';
-import AddProgram from '../AddProgram';
-import { UserContext } from '../../../../index';
-import { API_URL } from '../../../../constants';
+
 import LogInModal from '../../../../components/LogInModal';
+import { API_URL } from '../../../../constants';
+import { UserContext } from '../../../../index';
+import { Profile, SavedProgram } from '../../../../types';
+import styles from '../../styles.css';
+import AddProgram from '../AddProgram';
 
 const { Paragraph, Title } = Typography;
 

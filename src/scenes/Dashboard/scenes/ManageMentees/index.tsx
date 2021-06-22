@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+
+import { WarningOutlined } from '@ant-design/icons';
 import {
   Typography,
   List,
@@ -8,11 +10,11 @@ import {
   Button,
   Modal,
 } from 'antd';
-import { WarningOutlined } from '@ant-design/icons';
-import { Mentee } from '../../../../types';
-import { useParams } from 'react-router';
 import axios, { AxiosResponse } from 'axios';
+import { useParams } from 'react-router';
+
 import { API_URL } from '../../../../constants';
+import { Mentee } from '../../../../types';
 import styles from '../../styles.css';
 
 const { Title } = Typography;
