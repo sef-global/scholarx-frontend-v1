@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+
 import { Typography, Row, Col, Switch } from 'antd';
+
+import styles from '../styles.css';
 import AddQuestions from './components/AddQuestions';
 import EditQuestions from './components/EditQuestions';
-import styles from '../styles.css';
 
 const { Title } = Typography;
 

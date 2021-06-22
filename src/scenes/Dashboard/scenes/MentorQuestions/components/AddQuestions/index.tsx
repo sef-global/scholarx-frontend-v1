@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import axios, { AxiosResponse } from 'axios';
+
 import { Button, Table, Row, Col, Input, Spin, notification, Form } from 'antd';
+import axios, { AxiosResponse } from 'axios';
+import { useParams } from 'react-router';
+
 import { API_URL } from '../../../../../../constants';
 import { Question } from '../../../../../../types';
-import { AddQuestionsProps } from './interfaces';
 import styles from '../../../styles.css';
+import { AddQuestionsProps } from './interfaces';
 
 const columns = [
   {

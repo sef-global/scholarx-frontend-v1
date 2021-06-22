@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 
+import { WarningOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
@@ -12,15 +13,13 @@ import {
   Row,
   Typography,
 } from 'antd';
-import { WarningOutlined } from '@ant-design/icons';
 import axios, { AxiosResponse } from 'axios';
 import { useParams } from 'react-router-dom';
 
-import StatusTag from '../StatusTag';
-import { Mentor, MentorResponse } from '../../../../../../types';
-import { Props } from './interfaces';
 import { API_URL } from '../../../../../../constants';
-
+import { Mentor, MentorResponse } from '../../../../../../types';
+import StatusTag from '../StatusTag';
+import { Props } from './interfaces';
 import styles from './style.css';
 
 const { Title, Text } = Typography;

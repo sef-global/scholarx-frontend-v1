@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
+
 import { Avatar, Button } from 'antd';
-import styles from './styles.css';
+
+import { AUTH_URL, LOGOUT_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../types';
 import logo from '../../scholarx.png';
-import { AUTH_URL, LOGOUT_URL } from '../../../../constants';
+import styles from './styles.css';
 
 const NavigationBar = () => {
   const user: Partial<Profile | null> = useContext(UserContext);

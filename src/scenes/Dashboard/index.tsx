@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Menu, Layout, Avatar } from 'antd';
+
 import {
   AppstoreOutlined,
   EditOutlined,
   TeamOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
+import { Menu, Layout, Avatar } from 'antd';
 import {
   Link,
   BrowserRouter as Router,
@@ -14,18 +15,19 @@ import {
   Redirect,
   useParams,
 } from 'react-router-dom';
+
 import logo from '../../../public/logo.png';
-import styles from './styles.css';
+import LogInModal from '../../components/LogInModal';
+import { LOGOUT_URL } from '../../constants';
+import { UserContext } from '../../index';
+import { Profile } from '../../types';
+import ChangeState from './scenes/ChangeState';
 import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
-import ChangeState from './scenes/ChangeState';
-import { Profile } from '../../types';
-import { UserContext } from '../../index';
-import LogInModal from '../../components/LogInModal';
-import { LOGOUT_URL } from '../../constants';
-import MentorQuestions from './scenes/MentorQuestions';
 import MenteeQuestions from './scenes/MenteeQuestions';
+import MentorQuestions from './scenes/MentorQuestions';
+import styles from './styles.css';
 
 const { Content, Sider, Header } = Layout;
 

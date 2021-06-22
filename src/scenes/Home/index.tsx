@@ -1,16 +1,18 @@
 import React, { useContext } from 'react';
-import NavigationBar from './components/NavigationBar';
-import Footer from './components/Footer';
-import styles from './styles.css';
-import logo from './scholarx.png';
+
 import { Col, Row, Tabs, Typography } from 'antd';
-import MentorPrograms from './components/MentorPrograms';
-import MenteePrograms from './components/MenteePrograms';
-import ActivePrograms from './components/ActivePrograms';
-import PastPrograms from './components/PastPrograms';
-import CompletedPrograms from './components/CompletedPrograms';
+
 import { UserContext } from '../../index';
 import { Profile } from '../../types';
+import ActivePrograms from './components/ActivePrograms';
+import CompletedPrograms from './components/CompletedPrograms';
+import Footer from './components/Footer';
+import MenteePrograms from './components/MenteePrograms';
+import MentorPrograms from './components/MentorPrograms';
+import NavigationBar from './components/NavigationBar';
+import PastPrograms from './components/PastPrograms';
+import logo from './scholarx.png';
+import styles from './styles.css';
 
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
