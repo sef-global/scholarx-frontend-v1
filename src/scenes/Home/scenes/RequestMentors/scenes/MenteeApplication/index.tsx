@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+
+import { DownloadOutlined, LinkedinOutlined } from '@ant-design/icons';
 import {
   Typography,
   Button,
@@ -11,14 +13,12 @@ import {
   Input,
   Tabs,
 } from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
-import { useHistory, useParams } from 'react-router';
 import axios, { AxiosResponse, Method } from 'axios';
+import { useHistory, useParams } from 'react-router';
+
+import { API_URL, APPLICATION_TEMPLATE } from '../../../../../../constants';
 import { Mentee, Mentor } from '../../../../../../types';
 import styles from './styles.css';
-import { LinkedinOutlined } from '@ant-design/icons';
-import { API_URL } from '../../../../../../constants';
-import { APPLICATION_TEMPLATE } from '../../../../../../constants';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;

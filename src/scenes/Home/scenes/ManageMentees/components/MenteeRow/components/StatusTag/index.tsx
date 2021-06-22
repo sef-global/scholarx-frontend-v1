@@ -1,5 +1,6 @@
-import { Tag } from 'antd';
 import React from 'react';
+
+import { Tag } from 'antd';
 
 function StatusTag(props: { state: string }) {
   switch (props.state) {

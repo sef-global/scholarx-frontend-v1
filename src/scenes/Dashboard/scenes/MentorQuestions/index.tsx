@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+
 import { Typography, Row, Col, Spin, Switch, notification } from 'antd';
+import axios from 'axios';
+import { useParams } from 'react-router';
+
+import { API_URL } from '../../../../constants';
+import styles from '../styles.css';
 import AddQuestions from './components/AddQuestions';
 import EditQuestions from './components/EditQuestions';
-import styles from '../styles.css';
-import axios from 'axios';
-import { API_URL } from '../../../../constants';
-import { useParams } from 'react-router';
 
 const { Title } = Typography;
 

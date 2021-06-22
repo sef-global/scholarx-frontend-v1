@@ -1,7 +1,9 @@
 import React from 'react';
-import { LogInModalProps } from './interfaces';
+
 import { Modal } from 'antd';
+
 import { AUTH_URL } from '../../constants';
+import { LogInModalProps } from './interfaces';
 
 function LogInModal(props: LogInModalProps) {
   const handleOk = () => {
