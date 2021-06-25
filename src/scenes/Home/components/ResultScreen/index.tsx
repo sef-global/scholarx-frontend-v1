@@ -3,8 +3,9 @@ import React from 'react';
 import { Result, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 
-const result = (props) => {
-  const { programId, type } = props;
+import { ResultScreenProps } from './interfaces';
+
+const result = ({ programId, type }: ResultScreenProps) => {
   const history = useHistory();
   return (
     <Result

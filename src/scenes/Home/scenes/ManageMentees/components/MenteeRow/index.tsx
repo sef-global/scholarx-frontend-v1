@@ -7,11 +7,12 @@ import axios, { AxiosResponse } from 'axios';
 import { API_URL } from '../../../../../../constants';
 import { Mentee } from '../../../../../../types';
 import StatusTag from './components/StatusTag';
+import { StatusTagProps } from './interfaces';
 import styles from './style.css';
 
-function MenteeRow(props: { mentee: Mentee, programState: string }) {
+function MenteeRow({ mentee, programState }: StatusTagProps) {
   const actions: ReactNode[] = [];
-  const [menteeState, setMenteeState] = useState<string>(props.mentee.state);
+  const [menteeState, setMenteeState] = useState(mentee.state);
 
   const updateMenteeState = (isApproved: boolean) => {
     let successMessage = '';
@@ -27,7 +28,7 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
 
     axios
       .put(
-        `${API_URL}/mentees/${props.mentee.id}/state`,
+        `${API_URL}/mentees/${mentee.id}/state`,
         {
           isApproved: isApproved,
         },
@@ -76,14 +77,14 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
     });
   };
 
-  if (props.programState === 'MENTEE_SELECTION') {
+  if (programState === 'MENTEE_SELECTION') {
     const isApproveDisabled: boolean = menteeState == 'APPROVED';
     const isRejectDisabled: boolean = menteeState == 'REJECTED';
 
     actions.push(
       <a
         className={styles.buttonMargin}
-        href={props.mentee.submissionUrl}
+        href={mentee.submissionUrl}
         target={'_blank'}
         rel="noopener noreferrer"
       >
@@ -117,23 +118,23 @@ function MenteeRow(props: { mentee: Mentee, programState: string }) {
   }
 
   return (
-    <List.Item key={props.mentee.id} actions={[actions]}>
+    <List.Item key={mentee.id} actions={[actions]}>
       <List.Item.Meta
-        avatar={<Avatar src={props.mentee.profile.imageUrl} />}
+        avatar={<Avatar src={mentee.profile.imageUrl} />}
         title={
           <div>
             <a
-              href={props.mentee.profile.linkedinUrl}
+              href={mentee.profile.linkedinUrl}
               target="_blank"
               rel="noreferrer"
             >
-              {props.mentee.profile.firstName} {props.mentee.profile.lastName}
+              {mentee.profile.firstName} {mentee.profile.lastName}
             </a>
             <br />
             <StatusTag state={menteeState} />
           </div>
         }
-        description={props.mentee.profile.headline}
+        description={mentee.profile.headline}
       />
     </List.Item>
   );

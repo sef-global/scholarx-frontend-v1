@@ -7,17 +7,22 @@ import { MentorProgramCardProps } from './interfaces';
 
 const { Paragraph, Title, Text } = Typography;
 
-function MentorProgramCard(props: MentorProgramCardProps) {
+function MentorProgramCard({
+  program,
+  buttonText,
+  isRejected,
+  href,
+}: MentorProgramCardProps) {
   return (
-    <Col className={styles.col} md={6} key={props.program.id}>
+    <Col className={styles.col} md={6} key={program.id}>
       <Card
         className={styles.card}
         bordered={false}
         cover={
           <img
             className={styles.img}
-            alt={props.program.title}
-            src={props.program.imageUrl}
+            alt={program.title}
+            src={program.imageUrl}
           />
         }
       >
@@ -27,23 +32,23 @@ function MentorProgramCard(props: MentorProgramCardProps) {
               <a
                 target={'_blank'}
                 rel={'noreferrer'}
-                href={props.program.landingPageUrl}
+                href={program.landingPageUrl}
               >
-                {props.program.title}
+                {program.title}
               </a>
             </Title>
           </Col>
           <Col span={11} className={styles.programActionButton}>
-            {props.isRejected ? (
+            {isRejected ? (
               <Text type={'danger'}>Rejected</Text>
             ) : (
-              <Button type="primary" href={props.href}>
-                {props.buttonText}
+              <Button type="primary" href={href}>
+                {buttonText}
               </Button>
             )}
           </Col>
         </Row>
-        <Paragraph>{props.program.headline}</Paragraph>
+        <Paragraph>{program.headline}</Paragraph>
       </Card>
     </Col>
   );
