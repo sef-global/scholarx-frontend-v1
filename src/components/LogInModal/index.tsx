@@ -5,7 +5,7 @@ import { Modal } from 'antd';
 import { AUTH_URL } from '../../constants';
 import { LogInModalProps } from './interfaces';
 
-function LogInModal(props: LogInModalProps) {
+function LogInModal({ isModalVisible, onCancel }: LogInModalProps) {
   const handleOk = () => {
     window.location.href = AUTH_URL;
   };
@@ -13,9 +13,9 @@ function LogInModal(props: LogInModalProps) {
   return (
     <Modal
       title="Sign in to continue"
-      visible={props.isModalVisible}
+      visible={isModalVisible}
       onOk={handleOk}
-      onCancel={props.onCancel}
+      onCancel={onCancel}
     >
       <p>
         You have to be registered as a user to continue, click ok to login or
