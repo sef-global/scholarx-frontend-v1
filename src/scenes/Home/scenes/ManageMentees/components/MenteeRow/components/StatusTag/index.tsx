@@ -2,8 +2,10 @@ import React from 'react';
 
 import { Tag } from 'antd';
 
-function StatusTag(props: { state: string }) {
-  switch (props.state) {
+import { StatusTagProps } from './interfaces';
+
+function StatusTag({ state }: StatusTagProps) {
+  switch (state) {
     case 'PENDING':
       return <Tag color="blue">PENDING</Tag>;
     case 'APPROVED':

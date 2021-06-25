@@ -7,17 +7,17 @@ import { MentorCardProps } from './interfaces';
 
 const { Title, Paragraph } = Typography;
 
-function MentorCard(props: MentorCardProps) {
+function MentorCard({ item }: MentorCardProps) {
   return (
     <Card hoverable className={styles.mentorCardHeight}>
       <Row justify="center">
         <Col>
           <Row justify="center">
-            <Avatar size={64} src={props.item.profile.imageUrl} />
+            <Avatar size={64} src={item.profile.imageUrl} />
             <Title level={4} className={styles.cardTitle}>
-              {props.item.profile.firstName} {props.item.profile.lastName}
+              {item.profile.firstName} {item.profile.lastName}
             </Title>
-            <Paragraph>{props.item.profile.headline}</Paragraph>
+            <Paragraph>{item.profile.headline}</Paragraph>
           </Row>
         </Col>
       </Row>
