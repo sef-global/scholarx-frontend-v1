@@ -168,15 +168,16 @@ function ActivePrograms() {
                           </Button>
                         )}
                       {program.state === 'MENTOR_CONFIRMATION' &&
-                        !isUserAdmin &&
-                        user != null && (
-                          <Button
-                            type="primary"
-                            href={`/program/${program.id}/mentor/confirmation`}
-                          >
-                            My mentor
-                          </Button>
-                        )}
+                      !isUserAdmin &&
+                      user != null &&
+                      !mentoringPrograms.length ? (
+                        <Button
+                          type="primary"
+                          href={`/program/${program.id}/mentor/confirmation`}
+                        >
+                          My mentor
+                        </Button>
+                      ) : null}
                     </Col>
                   </Row>
                   {program.state === 'MENTOR_SELECTION' && !isUserAdmin && (
@@ -189,6 +190,13 @@ function ActivePrograms() {
                       Mentee Selection Period
                     </Tag>
                   )}
+                  {program.state === 'MENTOR_CONFIRMATION' &&
+                  !isUserAdmin &&
+                  mentoringPrograms.length ? (
+                    <Tag className={styles.tag} color="green">
+                      Mentor Confirmation Period
+                    </Tag>
+                  ) : null}
                   <Paragraph>{program.headline}</Paragraph>
                 </Card>
               </Col>
