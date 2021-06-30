@@ -8,5 +8,10 @@
 }
 
 .mentorCardHeight {
-    height: 13rem;
+    height: 15rem;
 }
+
+.profileHeadline {
+    text-align: center;
+}
+

@@ -14,11 +14,15 @@ function MentorCard({ item }: MentorCardProps) {
         <Col>
           <Row justify="center">
             <Avatar size={64} src={item.profile.imageUrl} />
+          </Row>
+          <Row justify="center">
             <Title level={4} className={styles.cardTitle}>
               {item.profile.firstName} {item.profile.lastName}
             </Title>
-            <Paragraph>{item.profile.headline}</Paragraph>
           </Row>
+          <Paragraph className={styles.profileHeadline}>
+            {item.profile.headline}
+          </Paragraph>
         </Col>
       </Row>
     </Card>
