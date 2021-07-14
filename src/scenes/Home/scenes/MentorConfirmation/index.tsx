@@ -16,7 +16,7 @@ import {
   Avatar,
   Button,
   Result,
-  Radio,
+  Card,
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory, useParams } from 'react-router';
@@ -143,10 +143,6 @@ function MentorConfirmation() {
     });
   };
 
-  const handleMentorIdChange = (event: any) => {
-    setSelectedMentor(event.target.value);
-  };
-
   return (
     <>
       <LogInModal isModalVisible={user === null} onCancel={null} />
@@ -185,43 +181,50 @@ function MentorConfirmation() {
                   <Paragraph>Your mentor for the program</Paragraph>
                 </>
               )}
-              <Radio.Group
-                name="selectedMentor"
-                onChange={handleMentorIdChange}
-                className={styles.mentorMeta}
-              >
-                <List
-                  itemLayout="horizontal"
-                  size="large"
-                  dataSource={mentors}
-                  renderItem={(mentor: Mentor) => (
-                    <List.Item key={mentor.id}>
-                      <List.Item.Meta
-                        avatar={<Avatar src={mentor.profile.imageUrl} />}
-                        title={
-                          <div>
-                            <a
-                              href={mentor.profile.linkedinUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
+              <List
+                grid={{
+                  gutter: 8,
+                  xs: 1,
+                  sm: 2,
+                  md: 2,
+                  lg: 3,
+                  xl: 4,
+                  xxl: 4,
+                }}
+                itemLayout="horizontal"
+                size="large"
+                className={styles.mentorCardList}
+                dataSource={mentors}
+                renderItem={(mentor: Mentor) => (
+                  <List.Item key={mentor.id}>
+                    <Card
+                      className={
+                        mentors.length > 1 && selectedMentor === mentor.id
+                          ? styles.mentorCardBorder
+                          : styles.mentorCardHeight
+                      }
+                      onClick={() => setSelectedMentor(mentor.id)}
+                    >
+                      <Row justify="center">
+                        <Col>
+                          <Row justify="center">
+                            <Avatar size={64} src={mentor.profile.imageUrl} />
+                          </Row>
+                          <Row justify="center">
+                            <Title level={4} className={styles.cardTitle}>
                               {mentor.profile.firstName}{' '}
                               {mentor.profile.lastName}
-                            </a>
-                          </div>
-                        }
-                        description={mentor.profile.headline}
-                      />
-                      <div hidden={mentors.length == 1}>
-                        <Radio
-                          className={styles.radioStyle}
-                          value={mentor.id}
-                        />
-                      </div>
-                    </List.Item>
-                  )}
-                />
-              </Radio.Group>
+                            </Title>
+                          </Row>
+                          <Paragraph className={styles.profileHeadline}>
+                            {mentor.profile.headline}
+                          </Paragraph>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </List.Item>
+                )}
+              />
             </Col>
           </Row>
           <Row hidden={mentors.length <= 1}>
@@ -229,7 +232,6 @@ function MentorConfirmation() {
             <Col>
               <Button
                 type="primary"
-                className={mainStyles.backButton}
                 disabled={selectedMentor == 0}
                 onClick={confirmApproval}
               >
