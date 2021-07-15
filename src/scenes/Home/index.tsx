@@ -40,8 +40,8 @@ const Home = () => {
                 </Paragraph>
               </Col>
             </Row>
-            <Tabs defaultActiveKey="ongoingPrograms">
-              <TabPane tab="Ongoing Programs" key="ongoingPrograms">
+            <Tabs defaultActiveKey="activePrograms">
+              <TabPane tab="Active Programs" key="activePrograms">
                 <div className={styles.cardWrapper}>
                   <ActivePrograms />
                 </div>
