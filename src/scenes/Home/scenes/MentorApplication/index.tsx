@@ -115,11 +115,11 @@ function MentorApplication() {
                     form={form}
                   >
                     {questions.length > 0 &&
-                      questions.map((question: Question) => (
+                      questions.map((question: Question, index: number) => (
                         <Row key={question.id}>
                           <Col span={16} offset={4}>
                             <Title level={4}>
-                              {question.id}.{question.question}
+                              {index + 1}.{question.question}
                             </Title>
                             <Form.Item
                               name={question.id}
