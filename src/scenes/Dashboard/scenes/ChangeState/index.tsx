@@ -38,50 +38,45 @@ const programStates: State[] = [
   {
     stepNo: 0,
     name: 'Created',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet urna id diam suscipit ultricies eget in lorem.',
+    description: 'The program is in the created state.',
   },
   {
     stepNo: 1,
-    name: 'Mentor Applicaiton Period',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet urna id diam suscipit ultricies eget in lorem. ',
+    name: 'Mentor Application Period',
+    description: 'In this state mentors can start sending their applications.',
   },
   {
     stepNo: 2,
     name: 'Mentor Approval Period',
     description:
-      'Some descriptive text about this particular state of the program',
+      'During this state, the admin can review the mentor application and approve or reject them.',
   },
   {
     stepNo: 3,
-    name: 'Mentee Applicaiton Period',
-    description:
-      'Some descriptive text about this particular state of the program. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet urna id diam suscipit ultricies eget in lorem. Nulla at lorem a eros mattis iaculis et in dolor.',
+    name: 'Mentee Application Period',
+    description: 'In this state mentees can start sending their applications.',
   },
   {
     stepNo: 4,
     name: 'Mentee Approval Period',
     description:
-      'Some descriptive text about this particular state of the program',
+      'During this state, mentors can review the mentor application and approve or reject them.',
   },
   {
     stepNo: 5,
     name: 'Mentor Confirmation',
     description:
-      'Some descriptive text about this particular state of the program',
+      'During this state, mentees can see their mentor and if they have been chosen by multiple mentors they can choose one of them as their mentor.',
   },
   {
     stepNo: 6,
     name: 'Ongoing',
-    description:
-      'Some descriptive text about this particular state of the program',
+    description: 'This state indicates that the program is currently running.',
   },
   {
     stepNo: 7,
     name: 'Completed',
-    description:
-      'Some descriptive text about this particular state of the program',
+    description: 'The program is completed.',
   },
 ];
 
