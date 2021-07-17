@@ -192,7 +192,7 @@ function ActivePrograms() {
                   )}
                   {program.state === 'MENTOR_CONFIRMATION' &&
                   !isUserAdmin &&
-                  mentoringPrograms.length ? (
+                  (mentoringPrograms.length || user === null) ? (
                     <Tag className={styles.tag} color="green">
                       Mentor Confirmation Period
                     </Tag>
