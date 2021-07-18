@@ -136,19 +136,19 @@ function MenteeApplication() {
         <Spin tip="Loading..." spinning={isLoading}>
           <Row>
             <Col offset={1} span={1}>
-              <Avatar size={64} src={mentor.profile.imageUrl} />
+              <Avatar size={64} src={mentor?.profile.imageUrl} />
             </Col>
             <Col offset={1}>
               <Title level={3}>
-                {mentor.profile.firstName} {mentor.profile.lastName}
+                {mentor?.profile.firstName} {mentor?.profile.lastName}
               </Title>
-              <Text>{mentor.profile.headline}</Text>
+              <Text>{mentor?.profile.headline}</Text>
             </Col>
           </Row>
           <div className={styles.contentMargin}>
-            <a href={mentor.profile.linkedinUrl}>
+            <a href={mentor?.profile.linkedinUrl}>
               <LinkedinOutlined />
-              {''} {mentor.profile.firstName}&apos;s LinkedIn profile
+              {''} {mentor?.profile.firstName}&apos;s LinkedIn profile
             </a>
             <br />
             <br />
