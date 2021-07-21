@@ -150,6 +150,7 @@ function MentorPrograms() {
               href={`/program/${program.id}/mentor/edit`}
               buttonText={'Edit Application'}
               isRejected={false}
+              state={program.state}
             />
           ))}
           {approvedMentorPrograms.map((program: SavedProgram) => (
@@ -159,6 +160,7 @@ function MentorPrograms() {
               href={`/mentor/program/${program.id}`}
               buttonText={'Manage'}
               isRejected={false}
+              state={program.state}
             />
           ))}
           {rejectedMentorPrograms.map((program: SavedProgram) => (
@@ -166,6 +168,7 @@ function MentorPrograms() {
               key={program.id}
               program={program}
               isRejected={true}
+              state={program.state}
             />
           ))}
         </Row>

@@ -10,6 +10,7 @@ const { Paragraph, Title, Text } = Typography;
 function MentorProgramCard({
   program,
   buttonText,
+  state,
   isRejected,
   href,
 }: MentorProgramCardProps) {
@@ -39,13 +40,12 @@ function MentorProgramCard({
             </Title>
           </Col>
           <Col span={11} className={styles.programActionButton}>
-            {isRejected ? (
-              <Text type={'danger'}>Rejected</Text>
-            ) : (
+            {isRejected ? <Text type={'danger'}>Rejected</Text> : null}
+            {state !== 'MENTEE_APPLICATION' && !isRejected ? (
               <Button type="primary" href={href}>
                 {buttonText}
               </Button>
-            )}
+            ) : null}
           </Col>
         </Row>
         <Paragraph>{program.headline}</Paragraph>
