@@ -114,6 +114,9 @@ function ManageMentees() {
                 description={item.profile.headline}
               />
               <span className={styles.mentorNameSpan}>
+                {item.profile.email}
+              </span>
+              <span className={styles.mentorNameSpan}>
                 Mentor: {item.mentor.profile.firstName}{' '}
                 {item.mentor.profile.lastName}
               </span>

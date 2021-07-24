@@ -206,6 +206,7 @@ function MentorRow({ mentor, programState }: Props) {
           }
           description={mentor.profile.headline}
         />
+        <span className={styles.mentorNameSpan}>{mentor.profile.email}</span>
       </List.Item>
       <Drawer
         width={640}
