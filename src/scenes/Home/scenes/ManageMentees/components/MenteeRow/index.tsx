@@ -136,6 +136,7 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
         }
         description={mentee.profile.headline}
       />
+      <span>{mentee.profile.email}</span>
     </List.Item>
   );
 }
