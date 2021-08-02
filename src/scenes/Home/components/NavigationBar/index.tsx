@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import { Avatar, Button } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 import { AUTH_URL, LOGOUT_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
@@ -10,10 +11,16 @@ import styles from './styles.css';
 
 const NavigationBar = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
+  const history = useHistory();
+
   return (
     <div className={styles.navbar}>
       <img className={styles.logo} src={logo} alt="ScholarX logo" />
-      <Button type="link" href="/home" className={styles.navButtons}>
+      <Button
+        type="link"
+        onClick={() => history.push('/')}
+        className={styles.navButtons}
+      >
         Home
       </Button>
       {user != null ? (
