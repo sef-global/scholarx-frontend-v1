@@ -167,7 +167,8 @@ function ActivePrograms() {
                             Apply as mentee
                           </Button>
                         )}
-                      {program.state === 'MENTOR_CONFIRMATION' &&
+                      {(program.state === 'MENTOR_CONFIRMATION' ||
+                        program.state === 'ONGOING') &&
                       !isUserAdmin &&
                       user != null &&
                       !mentoringPrograms.length ? (
@@ -197,11 +198,13 @@ function ActivePrograms() {
                       Mentor Confirmation Period
                     </Tag>
                   ) : null}
-                  {program.state === 'ONGOING' && !isUserAdmin && (
+                  {program.state === 'ONGOING' &&
+                  !isUserAdmin &&
+                  (mentoringPrograms.length || user === null) ? (
                     <Tag className={styles.tag} color="green">
                       Ongoing
                     </Tag>
-                  )}
+                  ) : null}
                   <Paragraph>{program.headline}</Paragraph>
                 </Card>
               </Col>
