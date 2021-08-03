@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Col, Row, Tabs, Typography } from 'antd';
 
 import { UserContext } from '../../index';
 import { Profile } from '../../types';
+import { trackPageWithGoogleAnalytics } from '../../util/google-analytics';
 import ActivePrograms from './components/ActivePrograms';
 import CompletedPrograms from './components/CompletedPrograms';
 import Footer from './components/Footer';
@@ -18,6 +19,10 @@ const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
 const Home = () => {
+  useEffect(() => {
+    trackPageWithGoogleAnalytics();
+  }, []);
+
   const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <>
