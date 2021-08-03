@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SmileOutlined } from '@ant-design/icons';
 import { Button, Col, notification, Result, Row, Spin, Typography } from 'antd';
 import axios, { AxiosResponse } from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import { API_URL } from '../../../../constants';
 import { SavedProgram } from '../../../../types';
@@ -25,6 +26,7 @@ function MentorPrograms() {
   const [rejectedMentorPrograms, setRejectedMentorPrograms] = useState<
     SavedProgram[]
   >([]);
+  const history = useHistory();
 
   useEffect(() => {
     getMentorPrograms('PENDING');
@@ -134,7 +136,7 @@ function MentorPrograms() {
                 )
               }
               extra={
-                <Button href={'/home'} type="primary">
+                <Button onClick={() => history.push('/')} type="primary">
                   View available Programs
                 </Button>
               }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Button, Card, Col, Row, Typography } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 import styles from '../../../../styles.css';
 import { MentorProgramCardProps } from './interfaces';
@@ -14,6 +15,8 @@ function MentorProgramCard({
   isRejected,
   href,
 }: MentorProgramCardProps) {
+  const history = useHistory();
+
   return (
     <Col className={styles.col} md={6} key={program.id}>
       <Card
@@ -42,7 +45,7 @@ function MentorProgramCard({
           <Col span={11} className={styles.programActionButton}>
             {isRejected ? <Text type={'danger'}>Rejected</Text> : null}
             {state !== 'MENTEE_APPLICATION' && !isRejected ? (
-              <Button type="primary" href={href}>
+              <Button type="primary" onClick={() => history.push(href)}>
                 {buttonText}
               </Button>
             ) : null}

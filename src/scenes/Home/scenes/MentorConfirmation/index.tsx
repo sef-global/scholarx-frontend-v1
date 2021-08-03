@@ -155,7 +155,7 @@ function MentorConfirmation() {
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {
-                history.goBack();
+                history.push('/');
               }}
             />
           </Col>
@@ -249,7 +249,7 @@ function MentorConfirmation() {
                   : "You haven't applied for this program as a mentee"
               }
               extra={
-                <Button href={'/home'} type="primary">
+                <Button onClick={() => history.push('/')} type="primary">
                   View available Programs
                 </Button>
               }
