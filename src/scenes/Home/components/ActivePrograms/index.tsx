@@ -11,6 +11,7 @@ import {
   Tag,
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
@@ -30,6 +31,7 @@ function ActivePrograms() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const user: Partial<Profile | null> = useContext(UserContext);
   const isUserAdmin: boolean = user != null && user.type == 'ADMIN';
+  const history = useHistory();
 
   useEffect(() => {
     getPrograms();
@@ -122,7 +124,7 @@ function ActivePrograms() {
                       <Button
                         hidden={!isUserAdmin}
                         type="primary"
-                        href={`/dashboard/${program.id}`}
+                        onClick={() => history.push(`/dashboard/${program.id}`)}
                       >
                         Manage
                       </Button>
@@ -136,14 +138,20 @@ function ActivePrograms() {
                         ) ? (
                           <Button
                             type="primary"
-                            href={`/program/${program.id}/mentor/apply`}
+                            onClick={() =>
+                              history.push(
+                                `/program/${program.id}/mentor/apply`
+                              )
+                            }
                           >
                             Apply as mentor
                           </Button>
                         ) : (
                           <Button
                             type="primary"
-                            href={`/program/${program.id}/mentor/edit`}
+                            onClick={() =>
+                              history.push(`/program/${program.id}/mentor/edit`)
+                            }
                           >
                             Edit application
                           </Button>
@@ -162,7 +170,9 @@ function ActivePrograms() {
                         ) && (
                           <Button
                             type="primary"
-                            href={`/program/${program.id}`}
+                            onClick={() =>
+                              history.push(`/program/${program.id}`)
+                            }
                           >
                             Apply as mentee
                           </Button>
@@ -174,7 +184,11 @@ function ActivePrograms() {
                       !mentoringPrograms.length ? (
                         <Button
                           type="primary"
-                          href={`/program/${program.id}/mentor/confirmation`}
+                          onClick={() =>
+                            history.push(
+                              `/program/${program.id}/mentor/confirmation`
+                            )
+                          }
                         >
                           My mentor
                         </Button>

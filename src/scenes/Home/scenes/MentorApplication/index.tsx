@@ -89,7 +89,7 @@ function MentorApplication() {
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {
-                history.goBack();
+                history.push('/');
               }}
             />
           </Col>

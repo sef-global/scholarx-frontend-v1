@@ -12,6 +12,7 @@ import {
   Typography,
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import { API_URL } from '../../../../constants';
 import { SavedProgram } from '../../../../types';
@@ -23,6 +24,7 @@ function MenteePrograms() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programs, setPrograms] = useState<SavedProgram[]>([]);
   const [menteePrograms, setMenteePrograms] = useState<SavedProgram[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     getMenteePrograms();
@@ -113,7 +115,7 @@ function MenteePrograms() {
                 )
               }
               extra={
-                <Button href={'/home'} type="primary">
+                <Button onClick={() => history.push('/')} type="primary">
                   View available Programs
                 </Button>
               }

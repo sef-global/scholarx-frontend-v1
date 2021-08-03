@@ -12,6 +12,7 @@ import {
   Typography,
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import { API_URL } from '../../../../constants';
 import { SavedProgram } from '../../../../types';
@@ -22,6 +23,7 @@ const { Paragraph, Title } = Typography;
 function CompletedPrograms() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [programs, setPrograms] = useState<SavedProgram[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     getMentoredPrograms();
@@ -90,7 +92,7 @@ function CompletedPrograms() {
               icon={<SmileOutlined />}
               title="You haven't completed any programs"
               extra={
-                <Button href={'/home'} type="primary">
+                <Button onClick={() => history.push('/')} type="primary">
                   View available Programs
                 </Button>
               }
