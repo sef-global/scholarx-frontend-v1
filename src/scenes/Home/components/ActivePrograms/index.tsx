@@ -179,20 +179,23 @@ function ActivePrograms() {
                         )}
                       {(program.state === 'MENTOR_CONFIRMATION' ||
                         program.state === 'ONGOING') &&
-                      !isUserAdmin &&
-                      user != null &&
-                      !mentoringPrograms.length ? (
-                        <Button
-                          type="primary"
-                          onClick={() =>
-                            history.push(
-                              `/program/${program.id}/mentor/confirmation`
-                            )
-                          }
-                        >
-                          My mentor
-                        </Button>
-                      ) : null}
+                        !isUserAdmin &&
+                        user != null &&
+                        !mentoringPrograms.some(
+                          (mentoringProgram) =>
+                            mentoringProgram.id == program.id
+                        ) && (
+                          <Button
+                            type="primary"
+                            onClick={() =>
+                              history.push(
+                                `/program/${program.id}/mentor/confirmation`
+                              )
+                            }
+                          >
+                            My mentor
+                          </Button>
+                        )}
                     </Col>
                   </Row>
                   {program.state === 'MENTOR_SELECTION' && !isUserAdmin && (
@@ -207,14 +210,20 @@ function ActivePrograms() {
                   )}
                   {program.state === 'MENTOR_CONFIRMATION' &&
                   !isUserAdmin &&
-                  (mentoringPrograms.length || user === null) ? (
+                  (user === null ||
+                    mentoringPrograms.some(
+                      (mentoringProgram) => mentoringProgram.id == program.id
+                    )) ? (
                     <Tag className={styles.tag} color="green">
                       Mentor Confirmation Period
                     </Tag>
                   ) : null}
                   {program.state === 'ONGOING' &&
                   !isUserAdmin &&
-                  (mentoringPrograms.length || user === null) ? (
+                  (mentoringPrograms.some(
+                    (mentoringProgram) => mentoringProgram.id == program.id
+                  ) ||
+                    user === null) ? (
                     <Tag className={styles.tag} color="green">
                       Ongoing
                     </Tag>
