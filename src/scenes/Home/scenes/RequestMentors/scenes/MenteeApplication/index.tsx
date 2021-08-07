@@ -13,11 +13,16 @@ import {
   Input,
   Tabs,
 } from 'antd';
-import axios, { AxiosResponse, Method } from 'axios';
+import { AxiosResponse, Method } from 'axios';
 import { useHistory, useParams } from 'react-router';
 
-import { API_URL, APPLICATION_TEMPLATE } from '../../../../../../constants';
+import { APPLICATION_TEMPLATE } from '../../../../../../constants';
 import { Mentee, Mentor } from '../../../../../../types';
+import {
+  getMenteeApplication,
+  requestForAMentor,
+} from '../../../../../../util/mentee-services';
+import { getMentor } from '../../../../../../util/mentor-services';
 import styles from './styles.css';
 
 const { Title, Text } = Typography;
@@ -32,53 +37,25 @@ function MenteeApplication() {
   const [form] = Form.useForm();
   const history = useHistory();
 
-  useEffect(() => {
+  const getMentorDetails = async () => {
+    const mentor: Mentor = await getMentor(mentorId);
+    if (mentor) {
+      setMentor(mentor);
+    }
+  };
+
+  const getApplicationDetails = async () => {
+    const mentee: Mentee = await getMenteeApplication(mentorId);
+    if (mentee) {
+      form.setFieldsValue({ submissionURL: mentee.submissionUrl });
+      setIsApplied(true);
+    } else {
+      setIsApplied(false);
+    }
+  };
+
+  const requestMentor = async (values: any) => {
     setIsLoading(true);
-    axios
-      .get(`${API_URL}/mentors/${mentorId}`, {
-        withCredentials: true,
-      })
-      .then((result: AxiosResponse<Mentor>) => {
-        if (result.status == 200) {
-          setIsLoading(false);
-          setMentor(result.data);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        notification.error({
-          message: error.toString(),
-          description: 'Something went wrong when fetching the mentor',
-        });
-      });
-
-    axios
-      .get(`${API_URL}/mentors/${mentorId}/mentee`, {
-        withCredentials: true,
-      })
-      .then((result: AxiosResponse<Mentee>) => {
-        if (result.status == 200) {
-          form.setFieldsValue({ submissionURL: result.data.submissionUrl });
-          setIsLoading(false);
-          setIsApplied(true);
-        } else if (result.status == 204) {
-          setIsApplied(false);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        notification.error({
-          message: error.toString(),
-          description: 'Something went wrong when fetching the mentee',
-        });
-      });
-  }, []);
-
-  const requestMentor = (values: any) => {
     const submissionUrl: string = values.submissionURL;
     let statusCode: number, method: Method;
     if (isApplied) {
@@ -88,34 +65,24 @@ function MenteeApplication() {
       statusCode = 201;
       method = 'post';
     }
-    axios({
-      method: method,
-      url: `${API_URL}/mentors/${mentorId}/mentee`,
-      data: { submissionUrl: submissionUrl },
-      withCredentials: true,
-    })
-      .then((res: AxiosResponse<Mentee>) => {
-        if (res.status == statusCode) {
-          setIsLoading(false);
-          setIsFormVisible(false);
-          if (statusCode == 201) {
-            setIsApplied(true);
-          }
-          notification.success({
-            message: 'Success!',
-            description: 'Successfully applied!',
-          });
-        } else {
-          throw new Error();
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        notification.error({
-          message: error,
-          description: 'Something went wrong when requesting the mentor',
-        });
+    const response: AxiosResponse<Mentee> = await requestForAMentor(
+      mentorId,
+      method,
+      submissionUrl
+    );
+    if (response.status == statusCode) {
+      setIsLoading(false);
+      setIsFormVisible(false);
+      if (statusCode == 201) {
+        setIsApplied(true);
+      }
+      notification.success({
+        message: 'Success!',
+        description: 'Successfully applied!',
       });
+    } else {
+      throw new Error();
+    }
   };
 
   const onBack = () => {
@@ -125,6 +92,13 @@ function MenteeApplication() {
   const showForm = () => {
     setIsFormVisible(true);
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+    getMentorDetails();
+    getApplicationDetails();
+    setIsLoading(false);
+  }, []);
 
   return (
     <>

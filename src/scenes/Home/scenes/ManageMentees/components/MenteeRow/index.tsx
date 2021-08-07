@@ -2,10 +2,10 @@ import React, { ReactNode, useState } from 'react';
 
 import { WarningOutlined } from '@ant-design/icons';
 import { Avatar, Button, List, Modal, notification } from 'antd';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
-import { API_URL } from '../../../../../../constants';
 import { Mentee } from '../../../../../../types';
+import { updateStateOfMenteeApplication } from '../../../../../../util/mentee-services';
 import StatusTag from './components/StatusTag';
 import { StatusTagProps } from './interfaces';
 import styles from './style.css';
@@ -14,7 +14,7 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
   const actions: ReactNode[] = [];
   const [menteeState, setMenteeState] = useState(mentee.state);
 
-  const updateMenteeState = (isApproved: boolean) => {
+  const updateMenteeState = async (isApproved: boolean) => {
     let successMessage = '';
     let errorMessage = '';
 
@@ -26,33 +26,20 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
       errorMessage = "Couldn't reject the mentee";
     }
 
-    axios
-      .put(
-        `${API_URL}/mentees/${mentee.id}/state`,
-        {
-          isApproved: isApproved,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((result: AxiosResponse<Mentee>) => {
-        if (result.status == 200) {
-          setMenteeState(result.data.state);
-          notification.success({
-            message: 'Success!',
-            description: successMessage,
-          });
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        notification.error({
-          message: 'Error!',
-          description: errorMessage,
-        });
+    const response: AxiosResponse<Mentee> = await updateStateOfMenteeApplication(
+      mentee.id,
+      isApproved,
+      errorMessage
+    );
+    if (response.status == 200) {
+      setMenteeState(response.data.state);
+      notification.success({
+        message: 'Success!',
+        description: successMessage,
       });
+    } else {
+      throw new Error();
+    }
   };
 
   const confirmRejection = () => {
