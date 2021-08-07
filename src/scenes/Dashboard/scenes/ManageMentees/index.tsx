@@ -16,6 +16,7 @@ import { useParams } from 'react-router';
 import { API_URL } from '../../../../constants';
 import { Mentee } from '../../../../types';
 import styles from '../../styles.css';
+import StatusTag from '../ManageMentors/components/StatusTag';
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -112,10 +113,14 @@ function ManageMentees() {
                 }
                 description={item.profile.headline}
               />
-              <span>
+              <span className={styles.mentorNameSpan}>
+                {item.profile.email}
+              </span>
+              <span className={styles.mentorNameSpan}>
                 Mentor: {item.mentor.profile.firstName}{' '}
                 {item.mentor.profile.lastName}
               </span>
+              <StatusTag state={item.state} />
             </List.Item>
           )}
         />

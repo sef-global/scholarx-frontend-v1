@@ -98,7 +98,7 @@ function MentorApplication() {
               icon={<ArrowLeftOutlined />}
               size="large"
               onClick={() => {
-                history.goBack();
+                history.push('/');
               }}
             />
           </Col>
@@ -124,23 +124,29 @@ function MentorApplication() {
                     form={form}
                   >
                     {responses.length > 0 &&
-                      responses.map((question: QuestionResponse) => (
-                        <Row key={question.id.questionId}>
-                          <Col span={16} offset={4}>
-                            <Title level={4}>
-                              {question.id.questionId}.
-                              {question.question.question}
-                            </Title>
-                            <Form.Item
-                              name={question.id.questionId}
-                              initialValue={question.response}
-                              rules={[{ required: true }]}
-                            >
-                              <TextArea rows={5} />
-                            </Form.Item>
-                          </Col>
-                        </Row>
-                      ))}
+                      responses.map(
+                        (question: QuestionResponse, index: number) => (
+                          <Row key={index}>
+                            <Col span={16} offset={4}>
+                              <Title level={4}>
+                                {index + 1}.{question.question.question}
+                              </Title>
+                              <Form.Item
+                                name={question.question.id}
+                                initialValue={question.response}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Required',
+                                  },
+                                ]}
+                              >
+                                <TextArea rows={5} />
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        )
+                      )}
                     <Row>
                       <Col
                         span={10}

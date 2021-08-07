@@ -7,6 +7,7 @@ import {
   ProfileOutlined,
 } from '@ant-design/icons';
 import { Menu, Layout, Avatar } from 'antd';
+import { useHistory } from 'react-router';
 import {
   Link,
   BrowserRouter as Router,
@@ -34,6 +35,8 @@ const { Content, Sider, Header } = Layout;
 function Dashboard() {
   const { programId } = useParams();
   const user: Partial<Profile | null> = useContext(UserContext);
+  const history = useHistory();
+
   return (
     <Router>
       <LogInModal isModalVisible={user === null} onCancel={null} />
@@ -44,7 +47,7 @@ function Dashboard() {
           collapsedWidth="0"
         >
           <div>
-            <a href="/">
+            <a onClick={() => history.push('/')}>
               <div className={styles.logo}>
                 <img src={logo} alt="SEF Logo" />
               </div>
