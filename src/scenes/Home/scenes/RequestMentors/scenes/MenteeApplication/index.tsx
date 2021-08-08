@@ -167,11 +167,10 @@ function MenteeApplication() {
               {isFormVisible ? (
                 <>
                   <Text className={styles.textPadding}>
-                    Download the template from the link below and make a
-                    document containing your information. Upload the document to
-                    a cloud storage platfrom (Ex: GoogleDrive, iCloud, OneDrive,
-                    etc) and provide a link. Make sure the document is in pdf
-                    and format and it is accessible to anybody with the link.
+                    Make a copy of the document linked below and fill out your
+                    information. Save the google document and provide a link.
+                    Make sure the document is accessible to anybody with the
+                    link.
                   </Text>
                   <Form
                     layout="vertical"
@@ -187,7 +186,7 @@ function MenteeApplication() {
                         href={APPLICATION_TEMPLATE}
                         target="_blank"
                       >
-                        Download Template
+                        Template Document
                       </Button>
                     </Row>
                     <Form.Item
@@ -196,11 +195,11 @@ function MenteeApplication() {
                       rules={[
                         {
                           required: true,
-                          message: 'Please provide a Google Drive link!',
+                          message: 'Please provide a Google Doc link!',
                         },
                       ]}
                     >
-                      <Input placeholder={'Enter the google drive link here'} />
+                      <Input placeholder={'Enter the Google Doc link here'} />
                     </Form.Item>
                     <Row>
                       <Button type="primary" htmlType="submit">
