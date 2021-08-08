@@ -19,6 +19,7 @@ import {
   getQuestions,
 } from '../../../../util/program-services';
 import Footer from '../../components/Footer';
+import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import Result from '../../components/ResultScreen';
 import mainStyles from '../../styles.css';
@@ -158,6 +159,7 @@ function MentorApplication() {
         </Spin>
         <div className={styles.push} />
       </div>
+      <HelpButton />
       <div className={styles.footer}>
         <Footer />
       </div>

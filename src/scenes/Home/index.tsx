@@ -8,6 +8,7 @@ import { trackPageWithGoogleAnalytics } from '../../util/google-analytics';
 import ActivePrograms from './components/ActivePrograms';
 import CompletedPrograms from './components/CompletedPrograms';
 import Footer from './components/Footer';
+import HelpButton from './components/HelpButton';
 import MenteePrograms from './components/MenteePrograms';
 import MentorPrograms from './components/MentorPrograms';
 import NavigationBar from './components/NavigationBar';
@@ -82,6 +83,7 @@ const Home = () => {
         </Row>
         <div className={styles.push} />
       </div>
+      <HelpButton />
       <div className={styles.footer}>
         <Footer />
       </div>

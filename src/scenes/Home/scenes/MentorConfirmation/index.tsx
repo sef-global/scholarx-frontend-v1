@@ -26,6 +26,7 @@ import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Mentor, Profile } from '../../../../types';
 import Footer from '../../components/Footer';
+import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import mainStyles from '../../styles.css';
 import styles from './styles.css';
@@ -257,6 +258,7 @@ function MentorConfirmation() {
           )}
         </Spin>
       </div>
+      <HelpButton />
       <Footer />
     </>
   );
