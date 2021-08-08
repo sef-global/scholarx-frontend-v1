@@ -19,6 +19,7 @@ import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Mentee, Profile, SavedProgram } from '../../../../types';
 import Footer from '../../components/Footer';
+import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
 import MenteeRow from './components/MenteeRow';
@@ -147,6 +148,7 @@ function ManageMentees() {
           </Row>
         </Spin>
       </div>
+      <HelpButton />
       <Footer />
     </>
   );

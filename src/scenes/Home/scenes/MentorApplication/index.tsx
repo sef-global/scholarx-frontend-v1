@@ -19,6 +19,7 @@ import {
   getQuestions,
 } from '../../../../util/program-services';
 import Footer from '../../components/Footer';
+import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import Result from '../../components/ResultScreen';
 import mainStyles from '../../styles.css';
@@ -116,14 +117,19 @@ function MentorApplication() {
                   >
                     {questions.length > 0 &&
                       questions.map((question: Question, index: number) => (
-                        <Row key={question.id}>
+                        <Row key={index}>
                           <Col span={16} offset={4}>
                             <Title level={4}>
                               {index + 1}.{question.question}
                             </Title>
                             <Form.Item
                               name={question.id}
-                              rules={[{ required: true }]}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Required',
+                                },
+                              ]}
                             >
                               <TextArea rows={5} />
                             </Form.Item>
@@ -153,6 +159,7 @@ function MentorApplication() {
         </Spin>
         <div className={styles.push} />
       </div>
+      <HelpButton />
       <div className={styles.footer}>
         <Footer />
       </div>

@@ -86,27 +86,46 @@ function AddProgram() {
             onFinish={addProgram}
             form={form}
           >
-            <Form.Item name="title" label="Title" rules={[{ required: true }]}>
+            <Form.Item
+              name="title"
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please provide a title for the program',
+                },
+              ]}
+            >
               <Input />
             </Form.Item>
             <Form.Item
               name="heading"
               label="Heading"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: 'Please provide a heading' }]}
             >
               <Input />
             </Form.Item>
             <Form.Item
               name="imgURL"
               label="Image URL"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please add a image URL for the program card',
+                },
+              ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
               name="landingURL"
               label="Landing Page URL"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please add the link for the static page',
+                },
+              ]}
             >
               <Input />
             </Form.Item>

@@ -10,6 +10,7 @@ import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Profile, SavedProgram } from '../../../../types';
 import Footer from '../../components/Footer';
+import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
 import AppliedMentors from './components/AppliedMentors';
@@ -102,6 +103,7 @@ function RequestMentors() {
           </div>
         </Col>
       </Row>
+      <HelpButton />
       <Footer />
     </>
   );
