@@ -36,6 +36,15 @@ const content = (
       <ul>
         <li>
           <a
+            href="https://docs.google.com/document/d/1IbdbR-tukgLykP_1jgDcapYncTU3d7fTg2NP6xbo8PI/edit#heading=h.s76f76qd3wwq"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Mentee Guide
+          </a>
+        </li>
+        <li>
+          <a
             href="https://drive.google.com/file/d/1vnW1bhNzETtPtiGTsphzBT2GQ6K0LuX9/view"
             target="_blank"
             rel="noreferrer"
