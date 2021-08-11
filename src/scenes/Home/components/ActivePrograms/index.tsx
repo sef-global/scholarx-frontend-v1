@@ -28,6 +28,7 @@ function ActivePrograms() {
   const [mentoringPrograms, setMentoringPrograms] = useState<SavedProgram[]>(
     []
   );
+  const [menteePrograms, setMenteePrograms] = useState<SavedProgram[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const user: Partial<Profile | null> = useContext(UserContext);
   const isUserAdmin: boolean = user != null && user.type == 'ADMIN';
@@ -36,6 +37,7 @@ function ActivePrograms() {
   useEffect(() => {
     getPrograms();
     getMyMentoringPrograms();
+    getMyMenteePrograms();
   }, []);
 
   const getPrograms = () => {
@@ -65,6 +67,29 @@ function ActivePrograms() {
         response.status === 204
           ? setMentoringPrograms([])
           : setMentoringPrograms(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        if (error.response.status != 401) {
+          notification.error({
+            message: 'Something went wrong when fetching the user',
+            description: error.toString(),
+          });
+        }
+      });
+  };
+
+  const getMyMenteePrograms = () => {
+    setIsLoading(true);
+    axios
+      .get(`${API_URL}/me/programs/mentee`, {
+        withCredentials: true,
+      })
+      .then((response: AxiosResponse<SavedProgram[]>) => {
+        response.status === 204
+          ? setMenteePrograms([])
+          : setMenteePrograms(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -184,7 +209,8 @@ function ActivePrograms() {
                         !mentoringPrograms.some(
                           (mentoringProgram) =>
                             mentoringProgram.id == program.id
-                        ) && (
+                        ) &&
+                        menteePrograms.length !== 0 && (
                           <Button
                             type="primary"
                             onClick={() =>
@@ -196,6 +222,23 @@ function ActivePrograms() {
                             My mentor
                           </Button>
                         )}
+                      {(program.state === 'MENTEE_SELECTION' ||
+                        program.state === 'ONGOING') &&
+                        !isUserAdmin &&
+                        user != null &&
+                        mentoringPrograms.some(
+                          (mentoringProgram) =>
+                            mentoringProgram.id == program.id
+                        ) && (
+                          <Button
+                            type="primary"
+                            onClick={() =>
+                              history.push(`/mentor/program/${program.id}`)
+                            }
+                          >
+                            Manage
+                          </Button>
+                        )}
                     </Col>
                   </Row>
                   {program.state === 'MENTOR_SELECTION' && !isUserAdmin && (
@@ -203,11 +246,15 @@ function ActivePrograms() {
                       Mentor Selection Period
                     </Tag>
                   )}
-                  {program.state === 'MENTEE_SELECTION' && !isUserAdmin && (
-                    <Tag className={styles.tag} color="green">
-                      Mentee Selection Period
-                    </Tag>
-                  )}
+                  {program.state === 'MENTEE_SELECTION' &&
+                    !isUserAdmin &&
+                    !mentoringPrograms.some(
+                      (mentoringProgram) => mentoringProgram.id == program.id
+                    ) && (
+                      <Tag className={styles.tag} color="green">
+                        Mentee Selection Period
+                      </Tag>
+                    )}
                   {program.state === 'MENTOR_CONFIRMATION' &&
                   !isUserAdmin &&
                   (user === null ||
@@ -220,10 +267,7 @@ function ActivePrograms() {
                   ) : null}
                   {program.state === 'ONGOING' &&
                   !isUserAdmin &&
-                  (mentoringPrograms.some(
-                    (mentoringProgram) => mentoringProgram.id == program.id
-                  ) ||
-                    user === null) ? (
+                  user === null ? (
                     <Tag className={styles.tag} color="green">
                       Ongoing
                     </Tag>
