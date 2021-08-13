@@ -28,6 +28,7 @@ function ActivePrograms() {
   const [mentoringPrograms, setMentoringPrograms] = useState<SavedProgram[]>(
     []
   );
+  const [menteePrograms, setMenteePrograms] = useState<SavedProgram[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const user: Partial<Profile | null> = useContext(UserContext);
   const isUserAdmin: boolean = user != null && user.type == 'ADMIN';
@@ -36,6 +37,7 @@ function ActivePrograms() {
   useEffect(() => {
     getPrograms();
     getMyMentoringPrograms();
+    getMyMenteePrograms();
   }, []);
 
   const getPrograms = () => {
@@ -78,6 +80,29 @@ function ActivePrograms() {
       });
   };
 
+  const getMyMenteePrograms = () => {
+    setIsLoading(true);
+    axios
+      .get(`${API_URL}/me/programs/mentee`, {
+        withCredentials: true,
+      })
+      .then((response: AxiosResponse<SavedProgram[]>) => {
+        response.status === 204
+          ? setMenteePrograms([])
+          : setMenteePrograms(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        if (error.response.status != 401) {
+          notification.error({
+            message: 'Something went wrong when fetching the user',
+            description: error.toString(),
+          });
+        }
+      });
+  };
+
   const handleModalPopUp = () => {
     setIsModalVisible(true);
   };
@@ -96,7 +121,7 @@ function ActivePrograms() {
         {programs.map((program: SavedProgram) => (
           <>
             {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
-              <Col className={styles.col} md={6} key={program.id}>
+              <Col className={styles.col} md={5} sm={6} key={program.id}>
                 <Card
                   className={styles.card}
                   bordered={false}
@@ -110,14 +135,8 @@ function ActivePrograms() {
                 >
                   <Row>
                     <Col span={13}>
-                      <Title level={4}>
-                        <a
-                          target={'_blank'}
-                          rel={'noreferrer'}
-                          href={program.landingPageUrl}
-                        >
-                          {program.title}
-                        </a>
+                      <Title level={4} className={styles.programTitle}>
+                        {program.title}
                       </Title>
                     </Col>
                     <Col span={11} className={styles.programActionButton}>
@@ -184,7 +203,8 @@ function ActivePrograms() {
                         !mentoringPrograms.some(
                           (mentoringProgram) =>
                             mentoringProgram.id == program.id
-                        ) && (
+                        ) &&
+                        menteePrograms.length !== 0 && (
                           <Button
                             type="primary"
                             onClick={() =>
@@ -196,6 +216,23 @@ function ActivePrograms() {
                             My mentor
                           </Button>
                         )}
+                      {(program.state === 'MENTEE_SELECTION' ||
+                        program.state === 'ONGOING') &&
+                        !isUserAdmin &&
+                        user != null &&
+                        mentoringPrograms.some(
+                          (mentoringProgram) =>
+                            mentoringProgram.id == program.id
+                        ) && (
+                          <Button
+                            type="primary"
+                            onClick={() =>
+                              history.push(`/mentor/program/${program.id}`)
+                            }
+                          >
+                            Manage
+                          </Button>
+                        )}
                     </Col>
                   </Row>
                   {program.state === 'MENTOR_SELECTION' && !isUserAdmin && (
@@ -203,11 +240,15 @@ function ActivePrograms() {
                       Mentor Selection Period
                     </Tag>
                   )}
-                  {program.state === 'MENTEE_SELECTION' && !isUserAdmin && (
-                    <Tag className={styles.tag} color="green">
-                      Mentee Selection Period
-                    </Tag>
-                  )}
+                  {program.state === 'MENTEE_SELECTION' &&
+                    !isUserAdmin &&
+                    !mentoringPrograms.some(
+                      (mentoringProgram) => mentoringProgram.id == program.id
+                    ) && (
+                      <Tag className={styles.tag} color="green">
+                        Mentee Selection Period
+                      </Tag>
+                    )}
                   {program.state === 'MENTOR_CONFIRMATION' &&
                   !isUserAdmin &&
                   (user === null ||
@@ -220,16 +261,22 @@ function ActivePrograms() {
                   ) : null}
                   {program.state === 'ONGOING' &&
                   !isUserAdmin &&
-                  (mentoringPrograms.some(
-                    (mentoringProgram) => mentoringProgram.id == program.id
-                  ) ||
-                    user === null) ? (
+                  user === null ? (
                     <Tag className={styles.tag} color="green">
                       Ongoing
                     </Tag>
                   ) : null}
                   <Paragraph>{program.headline}</Paragraph>
                 </Card>
+                <Row className={styles.viewMoreButton}>
+                  <a
+                    target={'_blank'}
+                    rel={'noreferrer'}
+                    href={program.landingPageUrl}
+                  >
+                    View More
+                  </a>
+                </Row>
               </Col>
             ) : null}
           </>
