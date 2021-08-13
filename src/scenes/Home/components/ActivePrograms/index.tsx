@@ -121,7 +121,7 @@ function ActivePrograms() {
         {programs.map((program: SavedProgram) => (
           <>
             {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
-              <Col className={styles.col} md={6} key={program.id}>
+              <Col className={styles.col} md={5} sm={6} key={program.id}>
                 <Card
                   className={styles.card}
                   bordered={false}
@@ -135,14 +135,8 @@ function ActivePrograms() {
                 >
                   <Row>
                     <Col span={13}>
-                      <Title level={4}>
-                        <a
-                          target={'_blank'}
-                          rel={'noreferrer'}
-                          href={program.landingPageUrl}
-                        >
-                          {program.title}
-                        </a>
+                      <Title level={4} className={styles.programTitle}>
+                        {program.title}
                       </Title>
                     </Col>
                     <Col span={11} className={styles.programActionButton}>
@@ -274,6 +268,15 @@ function ActivePrograms() {
                   ) : null}
                   <Paragraph>{program.headline}</Paragraph>
                 </Card>
+                <Row className={styles.viewMoreButton}>
+                  <a
+                    target={'_blank'}
+                    rel={'noreferrer'}
+                    href={program.landingPageUrl}
+                  >
+                    View More
+                  </a>
+                </Row>
               </Col>
             ) : null}
           </>
