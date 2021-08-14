@@ -121,7 +121,7 @@ function ActivePrograms() {
         {programs.map((program: SavedProgram) => (
           <>
             {program.state !== 'COMPLETED' && program.state !== 'REMOVED' ? (
-              <Col className={styles.col} md={5} sm={6} key={program.id}>
+              <Col className={styles.col} md={6} key={program.id}>
                 <Card
                   className={styles.card}
                   bordered={false}

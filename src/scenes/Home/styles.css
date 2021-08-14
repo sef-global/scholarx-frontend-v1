@@ -20,7 +20,8 @@
 
 .col{
     display: flex;
-    min-width: 320px;
+    max-width: 380px;
+    min-width: 340px;
 }
 
 .programActionButton {
