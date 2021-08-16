@@ -16,6 +16,7 @@ import {
 import axios, { AxiosResponse, Method } from 'axios';
 import { useHistory, useParams } from 'react-router';
 
+import MentorResponses from '../../../../../../components/MentorResponses';
 import { API_URL, APPLICATION_TEMPLATE } from '../../../../../../constants';
 import { Mentee, Mentor } from '../../../../../../types';
 import styles from './styles.css';
@@ -143,15 +144,17 @@ function MenteeApplication() {
                 {mentor?.profile.firstName} {mentor?.profile.lastName}
               </Title>
               <Text>{mentor?.profile.headline}</Text>
+              <a href={mentor?.profile.linkedinUrl}>
+                <LinkedinOutlined />
+                {''} {mentor?.profile.firstName}&apos;s LinkedIn profile
+              </a>
             </Col>
           </Row>
+          <br />
           <div className={styles.contentMargin}>
-            <a href={mentor?.profile.linkedinUrl}>
-              <LinkedinOutlined />
-              {''} {mentor?.profile.firstName}&apos;s LinkedIn profile
-            </a>
-            <br />
-            <br />
+            <Col span={12}>
+              <MentorResponses programId={programId} mentorId={mentorId} />
+            </Col>
             {isFormVisible ? (
               ''
             ) : (

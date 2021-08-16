@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   Col,
-  Divider,
   Drawer,
   List,
   Modal,
@@ -16,20 +15,20 @@ import {
 import axios, { AxiosResponse } from 'axios';
 import { useParams } from 'react-router-dom';
 
+import MentorResponses from '../../../../../../components/MentorResponses';
 import { API_URL } from '../../../../../../constants';
-import { Mentor, MentorResponse } from '../../../../../../types';
+import { Mentor } from '../../../../../../types';
 import StatusTag from '../StatusTag';
 import { Props } from './interfaces';
 import styles from './style.css';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 function MentorRow({ mentor, programState }: Props) {
   const actions: ReactNode[] = [];
   const { programId } = useParams();
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [mentorState, setMentorState] = useState<string>(mentor.state);
-  const [mentorResponse, setMentorResponse] = useState<MentorResponse[]>([]);
 
   const updateMentorState = (mentorState: string) => {
     let successMessage: string;
@@ -107,29 +106,6 @@ function MentorRow({ mentor, programState }: Props) {
     });
   };
 
-  const getMentorResponse = () => {
-    axios
-      .get(
-        `${API_URL}/programs/${programId}/responses/mentor?mentorId=${mentor.id}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((result: AxiosResponse<MentorResponse[]>) => {
-        if (result.status == 200) {
-          setMentorResponse(result.data);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        notification.error({
-          message: 'Error!',
-          description: 'Something went wrong when fetching mentor response',
-        });
-      });
-  };
-
   if (programState === 'MENTOR_SELECTION') {
     const isApproveDisabled: boolean =
       mentorState == 'APPROVED' || mentorState == 'REMOVED';
@@ -142,7 +118,6 @@ function MentorRow({ mentor, programState }: Props) {
         className={styles.buttonMargin}
         onClick={() => {
           setIsDrawerVisible(true);
-          getMentorResponse();
         }}
       >
         View Application
@@ -235,21 +210,7 @@ function MentorRow({ mentor, programState }: Props) {
             </Row>
           </Col>
         </Row>
-        {mentorResponse.map((response: MentorResponse, index: number) => {
-          return (
-            <div key={response.id.mentorId}>
-              <Row>
-                <Text strong>
-                  {index + 1}. {response.question.question}
-                </Text>
-              </Row>
-              <Row>
-                <Text>{response.response}</Text>
-              </Row>
-              <Divider />
-            </div>
-          );
-        })}
+        <MentorResponses mentorId={mentor.id} programId={programId} />
       </Drawer>
     </>
   );
