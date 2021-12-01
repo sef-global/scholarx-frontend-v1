@@ -15,3 +15,12 @@
     text-align: center;
 }
 
+.horizontalLine {
+    opacity: 0.2;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.rightAlign {
+    float: right;
+}
