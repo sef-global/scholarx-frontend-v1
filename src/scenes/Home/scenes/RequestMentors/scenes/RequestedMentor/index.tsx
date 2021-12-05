@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from 'react';
 
-import { DownloadOutlined, LinkedinOutlined } from '@ant-design/icons';
+import { LinkedinOutlined } from '@ant-design/icons';
 import {
   Typography,
-  Button,
   Avatar,
   notification,
   Spin,
   Row,
   Col,
   Form,
-  Input,
   Tabs,
+  Button,
 } from 'antd';
 import axios, { AxiosResponse, Method } from 'axios';
 import { useHistory, useParams } from 'react-router';
 
 import MentorResponses from '../../../../../../components/MentorResponses';
-import { API_URL, APPLICATION_TEMPLATE } from '../../../../../../constants';
+import { API_URL } from '../../../../../../constants';
 import { Mentee, Mentor } from '../../../../../../types';
 import styles from './styles.css';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
-function MenteeApplication() {
-  const { mentorId, programId } = useParams();
+function RequestedMentor() {
+  const { mentorId, programId } = useParams<{
+    mentorId: string,
+    programId: string,
+  }>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApplied, setIsApplied] = useState<boolean>(false);
-  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [mentor, setMentor] = useState<Mentor>(null);
   const [form] = Form.useForm();
   const history = useHistory();
@@ -98,7 +99,6 @@ function MenteeApplication() {
       .then((res: AxiosResponse<Mentee>) => {
         if (res.status == statusCode) {
           setIsLoading(false);
-          setIsFormVisible(false);
           if (statusCode == 201) {
             setIsApplied(true);
           }
@@ -123,15 +123,23 @@ function MenteeApplication() {
     history.push(`/program/${programId}`);
   };
 
-  const showForm = () => {
-    setIsFormVisible(true);
+  const onApply = () => {
+    history.push(`/program/${programId}/mentor/4/apply`); // Hardcoded mentorId
   };
 
   return (
     <>
+      <Button
+        type="primary"
+        size="large"
+        onClick={onApply}
+        className={styles.button}
+      >
+        Apply
+      </Button>
+      <br />
       <Tabs defaultActiveKey="1" onTabClick={onBack}>
         <TabPane tab="Mentors" key="1" />
-        <TabPane tab="Applied Mentors" key="2" />
       </Tabs>
       <div className={styles.textPadding}>
         <Spin tip="Loading..." spinning={isLoading}>
@@ -144,7 +152,7 @@ function MenteeApplication() {
                 {mentor?.profile.firstName} {mentor?.profile.lastName}
               </Title>
               <Text>{mentor?.profile.headline}</Text>
-              <a href={mentor?.profile.linkedinUrl}>
+              <a href={mentor?.profile.linkedinUrl} target="_blank">
                 <LinkedinOutlined />
                 {''} {mentor?.profile.firstName}&apos;s LinkedIn profile
               </a>
@@ -153,73 +161,26 @@ function MenteeApplication() {
           <br />
           <div className={styles.contentMargin}>
             <Col span={12}>
-              <MentorResponses programId={programId} mentorId={mentorId} />
+              <MentorResponses
+                programId={Number(programId)}
+                mentorId={Number(mentorId)}
+              />
             </Col>
-            {isFormVisible ? (
-              ''
-            ) : (
-              <Button
-                className={styles.textPadding}
-                type="primary"
-                onClick={showForm}
-              >
-                {isApplied ? 'Edit my application' : 'Apply '}
-              </Button>
-            )}
-            <Col span={12}>
-              {isFormVisible ? (
-                <>
-                  <Text className={styles.textPadding}>
-                    Make a copy of the document linked below and fill out your
-                    information. Save the google document and provide a link.
-                    Make sure the document is accessible to anybody with the
-                    link.
-                  </Text>
-                  <Form
-                    layout="vertical"
-                    size="large"
-                    onFinish={requestMentor}
-                    form={form}
-                  >
-                    <Row>
-                      <Button
-                        className={styles.button}
-                        type="primary"
-                        icon={<DownloadOutlined />}
-                        href={APPLICATION_TEMPLATE}
-                        target="_blank"
-                      >
-                        Template Document
-                      </Button>
-                    </Row>
-                    <Form.Item
-                      className={styles.textPadding}
-                      name="submissionURL"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please provide a Google Doc link!',
-                        },
-                      ]}
-                    >
-                      <Input placeholder={'Enter the Google Doc link here'} />
-                    </Form.Item>
-                    <Row>
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Row>
-                  </Form>
-                </>
-              ) : (
-                ''
-              )}
-            </Col>
+            <h2>Pre-requisites:</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur.
+            </p>
           </div>
+          <hr className={styles.horizontalLine} />
         </Spin>
       </div>
     </>
   );
 }
 
-export default MenteeApplication;
+export default RequestedMentor;

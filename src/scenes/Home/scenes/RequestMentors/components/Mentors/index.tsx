@@ -1,24 +1,81 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { List, notification, Spin } from 'antd';
+import { notification, Spin, Table, Button } from 'antd';
 import axios, { AxiosResponse } from 'axios';
-import { useParams } from 'react-router';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router';
+import { useRouteMatch } from 'react-router-dom';
 
 import LogInModal from '../../../../../../components/LogInModal';
 import { API_URL } from '../../../../../../constants';
 import { UserContext } from '../../../../../../index';
 import { Mentor, Profile } from '../../../../../../types';
-import MentorCard from '../MentorCard';
 import styles from '../styles.css';
 
+const mentorDetails = [
+  {
+    mentor: 'Ted Mosbey',
+    category: 'Architecture',
+    expertise: 'Colonial Classic',
+    industry: 'Industry A',
+    id: 1,
+  },
+  {
+    mentor: 'Marshal Erikson',
+    category: 'Law',
+    expertise: 'Enviromental Law',
+    industry: 'Industry B',
+    id: 2,
+  },
+];
+
+const columns = [
+  {
+    title: 'Mentor',
+    dataIndex: 'mentor',
+    sorter: {
+      compare: (a: any, b: any) => sort(a.mentor, b.mentor),
+      multiple: 1,
+    },
+    render: (text: string) => (
+      <a href="http://localhost:3000/program/2/mentor/4/view">{text}</a>
+    ),
+  },
+  {
+    title: 'Category',
+    dataIndex: 'category',
+    sorter: {
+      compare: (a: any, b: any) => sort(a.category, b.category),
+      multiple: 1,
+    },
+  },
+  {
+    title: 'Expertise',
+    dataIndex: 'expertise',
+    sorter: {
+      compare: (a: any, b: any) => sort(a.expertise, b.expertise),
+      multiple: 1,
+    },
+  },
+  {
+    title: 'Industry',
+    dataIndex: 'industry',
+    sorter: {
+      compare: (a: any, b: any) => sort(a.industry, b.industry),
+      multiple: 1,
+    },
+  },
+];
+
+const sort = (a: string, b: string) => b.localeCompare(a);
+
 function Mentors() {
-  const { programId } = useParams();
+  const { programId } = useParams<{ programId: string }>();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const user: Partial<Profile> = useContext(UserContext);
   const match = useRouteMatch();
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -51,6 +108,10 @@ function Mentors() {
     setIsModalVisible(false);
   };
 
+  const onApply = () => {
+    history.push(`/program/2/mentor/4/apply`);
+  };
+
   return (
     <div className={styles.container}>
       <LogInModal
@@ -58,36 +119,21 @@ function Mentors() {
         onCancel={handleModalCancel}
       />
       <Spin tip="Loading..." spinning={isLoading}>
-        <List
-          grid={{
-            gutter: 8,
-            xs: 1,
-            sm: 2,
-            md: 2,
-            lg: 3,
-            xl: 4,
-            xxl: 4,
-          }}
-          itemLayout="horizontal"
-          size="large"
-          pagination={{
-            pageSize: 8,
-          }}
-          dataSource={mentors}
-          renderItem={(item: Mentor) => (
-            <List.Item key={item.id}>
-              {user !== null ? (
-                <Link to={`${match.url}/mentor/${item.id}/application`}>
-                  <MentorCard item={item} />
-                </Link>
-              ) : (
-                <div onClick={handleModalPopUp}>
-                  <MentorCard item={item} />
-                </div>
-              )}
-            </List.Item>
-          )}
+        <Table
+          columns={columns}
+          dataSource={mentorDetails}
+          rowKey="id"
+          pagination={false}
         />
+        <hr className={styles.horizontalLine} />
+        <Button
+          type="primary"
+          size="large"
+          className={styles.rightAlign}
+          onClick={onApply}
+        >
+          Apply
+        </Button>
       </Spin>
     </div>
   );

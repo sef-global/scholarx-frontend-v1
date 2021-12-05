@@ -12,15 +12,15 @@ import { Profile, SavedProgram } from '../../../../types';
 import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
-import AppliedMentors from './components/AppliedMentors';
 import Mentors from './components/Mentors';
-import MenteeApplication from './scenes/MenteeApplication';
+import RequestedMentor from './scenes/RequestedMentor';
+import Application from './scenes/Application';
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 function RequestMentors() {
-  const { programId } = useParams();
+  const { programId } = useParams<{ programId: string }>();
   const [program, setProgram] = useState<SavedProgram>({
     headline: '',
     id: 0,
@@ -87,15 +87,19 @@ function RequestMentors() {
                       <Mentors />
                     </TabPane>
                     {user !== null && (
-                      <TabPane tab="Applied Mentors" key="2">
-                        <AppliedMentors />
-                      </TabPane>
+                      <TabPane tab="My Application" key="2"></TabPane>
                     )}
                   </Tabs>
                 </Route>
                 <Route
-                  path="/program/:programId/mentor/:mentorId/application"
-                  component={MenteeApplication}
+                  exact
+                  path="/program/:programId/mentor/:mentorId/view"
+                  component={RequestedMentor}
+                />
+                <Route
+                  exact
+                  path="/program/:programId/mentor/:mentorId/apply"
+                  component={Application}
                 />
               </Switch>
             </Router>
