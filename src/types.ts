@@ -59,39 +59,7 @@ export interface Question {
   category: string;
 }
 
-export interface MentorQuestion extends Question {
-  program: SavedProgram;
-}
-
-export interface QuestionResponse {
-  id: {
-    questionId: number,
-    mentorId: number,
-  };
-  question: MentorQuestion;
-  mentor: Mentor;
-  response: string;
-}
-
-export interface UpdateQuestion {
-  id: {
-    questionId: number,
-    mentorId: number,
-  };
-  response: string;
-}
-
 export interface ApplicationFormData {
   key: number;
   value: string;
-}
-
-export interface MentorResponse {
-  id: {
-    questionId: number,
-    mentorId: number,
-  };
-  question: Question;
-  mentor: Mentor;
-  response: string;
 }
