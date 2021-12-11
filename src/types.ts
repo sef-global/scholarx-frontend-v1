@@ -58,8 +58,3 @@ export interface Question {
   question: string;
   category: string;
 }
-
-export interface ApplicationFormData {
-  key: number;
-  value: string;
-}
