@@ -35,7 +35,12 @@ export interface Mentor {
   profile: Profile;
   state: string;
   program: SavedProgram;
-  application: string;
+  bio: string;
+  category: string;
+  expertise: string;
+  institution: string;
+  position: string;
+  slots: number;
 }
 
 export interface Mentee {

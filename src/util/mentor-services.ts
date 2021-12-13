@@ -2,16 +2,13 @@ import { notification } from 'antd';
 import axios from 'axios';
 
 import { API_URL } from '../constants';
-import { Application, UpdateQuestion } from '../types';
+import { Mentor } from '../types';
 
-export const applyForProgram = async (
-  application: Application[],
-  programId: string
-) => {
+export const applyForProgram = async (programId: string, mentor: Mentor) => {
   try {
     const result = await axios.post(
       `${API_URL}/programs/${programId}/mentor`,
-      application,
+      mentor,
       {
         withCredentials: true,
       }
@@ -58,14 +55,11 @@ export const getResponses = async (programId: string) => {
   }
 };
 
-export const updateApplication = async (
-  programId: string,
-  application: UpdateQuestion[]
-) => {
+export const updateApplication = async (programId: string, mentor: Mentor) => {
   try {
     const result = await axios.put(
-      `${API_URL}/programs/${programId}/responses/mentor`,
-      application,
+      `${API_URL}/programs/${programId}/mentor`,
+      mentor,
       {
         withCredentials: true,
       }
