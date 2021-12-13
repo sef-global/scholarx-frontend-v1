@@ -45,16 +45,3 @@ export interface Mentee {
   submissionUrl: string;
   mentor: Mentor;
 }
-
-export interface Application {
-  response: string;
-  question: {
-    id: number,
-  };
-}
-
-export interface Question {
-  id: number;
-  question: string;
-  category: string;
-}
