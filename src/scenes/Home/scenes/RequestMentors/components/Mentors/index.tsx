@@ -109,7 +109,7 @@ function Mentors() {
   };
 
   const onApply = () => {
-    history.push(`/program/2/mentor/4/apply`);
+    history.push('/program/2/mentor/4/apply');
   };
 
   return (

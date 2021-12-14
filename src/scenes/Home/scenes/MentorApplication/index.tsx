@@ -122,8 +122,7 @@ function MentorApplication() {
                         >
                           <Select
                             options={[
-                              { label: 'Engineering',
-                                value: 'ENGINEERING' },
+                              { label: 'Engineering', value: 'ENGINEERING' },
                               {
                                 label: 'Computer Science',
                                 value: 'COMPUTER_SCIENCE',
@@ -132,14 +131,12 @@ function MentorApplication() {
                                 label: 'Life Sciences',
                                 value: 'LIFE_SCIENCES',
                               },
-                              { label: 'Data Science',
-                                value: 'DATA_SCIENCE' },
+                              { label: 'Data Science', value: 'DATA_SCIENCE' },
                               {
                                 label: 'Physical Science',
                                 value: 'PHYSICAL_SCIENCE',
                               },
-                              { label: 'Other',
-                                value: 'OTHER' },
+                              { label: 'Other', value: 'OTHER' },
                             ]}
                           />
                         </Form.Item>
