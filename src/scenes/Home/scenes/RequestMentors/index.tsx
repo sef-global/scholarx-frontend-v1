@@ -13,8 +13,8 @@ import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
 import Mentors from './components/Mentors';
-import RequestedMentor from './scenes/RequestedMentor';
 import Application from './scenes/Application';
+import RequestedMentor from './scenes/RequestedMentor';
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;

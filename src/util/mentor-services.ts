@@ -32,14 +32,11 @@ export const applyForProgram = async (programId: string, mentor: Mentor) => {
   }
 };
 
-export const getResponses = async (programId: string) => {
+export const getMentorApplication = async (programId: string) => {
   try {
-    const result = await axios.get(
-      `${API_URL}/programs/${programId}/responses/mentor`,
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get(`${API_URL}/programs/${programId}/mentor`, {
+      withCredentials: true,
+    });
     if (result.status == 200) {
       return result.data;
     }
@@ -55,7 +52,10 @@ export const getResponses = async (programId: string) => {
   }
 };
 
-export const updateApplication = async (programId: string, mentor: Mentor) => {
+export const updateMentorApplication = async (
+  programId: string,
+  mentor: Mentor
+) => {
   try {
     const result = await axios.put(
       `${API_URL}/programs/${programId}/mentor`,

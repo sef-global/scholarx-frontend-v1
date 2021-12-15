@@ -1,21 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Row, Col, Input, Form, Spin, Typography, Card } from 'antd';
+import {
+  Button,
+  Row,
+  Col,
+  Input,
+  Form,
+  Spin,
+  Typography,
+  Card,
+  Select,
+  InputNumber,
+} from 'antd';
 import { AxiosResponse } from 'axios';
 import { useHistory, useParams } from 'react-router';
 
 import LogInModal from '../../../../components/LogInModal';
 import { UserContext } from '../../../../index';
+import { Profile, Mentor } from '../../../../types';
 import {
-  Profile,
-  QuestionResponse,
-  UpdateQuestion,
-  ApplicationFormData,
-} from '../../../../types';
-import {
-  getResponses,
-  updateApplication,
+  getMentorApplication,
+  updateMentorApplication,
 } from '../../../../util/mentor-services';
 import { getProgramDetails } from '../../../../util/program-services';
 import Footer from '../../components/Footer';
@@ -32,7 +38,6 @@ function MentorApplication() {
   const [form] = Form.useForm();
   const { programId } = useParams();
   const [programTitle, setProgramTitle] = useState<string>('');
-  const [responses, setResponses] = useState<QuestionResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApplySuccess, setIsApplySuccess] = useState(false);
   const user: Partial<Profile | null> = useContext(UserContext);
@@ -47,38 +52,34 @@ function MentorApplication() {
     const program = await getProgramDetails(programId);
     if (program) {
       setProgramTitle(program.title);
-      const responses = await getResponses(programId);
-      if (responses) {
-        setResponses(responses);
+      const mentor = await getMentorApplication(programId);
+      if (mentor) {
+        form.setFieldsValue({
+          category: mentor.category,
+          expertise: mentor.expertise,
+          institution: mentor.institution,
+          position: mentor.position,
+          bio: mentor.bio,
+          slots: mentor.slots,
+        });
       }
     }
     setIsLoading(false);
   };
 
-  const apply = async (values: ApplicationFormData) => {
+  const apply = async (values: Mentor) => {
     setIsLoading(true);
-    const application: UpdateQuestion[] = [];
-    for (const [key, value] of Object.entries(values)) {
-      const questionId: number = parseInt(key, 10);
-      const response: QuestionResponse[] = responses.filter(
-        (element: QuestionResponse) => {
-          if (element.id.questionId === questionId) {
-            return element.id.mentorId;
-          }
-        }
-      );
-      const question: UpdateQuestion = {
-        id: {
-          questionId: parseInt(key, 10),
-          mentorId: response[0].id.mentorId,
-        },
-        response: value,
-      };
-      application.push(question);
-    }
-    const response: AxiosResponse<QuestionResponse[]> = await updateApplication(
+    const mentor: Mentor = {
+      category: values.category,
+      expertise: values.expertise,
+      institution: values.institution,
+      position: values.position,
+      bio: values.bio,
+      slots: values.slots,
+    };
+    const response: AxiosResponse<Mentor> = await updateMentorApplication(
       programId,
-      application
+      mentor
     );
     if (response.status === 200) {
       setIsApplySuccess(true);
@@ -124,30 +125,120 @@ function MentorApplication() {
                     onFinish={apply}
                     form={form}
                   >
-                    {responses.length > 0 &&
-                      responses.map(
-                        (question: QuestionResponse, index: number) => (
-                          <Row key={index}>
-                            <Col span={16} offset={4}>
-                              <Title level={4}>
-                                {index + 1}.{question.question.question}
-                              </Title>
-                              <Form.Item
-                                name={question.question.id}
-                                initialValue={question.response}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: 'Required',
-                                  },
-                                ]}
-                              >
-                                <TextArea rows={5} />
-                              </Form.Item>
-                            </Col>
-                          </Row>
-                        )
-                      )}
+                    <Row>
+                      <Col span={16} offset={4}>
+                        <Title level={4}>Category</Title>
+                        <Form.Item
+                          name="category"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Select
+                            options={[
+                              { label: 'Engineering', value: 'ENGINEERING' },
+                              {
+                                label: 'Computer Science',
+                                value: 'COMPUTER_SCIENCE',
+                              },
+                              {
+                                label: 'Life Sciences',
+                                value: 'LIFE_SCIENCES',
+                              },
+                              { label: 'Data Science', value: 'DATA_SCIENCE' },
+                              {
+                                label: 'Physical Science',
+                                value: 'PHYSICAL_SCIENCE',
+                              },
+                              { label: 'Other', value: 'OTHER' },
+                            ]}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={16} offset={4}>
+                        <Title level={4}>Expertise</Title>
+                        <Form.Item
+                          name="expertise"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={16} offset={4}>
+                        <Title level={4}>Institution</Title>
+                        <Form.Item
+                          name="institution"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={16} offset={4}>
+                        <Title level={4}>Current Position</Title>
+                        <Form.Item
+                          name="position"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={16} offset={4}>
+                        <Title level={4}>Bio</Title>
+                        <Form.Item
+                          name="bio"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <TextArea rows={5} />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={16} offset={4}>
+                        <Title level={4}>Number of Mentee Slots</Title>
+                        <Form.Item
+                          name="slots"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <InputNumber />
+                        </Form.Item>
+                      </Col>
+                    </Row>
                     <Row>
                       <Col
                         span={10}
