@@ -5,7 +5,7 @@ import {
   EditOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { Menu, Layout, Avatar } from 'antd';
+import { Menu, Layout, Avatar, Input, List } from 'antd';
 import { useHistory } from 'react-router';
 import {
   Link,
@@ -29,6 +29,7 @@ import MenteeQuestions from './scenes/MenteeQuestions';
 import styles from './styles.css';
 
 const { Content, Sider, Header } = Layout;
+const { Search } = Input;
 
 function Dashboard() {
   const { programId } = useParams();
@@ -39,57 +40,57 @@ function Dashboard() {
     <Router>
       <LogInModal isModalVisible={user === null} onCancel={null} />
       <Layout>
-        <Sider
-          className={styles.siderPosition}
-          breakpoint="lg"
-          collapsedWidth="0"
-        >
-          <div>
-            <a onClick={() => history.push('/')}>
-              <div className={styles.logo}>
-                <img src={logo} alt="SEF Logo" />
-              </div>
-            </a>
-          </div>
-          <Menu theme="dark" mode="inline">
-            <Menu.Item key="1">
-              <Link to={`/dashboard/${programId}/edit-state`}>
-                <EditOutlined /> Change State
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to={`/dashboard/${programId}/edit-program`}>
-                <AppstoreOutlined /> Edit Program
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to={`/dashboard/${programId}/manage-mentors`}>
-                <TeamOutlined /> Manage Mentors
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Link to={`/dashboard/${programId}/manage-mentees`}>
-                <TeamOutlined /> Manage Mentees
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
         <Layout>
-          <Header className={styles.header}>
-            <Menu mode="horizontal" className={styles.rightAlignedMenu}>
-              <Menu.SubMenu
-                title={
-                  <Avatar className={styles.avatar} src={user?.imageUrl} />
-                }
-              >
-                <Menu.ItemGroup title={localStorage.username}>
-                  <Menu.Item>
-                    <a href={LOGOUT_URL}>Logout</a>
-                  </Menu.Item>
-                </Menu.ItemGroup>
-              </Menu.SubMenu>
+          <Sider
+            className={styles.siderPosition}
+            breakpoint="lg"
+            collapsedWidth="0"
+          >
+            <div>
+              <a onClick={() => history.push('/')}>
+                <div className={styles.logo}>
+                  <img src={logo} alt="SEF Logo" />
+                </div>
+              </a>
+            </div>
+            <Menu theme="dark" mode="inline">
+              <Menu.Item key="1">
+                <Link to={`/dashboard/${programId}/edit-state`}>
+                  <EditOutlined /> Change State
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to={`/dashboard/${programId}/edit-program`}>
+                  <AppstoreOutlined /> Edit Program
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Link to={`/dashboard/${programId}/manage-mentors`}>
+                  <TeamOutlined /> Manage Mentors
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Link to={`/dashboard/${programId}/manage-mentees`}>
+                  <TeamOutlined /> Manage Mentees
+                </Link>
+              </Menu.Item>
             </Menu>
-          </Header>
+          </Sider>
+        </Layout>
+        <Header className={styles.header}>
+          <Menu mode="horizontal" className={styles.rightAlignedMenu}>
+            <Menu.SubMenu
+              title={<Avatar className={styles.avatar} src={user?.imageUrl} />}
+            >
+              <Menu.ItemGroup title={localStorage.username}>
+                <Menu.Item>
+                  <a href={LOGOUT_URL}>Logout</a>
+                </Menu.Item>
+              </Menu.ItemGroup>
+            </Menu.SubMenu>
+          </Menu>
+        </Header>
+        <Layout>
           <Content className={styles.content}>
             <Switch>
               <Redirect
@@ -124,6 +125,27 @@ function Dashboard() {
               />
             </Switch>
           </Content>
+          {}
+          <Sider className={styles.mentorSearchSider}>
+            <div className={styles.mentorSearch}>
+              <h2>Mentors</h2>
+              <Search placeholder="Search for Mentor" />
+              <List>
+                <List.Item>
+                  <span>Joey Tribiiani</span>
+                  <span>5/5</span>
+                </List.Item>
+                <List.Item>
+                  <span>Darth Vadar</span>
+                  <span>3/10</span>
+                </List.Item>
+                <List.Item>
+                  <span>Sheldon Cooper</span>
+                  <span>20/20</span>
+                </List.Item>
+              </List>
+            </div>
+          </Sider>
         </Layout>
       </Layout>
     </Router>
