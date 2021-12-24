@@ -125,27 +125,30 @@ function Dashboard() {
               />
             </Switch>
           </Content>
-          {}
-          <Sider className={styles.mentorSearchSider}>
-            <div className={styles.mentorSearch}>
-              <h2>Mentors</h2>
-              <Search placeholder="Search for Mentor" />
-              <List>
-                <List.Item>
-                  <span>Joey Tribiiani</span>
-                  <span>5/5</span>
-                </List.Item>
-                <List.Item>
-                  <span>Darth Vadar</span>
-                  <span>3/10</span>
-                </List.Item>
-                <List.Item>
-                  <span>Sheldon Cooper</span>
-                  <span>20/20</span>
-                </List.Item>
-              </List>
-            </div>
-          </Sider>
+          <Switch>
+            <Route path={'/dashboard/:programId/manage-mentees'}>
+              <Sider className={styles.mentorSearchSider}>
+                <div className={styles.mentorSearch}>
+                  <h2>Mentors</h2>
+                  <Search placeholder="Search for Mentor" />
+                  <List>
+                    <List.Item>
+                      <span>Joey Tribiiani</span>
+                      <span>5/5</span>
+                    </List.Item>
+                    <List.Item>
+                      <span>Darth Vadar</span>
+                      <span>3/10</span>
+                    </List.Item>
+                    <List.Item>
+                      <span>Sheldon Cooper</span>
+                      <span>20/20</span>
+                    </List.Item>
+                  </List>
+                </div>
+              </Sider>
+            </Route>
+          </Switch>
         </Layout>
       </Layout>
     </Router>
