@@ -46,7 +46,14 @@ export interface Mentor {
 export interface Mentee {
   id: number;
   profile: Profile;
-  state: 'PENDING' | 'APPROVED' | 'REJECTED' | 'REMOVED';
+  state:
+    | 'PENDING'
+    | 'POOL'
+    | 'DISCARDED'
+    | 'FAILED_FROM_WILDCARD'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'ASSIGNED';
   submissionUrl: string;
   appliedMentor: Mentor;
   assignedMentor: Mentor;
