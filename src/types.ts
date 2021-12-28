@@ -48,5 +48,11 @@ export interface Mentee {
   profile: Profile;
   state: 'PENDING' | 'APPROVED' | 'REJECTED' | 'REMOVED';
   submissionUrl: string;
-  mentor: Mentor;
+  appliedMentor: Mentor;
+  assignedMentor: Mentor;
+  reasonForChoice: string;
+  intent: string;
+  course: string;
+  year: string;
+  university: string;
 }
