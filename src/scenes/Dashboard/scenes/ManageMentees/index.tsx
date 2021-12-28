@@ -9,6 +9,7 @@ import {
   Drawer,
   Select,
 } from 'antd';
+import { ColumnFilterItem } from 'antd/es/table/interface';
 import axios, { AxiosResponse } from 'axios';
 import { useParams } from 'react-router';
 
@@ -170,6 +171,16 @@ function ManageMentees() {
           <Column
             title="Primary Mentor"
             dataIndex={'appliedMentor'}
+            filters={mentors.map((mentor: Mentor) => {
+              const mentorFilter: ColumnFilterItem = {
+                text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
+                value: mentor.id,
+              };
+              return mentorFilter;
+            })}
+            onFilter={(value: number, record: Mentee) =>
+              record.appliedMentor.id === value
+            }
             render={(mentor: Mentor) =>
               `${mentor.profile.firstName} ${mentor.profile.lastName}`
             }
@@ -177,6 +188,16 @@ function ManageMentees() {
           <Column
             title="Assigned To"
             dataIndex={''}
+            filters={mentors.map((mentor: Mentor) => {
+              const mentorFilter: ColumnFilterItem = {
+                text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
+                value: mentor.id,
+              };
+              return mentorFilter;
+            })}
+            onFilter={(value: number, record: Mentee) =>
+              record.assignedMentor.id === value
+            }
             render={(mentee: Mentee) => {
               return (
                 <Select
@@ -190,7 +211,14 @@ function ManageMentees() {
                 >
                   {mentors?.map((mentor) => {
                     return (
-                      <Option key={mentor.id} value={mentor.id}>
+                      <Option
+                        key={mentor.id}
+                        value={mentor.id}
+                        disabled={
+                          program.state != 'ADMIN_MENTEE_FILTRATION' &&
+                          program.state != 'WILDCARD'
+                        }
+                      >
                         {mentor.profile.firstName} {mentor.profile.lastName}
                       </Option>
                     );
@@ -256,6 +284,18 @@ function ManageMentees() {
             <Column
               title="Status"
               dataIndex={'state'}
+              filters={[
+                { text: 'PENDING', value: 'PENDING' },
+                { text: 'ASSIGNED', value: 'ASSIGNED' },
+                { text: 'POOL', value: 'POOL' },
+                { text: 'DISCARDED', value: 'DISCARDED' },
+                { text: 'APPROVED', value: 'APPROVED' },
+                { text: 'REJECTED', value: 'REJECTED' },
+                { text: 'FAILED FROM WILDCARD', value: 'FAILED_FROM_WILDCARD' },
+              ]}
+              onFilter={(value: string, record: Mentee) =>
+                record.state.indexOf(value) === 0
+              }
               render={(status: string) => {
                 return status;
               }}
