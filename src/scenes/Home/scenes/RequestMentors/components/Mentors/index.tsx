@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { notification, Spin, Table, Button } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useParams, useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import LogInModal from '../../../../../../components/LogInModal';
 import { API_URL } from '../../../../../../constants';
@@ -61,13 +62,9 @@ function Mentors() {
             title="Mentor"
             dataIndex={''}
             render={(mentor: Mentor) => (
-              <a
-                href={
-                  '/program/' + programId + '/mentor/' + mentor.id + '/view'
-                }
-              >
+              <Link to={`/program/${programId}/mentor/${mentor.id}/view`}>
                 {mentor.profile.firstName} {mentor.profile.lastName}
-              </a>
+              </Link>
             )}
           />
           <Column
