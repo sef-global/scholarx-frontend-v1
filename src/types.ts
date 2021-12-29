@@ -46,7 +46,20 @@ export interface Mentor {
 export interface Mentee {
   id: number;
   profile: Profile;
-  state: 'PENDING' | 'APPROVED' | 'REJECTED' | 'REMOVED';
+  state:
+    | 'PENDING'
+    | 'POOL'
+    | 'DISCARDED'
+    | 'FAILED_FROM_WILDCARD'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'ASSIGNED';
   submissionUrl: string;
-  mentor: Mentor;
+  appliedMentor: Mentor;
+  assignedMentor: Mentor;
+  reasonForChoice: string;
+  intent: string;
+  course: string;
+  year: string;
+  university: string;
 }
