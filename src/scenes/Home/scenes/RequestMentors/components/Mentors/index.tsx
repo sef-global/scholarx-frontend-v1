@@ -1,80 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { notification, Spin, Table, Button } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useParams, useHistory } from 'react-router';
-import { useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import LogInModal from '../../../../../../components/LogInModal';
 import { API_URL } from '../../../../../../constants';
-import { UserContext } from '../../../../../../index';
-import { Mentor, Profile } from '../../../../../../types';
+import { Mentor } from '../../../../../../types';
 import styles from '../styles.css';
 
-const mentorDetails = [
-  {
-    mentor: 'Ted Mosbey',
-    category: 'Architecture',
-    expertise: 'Colonial Classic',
-    industry: 'Industry A',
-    id: 1,
-  },
-  {
-    mentor: 'Marshal Erikson',
-    category: 'Law',
-    expertise: 'Enviromental Law',
-    industry: 'Industry B',
-    id: 2,
-  },
-];
-
-const columns = [
-  {
-    title: 'Mentor',
-    dataIndex: 'mentor',
-    sorter: {
-      compare: (a: any, b: any) => sort(a.mentor, b.mentor),
-      multiple: 1,
-    },
-    render: (text: string) => (
-      <a href="http://localhost:3000/program/2/mentor/4/view">{text}</a>
-    ),
-  },
-  {
-    title: 'Category',
-    dataIndex: 'category',
-    sorter: {
-      compare: (a: any, b: any) => sort(a.category, b.category),
-      multiple: 1,
-    },
-  },
-  {
-    title: 'Expertise',
-    dataIndex: 'expertise',
-    sorter: {
-      compare: (a: any, b: any) => sort(a.expertise, b.expertise),
-      multiple: 1,
-    },
-  },
-  {
-    title: 'Industry',
-    dataIndex: 'industry',
-    sorter: {
-      compare: (a: any, b: any) => sort(a.industry, b.industry),
-      multiple: 1,
-    },
-  },
-];
-
-const sort = (a: string, b: string) => b.localeCompare(a);
+const { Column } = Table;
 
 function Mentors() {
   const { programId } = useParams<{ programId: string }>();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const user: Partial<Profile> = useContext(UserContext);
-  const match = useRouteMatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -100,10 +42,6 @@ function Mentors() {
       });
   }, []);
 
-  const handleModalPopUp = () => {
-    setIsModalVisible(true);
-  };
-
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
@@ -119,12 +57,35 @@ function Mentors() {
         onCancel={handleModalCancel}
       />
       <Spin tip="Loading..." spinning={isLoading}>
-        <Table
-          columns={columns}
-          dataSource={mentorDetails}
-          rowKey="id"
-          pagination={false}
-        />
+        <Table dataSource={mentors} rowKey="id">
+          <Column
+            title="Mentor"
+            dataIndex={''}
+            render={(mentor: Mentor) => (
+              <Link to={`/program/${programId}/mentor/${mentor.id}/view`}>
+                {mentor.profile.firstName} {mentor.profile.lastName}
+              </Link>
+            )}
+          />
+          <Column
+            title="Category"
+            dataIndex={'category'}
+            filters={[
+              { text: 'ENGINEERING', value: 'ENGINEERING' },
+              { text: 'LIFE SCIENCES', value: 'LIFE_SCIENCES' },
+              { text: 'COMPUTER SCIENCE', value: 'COMPUTER_SCIENCE' },
+              { text: 'DATASCIENCE AND AI', value: 'DATASCIENCE_AND_AI' },
+              { text: 'PHYSICAL SCIENCE', value: 'PHYSICAL_SCIENCE' },
+              { text: 'OTHER', value: 'OTHER' },
+            ]}
+            onFilter={(value: string, record: Mentor) =>
+              record.category.indexOf(value) === 0
+            }
+            render={(category: string) => category.replace('_', ' ')}
+          />
+          <Column title="Expertise" dataIndex={'expertise'} />
+          <Column title="Institution" dataIndex={'institution'} />
+        </Table>
         <hr className={styles.horizontalLine} />
         <Button
           type="primary"
