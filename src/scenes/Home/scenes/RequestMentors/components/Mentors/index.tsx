@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { notification, Spin, Table, Button } from 'antd';
 import axios, { AxiosResponse } from 'axios';
@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 
 import LogInModal from '../../../../../../components/LogInModal';
 import { API_URL } from '../../../../../../constants';
-import { Mentor } from '../../../../../../types';
+import { UserContext } from '../../../../../../index';
+import { Mentor, Profile } from '../../../../../../types';
+import { getMenteeApplication } from '../../../../../../util/mentee-services';
 import styles from '../styles.css';
 
 const { Column } = Table;
@@ -16,7 +18,9 @@ function Mentors() {
   const { programId } = useParams<{ programId: string }>();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isApplied, setIsApplied] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const user: Partial<Profile | null> = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -40,14 +44,29 @@ function Mentors() {
           description: 'Something went wrong when fetching the mentors',
         });
       });
+
+    getLoggedInMentee();
   }, []);
+
+  const getLoggedInMentee = async () => {
+    setIsLoading(true);
+    const mentee = await getMenteeApplication(programId);
+    if (mentee) {
+      setIsApplied(true);
+    }
+    setIsLoading(false);
+  };
 
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
 
   const onApply = () => {
-    history.push('/home'); // @TODO: Update this to the correct route
+    if (user === null) {
+      setIsModalVisible(true);
+    } else {
+      history.push(`/program/${programId}/mentee/apply`);
+    }
   };
 
   return (
@@ -87,14 +106,16 @@ function Mentors() {
           <Column title="Institution" dataIndex={'institution'} />
         </Table>
         <hr className={styles.horizontalLine} />
-        <Button
-          type="primary"
-          size="large"
-          className={styles.rightAlign}
-          onClick={onApply}
-        >
-          Apply
-        </Button>
+        {!isApplied && (
+          <Button
+            type="primary"
+            size="large"
+            className={styles.rightAlign}
+            onClick={onApply}
+          >
+            Apply
+          </Button>
+        )}
       </Spin>
     </div>
   );

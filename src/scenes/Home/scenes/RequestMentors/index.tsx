@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Typography, notification, Spin, Tabs, Row, Col, Button } from 'antd';
@@ -7,8 +7,8 @@ import { useParams, useHistory } from 'react-router';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { API_URL } from '../../../../constants';
-import { UserContext } from '../../../../index';
-import { Profile, SavedProgram } from '../../../../types';
+import { SavedProgram } from '../../../../types';
+import { getMenteeApplication } from '../../../../util/mentee-services';
 import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
@@ -30,7 +30,7 @@ function RequestMentors() {
     title: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const user: Partial<Profile | null> = useContext(UserContext);
+  const [isApplied, setIsApplied] = useState<boolean>(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -54,7 +54,17 @@ function RequestMentors() {
           description: 'Something went wrong when fetching the program',
         });
       });
+
+    getMentee();
   }, []);
+
+  const getMentee = async () => {
+    setIsLoading(true);
+    if (await getMenteeApplication(programId)) {
+      setIsApplied(true);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -86,8 +96,10 @@ function RequestMentors() {
                     <TabPane tab="Mentors" key="1">
                       <Mentors />
                     </TabPane>
-                    {user !== null && (
-                      <TabPane tab="My Application" key="2"></TabPane>
+                    {isApplied && (
+                      <TabPane tab="My Application" key="2">
+                        <Application />
+                      </TabPane>
                     )}
                   </Tabs>
                 </Route>
@@ -98,7 +110,7 @@ function RequestMentors() {
                 />
                 <Route
                   exact
-                  path="/program/:programId/mentor/:mentorId/apply"
+                  path="/program/:programId/mentee/apply"
                   component={Application}
                 />
               </Switch>
