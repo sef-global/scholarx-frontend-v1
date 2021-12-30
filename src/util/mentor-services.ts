@@ -82,3 +82,26 @@ export const updateMentorApplication = async (
     });
   }
 };
+
+export const getApprovedMentors = async (programId: string) => {
+  try {
+    const result = await axios.get(
+      `${API_URL}/programs/${programId}/mentors?states=APPROVED`,
+      {
+        withCredentials: true,
+      }
+    );
+    if (result.status === 200) {
+      return result;
+    }
+    notification.warning({
+      message: 'Warning!',
+      description: 'Something went wrong when fetching the mentors',
+    });
+  } catch (e) {
+    notification.warning({
+      message: 'Warning!',
+      description: 'Something went wrong when fetching the mentors',
+    });
+  }
+};

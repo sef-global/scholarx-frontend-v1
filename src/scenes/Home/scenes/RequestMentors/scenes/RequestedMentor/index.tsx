@@ -54,11 +54,9 @@ function RequestedMentor() {
       </Tabs>
       <div className={styles.textPadding}>
         <Spin tip="Loading..." spinning={isLoading}>
-          <div className={styles.contentMargin}>
-            <Col span={12}>
-              {mentor && <MentorProfileCard mentor={mentor} />}
-            </Col>
-          </div>
+          <Col md={12} sm={24}>
+            {mentor && <MentorProfileCard mentor={mentor} />}
+          </Col>
           <hr className={styles.horizontalLine} />
         </Spin>
       </div>
