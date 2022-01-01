@@ -41,6 +41,7 @@ export interface Mentor {
   institution: string;
   position: string;
   slots: number;
+  noOfAssignedMentees: number;
 }
 
 export interface Mentee {

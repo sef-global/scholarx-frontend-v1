@@ -10,10 +10,16 @@ const { Text, Link } = Typography;
 function MentorProfileCard({ mentor }: { mentor: Mentor }) {
   return (
     <Badge.Ribbon text={mentor.category.replace('_', ' ').toLowerCase()}>
-      {/* TODO: Amend the backend object to send available slot details*/}
       <Card
         actions={[
-          <Text key={mentor.id}>2/{mentor.slots} Slots</Text>,
+          <Text
+            key={mentor.id}
+            type={
+              mentor.noOfAssignedMentees > mentor.slots ? 'danger' : 'warning'
+            }
+          >
+            {mentor.noOfAssignedMentees}/{mentor.slots} Slots
+          </Text>,
           <Text key={mentor.id}>{mentor.expertise}</Text>,
         ]}
       >
