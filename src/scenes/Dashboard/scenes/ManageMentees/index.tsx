@@ -85,7 +85,7 @@ function ManageMentees() {
 
   function getMentorList() {
     axios
-      .get(`${API_URL}/admin/programs/${programId}/mentors`, {
+      .get(`${API_URL}/admin/programs/${programId}/mentors?states=APPROVED`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
@@ -129,6 +129,15 @@ function ManageMentees() {
   }
 
   function changeMenteeAssignedMentor(mentorId: number, menteeId: number) {
+    let currentMentorId;
+    mentees.map((mentee: Mentee) => {
+      if (mentee.id == menteeId) {
+        currentMentorId = mentee.assignedMentor?.id;
+      }
+    });
+    if (mentorId == currentMentorId) {
+      return;
+    }
     const payload = { mentorId: mentorId };
     axios
       .put(`${API_URL}/admin/mentees/${menteeId}/assign`, payload, {
@@ -329,7 +338,7 @@ function ManageMentees() {
       </Row>
       <Drawer
         title={<Title level={4}>Mentee Application</Title>}
-        width={500}
+        width={640}
         placement="left"
         onClose={onClose}
         visible={isDrawerVisible}

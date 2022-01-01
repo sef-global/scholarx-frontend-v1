@@ -1,34 +1,59 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import { WarningOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
-  Col,
+  Divider,
   Drawer,
+  Empty,
   List,
   Modal,
   notification,
-  Row,
   Typography,
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
-import MentorResponses from '../../../../../../components/MentorResponses';
+import MentorProfileCard from '../../../../../../components/MentorProfileCard';
 import { API_URL } from '../../../../../../constants';
-import { Mentor } from '../../../../../../types';
+import { Mentee, Mentor } from '../../../../../../types';
 import StatusTag from '../StatusTag';
 import { Props } from './interfaces';
 import styles from './style.css';
 
-const { Title } = Typography;
+const { Text, Title } = Typography;
 
 function MentorRow({ mentor, programState }: Props) {
   const actions: ReactNode[] = [];
   const { programId } = useParams();
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [assignedMentees, setAssignedMentees] = useState<Mentee[]>([]);
   const [mentorState, setMentorState] = useState<string>(mentor.state);
+
+  useEffect(() => {
+    getAssignedMentees();
+  }, []);
+
+  function getAssignedMentees() {
+    // TODO: Investigate why this throws an unauthorized error
+    axios
+      .get(`${API_URL}/mentors/${mentor.id}/mentees`)
+      .then((result: AxiosResponse<Mentee[]>) => {
+        if (result.status == 200) {
+          setAssignedMentees(result.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.error({
+          message: 'Failed',
+          description: 'Something went wrong while fetching the mentees',
+        });
+      });
+  }
 
   const updateMentorState = (mentorState: string) => {
     let successMessage: string;
@@ -114,19 +139,6 @@ function MentorRow({ mentor, programState }: Props) {
 
     actions.push(
       <Button
-        type="link"
-        className={styles.buttonMargin}
-        onClick={() => {
-          setIsDrawerVisible(true);
-        }}
-      >
-        View Application
-      </Button>
-    );
-
-    actions.push(
-      <Button
-        type="primary"
         className={styles.buttonMargin}
         disabled={isApproveDisabled}
         onClick={confirmApproval}
@@ -137,7 +149,6 @@ function MentorRow({ mentor, programState }: Props) {
 
     actions.push(
       <Button
-        type="primary"
         className={styles.buttonMargin}
         danger
         disabled={isRejectDisabled}
@@ -151,12 +162,7 @@ function MentorRow({ mentor, programState }: Props) {
   // TODO: Add a new button to un remove mentors
   const isRemoveDisabled = mentorState == 'REMOVED';
   actions.push(
-    <Button
-      type="primary"
-      danger
-      disabled={isRemoveDisabled}
-      onClick={confirmRemoval}
-    >
+    <Button danger disabled={isRemoveDisabled} onClick={confirmRemoval}>
       Remove
     </Button>
   );
@@ -168,20 +174,23 @@ function MentorRow({ mentor, programState }: Props) {
           avatar={<Avatar src={mentor.profile.imageUrl} />}
           title={
             <div>
-              <a
-                href={mentor.profile.linkedinUrl}
-                target="_blank"
-                rel="noreferrer"
+              <Button
+                onClick={() => {
+                  setIsDrawerVisible(true);
+                }}
+                type={'link'}
               >
                 {mentor.profile.firstName} {mentor.profile.lastName}
                 <br />
-                <StatusTag state={mentorState} />
-              </a>
+              </Button>
+              <StatusTag state={mentorState} />
             </div>
           }
           description={mentor.profile.headline}
         />
-        <span className={styles.mentorNameSpan}>{mentor.profile.email}</span>
+        <Text className={styles.mentorNameSpan} copyable>
+          {mentor.profile.email}
+        </Text>
       </List.Item>
       <Drawer
         width={640}
@@ -190,27 +199,33 @@ function MentorRow({ mentor, programState }: Props) {
         onClose={() => setIsDrawerVisible(false)}
         visible={isDrawerVisible}
       >
-        <Row className={styles.mentorProfile}>
-          <Col>
-            <Avatar size={64} src={mentor.profile.imageUrl} />
-          </Col>
-          <Col>
-            <Row>
-              <Title level={3} style={{ alignSelf: 'center', marginLeft: 16 }}>
-                {mentor.profile.firstName} {mentor.profile.lastName}
-              </Title>
-            </Row>
-            <Row>
-              <a
-                href={`mailto:${mentor.profile.email}`}
-                style={{ alignSelf: 'center', marginLeft: 16 }}
-              >
-                {mentor.profile.email}
-              </a>
-            </Row>
-          </Col>
-        </Row>
-        <MentorResponses mentorId={mentor.id} programId={programId} />
+        <Title level={3}>Mentor Application</Title>
+        <MentorProfileCard mentor={mentor} />
+        <Divider />
+        <Title level={4}>Assigned Mentees</Title>
+        {mentor.noOfAssignedMentees == 0 ? (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}>
+            <Link to={`/dashboard/${programId}/manage-mentees`}>
+              <Button type={'primary'}>Assign Mentees</Button>
+            </Link>
+          </Empty>
+        ) : (
+          <List>
+            {assignedMentees.map((mentee: Mentee) => {
+              return (
+                <List.Item key={mentee.id}>
+                  <List.Item.Meta
+                    avatar={<Avatar src={mentee.profile.imageUrl} />}
+                    title={
+                      mentee.profile.firstName + ' ' + mentee.profile.lastName
+                    }
+                    description={mentee.course + ', ' + mentee.university}
+                  />
+                </List.Item>
+              );
+            })}
+          </List>
+        )}
       </Drawer>
     </>
   );
