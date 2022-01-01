@@ -23,7 +23,7 @@
 }
 
 .content {
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     background-color: white;
     padding-left: 240px;
     padding-top: 40px;

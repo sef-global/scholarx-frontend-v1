@@ -1,3 +1,10 @@
 export interface StatusTagProps {
-  state: 'PENDING' | 'APPROVED' | 'REJECTED';
+  state:
+    | 'PENDING'
+    | 'POOL'
+    | 'DISCARDED'
+    | 'FAILED_FROM_WILDCARD'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'ASSIGNED';
 }
