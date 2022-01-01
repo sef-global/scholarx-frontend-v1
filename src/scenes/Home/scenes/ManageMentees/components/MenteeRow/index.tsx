@@ -21,7 +21,7 @@ import StatusTag from './components/StatusTag';
 import { StatusTagProps } from './interfaces';
 import styles from './style.css';
 
-const { Text, Link } = Typography;
+const { Text, Link, Title } = Typography;
 const { Meta } = Card;
 
 function MenteeRow({ mentee, programState }: StatusTagProps) {
@@ -151,6 +151,8 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
         onClose={hideMenteeDrawer}
         visible={isDrawerVisible}
       >
+        <Title level={3}>Mentee Application</Title>
+        <Divider />
         <Meta
           title={
             <>
