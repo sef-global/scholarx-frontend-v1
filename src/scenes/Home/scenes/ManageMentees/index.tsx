@@ -114,7 +114,7 @@ function ManageMentees() {
         <Spin tip="Loading..." spinning={isLoading}>
           <Row>
             <Col md={3} />
-            <Col md={15}>
+            <Col md={20}>
               <Title>Manage Mentees</Title>
               {!shouldLoadMentees && program != null && (
                 <Empty
