@@ -349,15 +349,20 @@ function ManageMentees() {
                   }}
                 />
               )}
-              {program?.state === 'WILDCARD' && (
-                <Column
-                  title="Rejected By"
-                  dataIndex={'rejectedBy'}
-                  render={(rejectedBy: string) => {
-                    return rejectedBy;
-                  }}
-                />
-              )}
+              {program?.state === 'WILDCARD' ||
+                (program?.state === 'ONGOING' && (
+                  <Column
+                    title="Rejected By"
+                    dataIndex={'rejectedBy'}
+                    render={(rejectedBy: Mentor) => {
+                      return (
+                        rejectedBy.profile.firstName +
+                        ' ' +
+                        rejectedBy.profile.lastName
+                      );
+                    }}
+                  />
+                ))}
             </Table>
           </Spin>
         </Col>
