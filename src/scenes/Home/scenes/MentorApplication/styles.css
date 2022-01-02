@@ -9,7 +9,7 @@
 }
 
 .submitButton {
-    margin-left: 1.5rem;
+    margin-top: 20px;
 }
 
 .wrapper {
@@ -39,4 +39,13 @@
     border: transparent;
     background: transparent;
     box-shadow: none;
+}
+
+.contentMargin {
+    width: 50%;
+}
+
+.backButtonColumn {
+    display: grid;
+    justify-content: center;
 }
