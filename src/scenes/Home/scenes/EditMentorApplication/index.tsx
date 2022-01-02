@@ -69,7 +69,14 @@ function MentorApplication() {
 
   const apply = async (values: Mentor) => {
     setIsLoading(true);
-    const mentor: Mentor = {
+    const mentor: {
+      institution: string,
+      slots: number,
+      bio: string,
+      position: string,
+      category: string,
+      expertise: string,
+    } = {
       category: values.category,
       expertise: values.expertise,
       institution: values.institution,

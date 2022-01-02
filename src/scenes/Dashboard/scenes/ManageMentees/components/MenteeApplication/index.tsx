@@ -44,7 +44,7 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
         avatar={<Avatar size={64} src={mentee?.profile.imageUrl} />}
       />
       <Divider />
-      <Text strong>1. University and Course</Text>
+      <Text strong>University and Course</Text>
       <br />
       <br />
       <Text>
@@ -54,7 +54,7 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
       <Text>{mentee?.university}</Text>
       <br />
       <br />
-      <Text strong>2. Applied Mentor</Text>
+      <Text strong>Applied Mentor</Text>
       <br />
       <br />
       {isAppliedMentorExpanded ? (
@@ -72,13 +72,13 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
       )}
       <br />
       <br />
-      <Text strong>3. Reason for choosing this mentor</Text>
+      <Text strong>Reason for choosing this mentor</Text>
       <br />
       <br />
       <Text>{mentee?.reasonForChoice}</Text>
       <br />
       <br />
-      <Text strong>4. Future Ambitions and Intentions</Text>
+      <Text strong>Future ambitions and intentions</Text>
       <br />
       <br />
       <Text>{mentee?.intent}</Text>
@@ -90,6 +90,15 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
         </Card>
       ) : (
         <MentorProfileCard mentor={mentee?.assignedMentor} />
+      )}
+      <Divider />
+      <Title level={4}>Rejected By</Title>
+      {mentee?.rejectedBy == null ? (
+        <Card>
+          <Text>Not rejected by any mentor</Text>
+        </Card>
+      ) : (
+        <MentorProfileCard mentor={mentee?.rejectedBy} />
       )}
     </>
   );

@@ -17,8 +17,8 @@ import Dashboard from './scenes/Dashboard';
 import Home from './scenes/Home';
 import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
 import ManageMentees from './scenes/Home/scenes/ManageMentees';
+import MenteeDashboard from './scenes/Home/scenes/MenteeDashboard';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
-import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';
 import { Profile } from './types';
 
@@ -68,8 +68,8 @@ function App() {
           />
           <Route path="/mentor/program/:programId" component={ManageMentees} />
           <Route
-            path="/program/:programId/mentor/confirmation"
-            component={MentorConfirmation}
+            path="/mentee/program/:programId"
+            component={MenteeDashboard}
           />
           <Route path="/program/:programId" component={RequestMentors} />
         </Switch>

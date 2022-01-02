@@ -230,6 +230,10 @@ function ManageMentees() {
                       onSelect={(mentorId: number) => {
                         changeMenteeAssignedMentor(mentorId, mentee.id);
                       }}
+                      disabled={
+                        program.state == 'WILDCARD' &&
+                        mentee.state == 'APPROVED'
+                      }
                     >
                       {mentors?.map((mentor) => {
                         return (
@@ -279,10 +283,26 @@ function ManageMentees() {
                         onSelect={(value: string) => {
                           changeMenteeState(mentee.id, value);
                         }}
+                        disabled={
+                          program.state == 'WILDCARD' &&
+                          mentee.state == 'APPROVED'
+                        }
                       >
-                        <Option value="PENDING">PENDING</Option>
-                        <Option value="ASSIGNED">ASSIGNED</Option>
-                        <Option value="POOL">POOL</Option>
+                        <Option
+                          value="PENDING"
+                          disabled={program.state !== 'ADMIN_MENTEE_FILTRATION'}
+                        >
+                          PENDING
+                        </Option>
+                        <Option value="ASSIGNED" disabled>
+                          ASSIGNED
+                        </Option>
+                        <Option
+                          value="POOL"
+                          disabled={program.state !== 'ADMIN_MENTEE_FILTRATION'}
+                        >
+                          POOL
+                        </Option>
                         <Option
                           value="DISCARDED"
                           disabled={program.state != 'ADMIN_MENTEE_FILTRATION'}
@@ -326,6 +346,15 @@ function ManageMentees() {
                   }
                   render={(status: string) => {
                     return status;
+                  }}
+                />
+              )}
+              {program?.state === 'WILDCARD' && (
+                <Column
+                  title="Rejected By"
+                  dataIndex={'rejectedBy'}
+                  render={(rejectedBy: string) => {
+                    return rejectedBy;
                   }}
                 />
               )}

@@ -54,7 +54,14 @@ export const getMentorApplication = async (programId: string) => {
 
 export const updateMentorApplication = async (
   programId: string,
-  mentor: Mentor
+  mentor: {
+    institution: string,
+    slots: number,
+    bio: string,
+    position: string,
+    category: string,
+    expertise: string,
+  }
 ) => {
   try {
     const result = await axios.put(

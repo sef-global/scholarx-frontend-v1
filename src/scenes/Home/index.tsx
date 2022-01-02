@@ -1,16 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { Col, Row, Tabs, Typography } from 'antd';
 
-import { UserContext } from '../../index';
-import { Profile } from '../../types';
 import { trackPageWithGoogleAnalytics } from '../../util/google-analytics';
 import ActivePrograms from './components/ActivePrograms';
-import CompletedPrograms from './components/CompletedPrograms';
 import Footer from './components/Footer';
 import HelpButton from './components/HelpButton';
-import MenteePrograms from './components/MenteePrograms';
-import MentorPrograms from './components/MentorPrograms';
 import NavigationBar from './components/NavigationBar';
 import PastPrograms from './components/PastPrograms';
 import logo from './scholarx.png';
@@ -24,7 +19,6 @@ const Home = () => {
     trackPageWithGoogleAnalytics();
   }, []);
 
-  const user: Partial<Profile | null> = useContext(UserContext);
   return (
     <>
       <div>
@@ -39,10 +33,7 @@ const Home = () => {
                   support to a selected pool of high Potential undergraduate
                   students based in Sri Lanka ideally by a Sri Lankan expat
                   currently engaged with one of the world’s top universities or
-                  Fortune 500 companies. It’s our free premium mentoring
-                  platform by Sri Lankans for Sri Lankans working towards
-                  creating a culture of knowledge and expertise sharing without
-                  the limitation of geographical borders.
+                  Fortune 500 companies.
                 </Paragraph>
               </Col>
             </Row>
@@ -52,27 +43,6 @@ const Home = () => {
                   <ActivePrograms />
                 </div>
               </TabPane>
-              {user == null || user.type == 'ADMIN' ? (
-                ''
-              ) : (
-                <>
-                  <TabPane tab="Programs I mentor" key="mentorPrograms">
-                    <div className={styles.cardWrapper}>
-                      <MentorPrograms />
-                    </div>
-                  </TabPane>
-                  <TabPane tab="Programs I get mentored" key="menteePrograms">
-                    <div className={styles.cardWrapper}>
-                      <MenteePrograms />
-                    </div>
-                  </TabPane>
-                  <TabPane tab="Completed Programs" key="completedPrograms">
-                    <div className={styles.cardWrapper}>
-                      <CompletedPrograms />
-                    </div>
-                  </TabPane>
-                </>
-              )}
               <TabPane tab="Past Programs" key="pastPrograms">
                 <div className={styles.cardWrapper}>
                   <PastPrograms />
