@@ -355,11 +355,14 @@ function ManageMentees() {
                   title="Rejected By"
                   dataIndex={'rejectedBy'}
                   render={(rejectedBy: Mentor) => {
-                    return (
-                      rejectedBy.profile.firstName +
-                      ' ' +
-                      rejectedBy.profile.lastName
-                    );
+                    if (rejectedBy != null) {
+                      return (
+                        rejectedBy?.profile.firstName +
+                        ' ' +
+                        rejectedBy?.profile.lastName
+                      );
+                    }
+                    return '';
                   }}
                 />
               )}
