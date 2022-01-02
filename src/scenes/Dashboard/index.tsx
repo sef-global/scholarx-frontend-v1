@@ -5,7 +5,7 @@ import {
   EditOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { Menu, Layout, Avatar, Input, List } from 'antd';
+import { Menu, Layout, Avatar } from 'antd';
 import { useHistory } from 'react-router';
 import {
   Link,
@@ -29,7 +29,6 @@ import MenteeQuestions from './scenes/MenteeQuestions';
 import styles from './styles.css';
 
 const { Content, Sider, Header } = Layout;
-const { Search } = Input;
 
 function Dashboard() {
   const { programId } = useParams();
@@ -125,30 +124,6 @@ function Dashboard() {
               />
             </Switch>
           </Content>
-          <Switch>
-            <Route path={'/dashboard/:programId/manage-mentees'}>
-              <Sider className={styles.mentorSearchSider}>
-                <div className={styles.mentorSearch}>
-                  <h2>Mentors</h2>
-                  <Search placeholder="Search for Mentor" />
-                  <List>
-                    <List.Item>
-                      <span>Joey Tribiiani</span>
-                      <span>5/5</span>
-                    </List.Item>
-                    <List.Item>
-                      <span>Darth Vadar</span>
-                      <span>3/10</span>
-                    </List.Item>
-                    <List.Item>
-                      <span>Sheldon Cooper</span>
-                      <span>20/20</span>
-                    </List.Item>
-                  </List>
-                </div>
-              </Sider>
-            </Route>
-          </Switch>
         </Layout>
       </Layout>
     </Router>

@@ -8,13 +8,16 @@ import {
   Button,
   Drawer,
   Select,
+  Row,
+  Col,
 } from 'antd';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 import axios, { AxiosResponse } from 'axios';
 import { useParams } from 'react-router';
 
 import { API_URL } from '../../../../constants';
-import { Mentee, Mentor, Profile, SavedProgram } from '../../../../types';
+import { Mentee, Mentor, SavedProgram } from '../../../../types';
+import MentorList from '../../components/MentorList';
 import styles from '../../styles.css';
 import MenteeApplication from './components/MenteeApplication';
 
@@ -82,7 +85,7 @@ function ManageMentees() {
 
   function getMentorList() {
     axios
-      .get(`${API_URL}/admin/programs/${programId}/mentors`, {
+      .get(`${API_URL}/admin/programs/${programId}/mentors?states=APPROVED`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
@@ -126,6 +129,15 @@ function ManageMentees() {
   }
 
   function changeMenteeAssignedMentor(mentorId: number, menteeId: number) {
+    let currentMentorId;
+    mentees.map((mentee: Mentee) => {
+      if (mentee.id == menteeId) {
+        currentMentorId = mentee.assignedMentor?.id;
+      }
+    });
+    if (mentorId == currentMentorId) {
+      return;
+    }
     const payload = { mentorId: mentorId };
     axios
       .put(`${API_URL}/admin/mentees/${menteeId}/assign`, payload, {
@@ -134,6 +146,7 @@ function ManageMentees() {
       .then((result: AxiosResponse<Mentee>) => {
         if (result.status == 200) {
           getMenteeList();
+          getMentorList();
         } else {
           throw new Error();
         }
@@ -158,174 +171,180 @@ function ManageMentees() {
 
   return (
     <div className={styles.container}>
-      <Title>Manage Mentees</Title>
-      <Spin tip="Loading..." spinning={isLoading}>
-        <Table dataSource={mentees} rowKey={'id'}>
-          <Column
-            title="Mentee"
-            dataIndex={'profile'}
-            render={(profile: Profile) =>
-              `${profile.firstName} ${profile.lastName}`
-            }
-          />
-          <Column
-            title="Primary Mentor"
-            dataIndex={'appliedMentor'}
-            filters={mentors.map((mentor: Mentor) => {
-              const mentorFilter: ColumnFilterItem = {
-                text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
-                value: mentor.id,
-              };
-              return mentorFilter;
-            })}
-            onFilter={(value: number, record: Mentee) =>
-              record.appliedMentor.id === value
-            }
-            render={(mentor: Mentor) =>
-              `${mentor.profile.firstName} ${mentor.profile.lastName}`
-            }
-          />
-          <Column
-            title="Assigned To"
-            dataIndex={''}
-            filters={mentors.map((mentor: Mentor) => {
-              const mentorFilter: ColumnFilterItem = {
-                text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
-                value: mentor.id,
-              };
-              return mentorFilter;
-            })}
-            onFilter={(value: number, record: Mentee) =>
-              record.assignedMentor.id === value
-            }
-            render={(mentee: Mentee) => {
-              return (
-                <Select
-                  showSearch
-                  style={{ width: 250 }}
-                  placeholder="Select a Mentor"
-                  value={mentee.assignedMentor?.id}
-                  onSelect={(mentorId: number) => {
-                    changeMenteeAssignedMentor(mentorId, mentee.id);
-                  }}
-                >
-                  {mentors?.map((mentor) => {
-                    return (
-                      <Option
-                        key={mentor.id}
-                        value={mentor.id}
-                        disabled={
-                          program.state != 'ADMIN_MENTEE_FILTRATION' &&
-                          program.state != 'WILDCARD'
-                        }
-                      >
-                        {mentor.profile.firstName} {mentor.profile.lastName}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              );
-            }}
-          />
-          {program?.state === 'ADMIN_MENTEE_FILTRATION' ||
-          program?.state === 'WILDCARD' ? (
-            <Column
-              title="Status"
-              dataIndex={''}
-              filters={[
-                { text: 'PENDING', value: 'PENDING' },
-                { text: 'ASSIGNED', value: 'ASSIGNED' },
-                { text: 'POOL', value: 'POOL' },
-                { text: 'DISCARDED', value: 'DISCARDED' },
-                { text: 'APPROVED', value: 'APPROVED' },
-                { text: 'REJECTED', value: 'REJECTED' },
-                { text: 'FAILED FROM WILDCARD', value: 'FAILED_FROM_WILDCARD' },
-              ]}
-              onFilter={(value: string, record: Mentee) =>
-                record.state.indexOf(value) === 0
-              }
-              render={(mentee: Mentee) => {
-                return (
-                  <Select
-                    showSearch
-                    style={{ width: 150 }}
-                    placeholder="Select a state"
-                    value={mentee.state}
-                    onSelect={(value: string) => {
-                      changeMenteeState(mentee.id, value);
+      <Row>
+        <Col md={18}>
+          <Title>Manage Mentees</Title>
+          <Spin tip="Loading..." spinning={isLoading}>
+            <Table dataSource={mentees} rowKey={'id'}>
+              <Column
+                title="Mentee"
+                dataIndex={''}
+                render={(mentee: Mentee) => (
+                  <Button
+                    type={'link'}
+                    onClick={() => {
+                      showSelectedApplication(mentee);
                     }}
                   >
-                    <Option value="PENDING">PENDING</Option>
-                    <Option value="ASSIGNED">ASSIGNED</Option>
-                    <Option value="POOL">POOL</Option>
-                    <Option
-                      value="DISCARDED"
-                      disabled={program.state != 'ADMIN_MENTEE_FILTRATION'}
+                    {mentee.profile.firstName} {mentee.profile.lastName}
+                  </Button>
+                )}
+              />
+              <Column
+                title="Primary Mentor"
+                dataIndex={'appliedMentor'}
+                filters={mentors.map((mentor: Mentor) => {
+                  const mentorFilter: ColumnFilterItem = {
+                    text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
+                    value: mentor.id,
+                  };
+                  return mentorFilter;
+                })}
+                onFilter={(value: number, record: Mentee) =>
+                  record.appliedMentor.id === value
+                }
+                render={(mentor: Mentor) =>
+                  `${mentor.profile.firstName} ${mentor.profile.lastName}`
+                }
+              />
+              <Column
+                title="Assigned To"
+                dataIndex={''}
+                filters={mentors.map((mentor: Mentor) => {
+                  const mentorFilter: ColumnFilterItem = {
+                    text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
+                    value: mentor.id,
+                  };
+                  return mentorFilter;
+                })}
+                onFilter={(value: number, record: Mentee) =>
+                  record.assignedMentor?.id === value
+                }
+                render={(mentee: Mentee) => {
+                  return (
+                    <Select
+                      showSearch
+                      style={{ width: 250 }}
+                      placeholder="Select a Mentor"
+                      value={mentee.assignedMentor?.id}
+                      onSelect={(mentorId: number) => {
+                        changeMenteeAssignedMentor(mentorId, mentee.id);
+                      }}
                     >
-                      DISCARDED
-                    </Option>
-                    <Option value="APPROVED" disabled>
-                      APPROVED
-                    </Option>
-                    <Option value="REJECTED" disabled>
-                      REJECTED
-                    </Option>
-                    <Option
-                      value="FAILED_FROM_WILDCARD"
-                      disabled={program.state !== 'WILDCARD'}
-                    >
-                      FAILED FROM WILDCARD
-                    </Option>
-                  </Select>
-                );
-              }}
-            />
-          ) : (
-            <Column
-              title="Status"
-              dataIndex={'state'}
-              filters={[
-                { text: 'PENDING', value: 'PENDING' },
-                { text: 'ASSIGNED', value: 'ASSIGNED' },
-                { text: 'POOL', value: 'POOL' },
-                { text: 'DISCARDED', value: 'DISCARDED' },
-                { text: 'APPROVED', value: 'APPROVED' },
-                { text: 'REJECTED', value: 'REJECTED' },
-                { text: 'FAILED FROM WILDCARD', value: 'FAILED_FROM_WILDCARD' },
-              ]}
-              onFilter={(value: string, record: Mentee) =>
-                record.state.indexOf(value) === 0
-              }
-              render={(status: string) => {
-                return status;
-              }}
-            />
-          )}
-          <Column
-            title="Application"
-            dataIndex={''}
-            render={(mentee: Mentee) => (
-              <Button
-                onClick={() => {
-                  showSelectedApplication(mentee);
+                      {mentors?.map((mentor) => {
+                        return (
+                          <Option
+                            key={mentor.id}
+                            value={mentor.id}
+                            disabled={
+                              program.state != 'ADMIN_MENTEE_FILTRATION' &&
+                              program.state != 'WILDCARD'
+                            }
+                          >
+                            {mentor.profile.firstName} {mentor.profile.lastName}
+                          </Option>
+                        );
+                      })}
+                    </Select>
+                  );
                 }}
-                type="link"
-              >
-                View Application
-              </Button>
-            )}
-          />
-        </Table>
-        <Drawer
-          title={<Title level={4}>Mentee Application</Title>}
-          width={500}
-          placement="right"
-          onClose={onClose}
-          visible={isDrawerVisible}
-        >
-          <MenteeApplication mentee={selectedMentee} />
-        </Drawer>
-      </Spin>
+              />
+              {program?.state === 'ADMIN_MENTEE_FILTRATION' ||
+              program?.state === 'WILDCARD' ? (
+                <Column
+                  title="Status"
+                  dataIndex={''}
+                  filters={[
+                    { text: 'PENDING', value: 'PENDING' },
+                    { text: 'ASSIGNED', value: 'ASSIGNED' },
+                    { text: 'POOL', value: 'POOL' },
+                    { text: 'DISCARDED', value: 'DISCARDED' },
+                    { text: 'APPROVED', value: 'APPROVED' },
+                    { text: 'REJECTED', value: 'REJECTED' },
+                    {
+                      text: 'FAILED FROM WILDCARD',
+                      value: 'FAILED_FROM_WILDCARD',
+                    },
+                  ]}
+                  onFilter={(value: string, record: Mentee) =>
+                    record.state.indexOf(value) === 0
+                  }
+                  render={(mentee: Mentee) => {
+                    return (
+                      <Select
+                        showSearch
+                        style={{ width: 150 }}
+                        placeholder="Select a state"
+                        value={mentee.state}
+                        onSelect={(value: string) => {
+                          changeMenteeState(mentee.id, value);
+                        }}
+                      >
+                        <Option value="PENDING">PENDING</Option>
+                        <Option value="ASSIGNED">ASSIGNED</Option>
+                        <Option value="POOL">POOL</Option>
+                        <Option
+                          value="DISCARDED"
+                          disabled={program.state != 'ADMIN_MENTEE_FILTRATION'}
+                        >
+                          DISCARDED
+                        </Option>
+                        <Option value="APPROVED" disabled>
+                          APPROVED
+                        </Option>
+                        <Option value="REJECTED" disabled>
+                          REJECTED
+                        </Option>
+                        <Option
+                          value="FAILED_FROM_WILDCARD"
+                          disabled={program.state !== 'WILDCARD'}
+                        >
+                          FAILED FROM WILDCARD
+                        </Option>
+                      </Select>
+                    );
+                  }}
+                />
+              ) : (
+                <Column
+                  title="Status"
+                  dataIndex={'state'}
+                  filters={[
+                    { text: 'PENDING', value: 'PENDING' },
+                    { text: 'ASSIGNED', value: 'ASSIGNED' },
+                    { text: 'POOL', value: 'POOL' },
+                    { text: 'DISCARDED', value: 'DISCARDED' },
+                    { text: 'APPROVED', value: 'APPROVED' },
+                    { text: 'REJECTED', value: 'REJECTED' },
+                    {
+                      text: 'FAILED FROM WILDCARD',
+                      value: 'FAILED_FROM_WILDCARD',
+                    },
+                  ]}
+                  onFilter={(value: string, record: Mentee) =>
+                    record.state.indexOf(value) === 0
+                  }
+                  render={(status: string) => {
+                    return status;
+                  }}
+                />
+              )}
+            </Table>
+          </Spin>
+        </Col>
+        <Col md={6}>
+          <MentorList mentors={mentors} />
+        </Col>
+      </Row>
+      <Drawer
+        title={<Title level={4}>Mentee Application</Title>}
+        width={640}
+        placement="left"
+        onClose={onClose}
+        visible={isDrawerVisible}
+      >
+        <MenteeApplication mentee={selectedMentee} />
+      </Drawer>
     </div>
   );
 }

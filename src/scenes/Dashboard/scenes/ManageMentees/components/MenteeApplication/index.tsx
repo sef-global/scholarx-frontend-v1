@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Avatar, Card, Divider, Tooltip, Typography } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Divider, Tooltip, Typography } from 'antd';
 
 import MentorProfileCard from '../../../../../../components/MentorProfileCard';
 import { Mentee } from '../../../../../../types';
@@ -9,6 +10,19 @@ const { Title, Text, Link } = Typography;
 const { Meta } = Card;
 
 function MenteeApplication({ mentee }: { mentee: Mentee }) {
+  const [
+    isAppliedMentorExpanded,
+    setIsAppliedMentorExpanded,
+  ] = useState<boolean>(false);
+
+  function expandAppliedMentor() {
+    setIsAppliedMentorExpanded(true);
+  }
+
+  function shrinkAppliedMentor() {
+    setIsAppliedMentorExpanded(false);
+  }
+
   return (
     <>
       <Meta
@@ -43,7 +57,19 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
       <Text strong>2. Applied Mentor</Text>
       <br />
       <br />
-      <MentorProfileCard mentor={mentee?.appliedMentor} />
+      {isAppliedMentorExpanded ? (
+        <div>
+          <Button type={'text'} onClick={shrinkAppliedMentor}>
+            <CloseOutlined />
+          </Button>
+          <MentorProfileCard mentor={mentee?.appliedMentor} />
+        </div>
+      ) : (
+        <Link onClick={expandAppliedMentor}>
+          {mentee?.appliedMentor.profile.firstName}{' '}
+          {mentee?.appliedMentor.profile.lastName}
+        </Link>
+      )}
       <br />
       <br />
       <Text strong>3. Reason for choosing this mentor</Text>
