@@ -74,27 +74,27 @@ function MentorApplication() {
     <>
       <LogInModal isModalVisible={user === null} onCancel={null} />
       <NavigationBar />
-      <div className={mainStyles.container}>
-        <Row>
-          <Col md={2} />
-          <Col md={2}>
-            <Button
-              className={styles.backButton}
-              icon={<ArrowLeftOutlined />}
-              size="large"
-              onClick={() => {
-                history.push('/');
-              }}
-            />
-          </Col>
-          <Col md={12} offset={2} className={styles['center-text']}>
-            <Title level={2}> Mentor Application | {programTitle} </Title>
-          </Col>
-        </Row>
-        <Spin tip="Loading..." spinning={isLoading}>
-          <Row className={styles.form}>
-            <Col span={14} offset={5}>
-              <Card className={styles['form-card']}>
+      <Row>
+        <Col md={3} className={styles.backButtonColumn}>
+          <Button
+            className={styles.backButton}
+            icon={<ArrowLeftOutlined />}
+            size="large"
+            onClick={() => {
+              history.push('/');
+            }}
+          />
+        </Col>
+        <Col md={15} />
+      </Row>
+      <Row>
+        <Col span={18} offset={3}>
+          <div className={mainStyles.container}>
+            <Spin tip="Loading..." spinning={isLoading}>
+              <Title level={2}> Mentor Application | {programTitle} </Title>
+            </Spin>
+            <div className={styles.contentMargin}>
+              <Spin tip="Loading..." spinning={isLoading}>
                 {isApplySuccess ? (
                   <div className={styles.wrapper}>
                     <Card className={styles.card}>
@@ -104,147 +104,123 @@ function MentorApplication() {
                 ) : (
                   <Form
                     layout="vertical"
-                    size="large"
+                    size="middle"
                     onFinish={apply}
                     form={form}
                   >
-                    <Row>
-                      <Col span={16} offset={4}>
-                        <Title level={4}>Category</Title>
-                        <Form.Item
-                          name="category"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
-                          <Select
-                            options={[
-                              { label: 'Engineering', value: 'ENGINEERING' },
-                              {
-                                label: 'Computer Science',
-                                value: 'COMPUTER_SCIENCE',
-                              },
-                              {
-                                label: 'Life Sciences',
-                                value: 'LIFE_SCIENCES',
-                              },
-                              { label: 'Data Science', value: 'DATA_SCIENCE' },
-                              {
-                                label: 'Physical Science',
-                                value: 'PHYSICAL_SCIENCE',
-                              },
-                              { label: 'Other', value: 'OTHER' },
-                            ]}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={16} offset={4}>
-                        <Title level={4}>Expertise</Title>
-                        <Form.Item
-                          name="expertise"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
-                          <Input />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={16} offset={4}>
-                        <Title level={4}>Institution</Title>
-                        <Form.Item
-                          name="institution"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
-                          <Input />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={16} offset={4}>
-                        <Title level={4}>Current Position</Title>
-                        <Form.Item
-                          name="position"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
-                          <Input />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={16} offset={4}>
-                        <Title level={4}>Bio</Title>
-                        <Form.Item
-                          name="bio"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
-                          <TextArea rows={5} />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={16} offset={4}>
-                        <Title level={4}>Number of Mentee Slots</Title>
-                        <Form.Item
-                          name="slots"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
-                          <InputNumber />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col
-                        span={10}
-                        offset={7}
-                        className={styles['center-text']}
+                    <Form.Item
+                      label="Category"
+                      name="category"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Select
+                        options={[
+                          {
+                            label: 'Engineering',
+                            value: 'ENGINEERING',
+                          },
+                          {
+                            label: 'Computer Science',
+                            value: 'COMPUTER_SCIENCE',
+                          },
+                          {
+                            label: 'Life Sciences',
+                            value: 'LIFE_SCIENCES',
+                          },
+                          {
+                            label: 'Data Science',
+                            value: 'DATA_SCIENCE',
+                          },
+                          {
+                            label: 'Physical Science',
+                            value: 'PHYSICAL_SCIENCE',
+                          },
+                          { label: 'Other', value: 'OTHER' },
+                        ]}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      label="Expertise"
+                      name="expertise"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="Institution"
+                      name="institution"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="Current Position"
+                      name="position"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="Bio"
+                      name="bio"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <TextArea rows={5} />
+                    </Form.Item>
+                    <Form.Item
+                      label="Number of Mentee Slots"
+                      name="slots"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        htmlType="submit"
+                        type="primary"
+                        className={styles.submitButton}
                       >
-                        <Button
-                          htmlType="submit"
-                          type="primary"
-                          className={styles.submitButton}
-                        >
-                          Submit
-                        </Button>
-                      </Col>
-                    </Row>
+                        Submit
+                      </Button>
+                    </Form.Item>
                   </Form>
                 )}
-              </Card>
-            </Col>
-          </Row>
-        </Spin>
-        <div className={styles.push} />
-      </div>
+              </Spin>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <div className={styles.push} />
       <HelpButton />
       <div className={styles.footer}>
         <Footer />
