@@ -93,15 +93,15 @@ function MentorApplication() {
             <Spin tip="Loading..." spinning={isLoading}>
               <Title level={2}> Mentor Application | {programTitle} </Title>
             </Spin>
-            <div className={styles.contentMargin}>
-              <Spin tip="Loading..." spinning={isLoading}>
-                {isApplySuccess ? (
-                  <div className={styles.wrapper}>
-                    <Card className={styles.card}>
-                      <Result programId={programId} type="apply" />
-                    </Card>
-                  </div>
-                ) : (
+            <Spin tip="Loading..." spinning={isLoading}>
+              {isApplySuccess ? (
+                <div className={styles.wrapper}>
+                  <Card className={styles.card}>
+                    <Result programId={programId} type="apply" />
+                  </Card>
+                </div>
+              ) : (
+                <div className={styles.contentMargin}>
                   <Form
                     layout="vertical"
                     size="middle"
@@ -214,9 +214,9 @@ function MentorApplication() {
                       </Button>
                     </Form.Item>
                   </Form>
-                )}
-              </Spin>
-            </div>
+                </div>
+              )}
+            </Spin>
           </div>
         </Col>
       </Row>

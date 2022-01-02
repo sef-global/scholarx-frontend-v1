@@ -9,7 +9,7 @@
 }
 
 .submitButton {
-    margin-left: 1.5rem;
+    margin-top: 20px;
 }
 
 .form-card {
@@ -20,6 +20,14 @@
 
 .center-text {
     text-align: center;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 50px;
+    margin-bottom: 190px;
 }
 
 .footer, .push {
@@ -33,3 +41,11 @@
     box-shadow: none;
 }
 
+.contentMargin {
+    width: 50%;
+}
+
+.backButtonColumn {
+    display: grid;
+    justify-content: center;
+}
