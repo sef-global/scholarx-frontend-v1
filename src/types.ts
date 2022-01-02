@@ -58,6 +58,7 @@ export interface Mentee {
   submissionUrl: string;
   appliedMentor: Mentor;
   assignedMentor: Mentor;
+  rejectedBy: Mentor;
   reasonForChoice: string;
   intent: string;
   course: string;

@@ -349,6 +349,15 @@ function ManageMentees() {
                   }}
                 />
               )}
+              {program?.state === 'WILDCARD' && (
+                <Column
+                  title="Rejected By"
+                  dataIndex={'rejectedBy'}
+                  render={(rejectedBy: string) => {
+                    return rejectedBy;
+                  }}
+                />
+              )}
             </Table>
           </Spin>
         </Col>

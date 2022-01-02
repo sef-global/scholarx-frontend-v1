@@ -91,6 +91,15 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
       ) : (
         <MentorProfileCard mentor={mentee?.assignedMentor} />
       )}
+      <Divider />
+      <Title level={4}>Rejected By</Title>
+      {mentee?.rejectedBy == null ? (
+        <Card>
+          <Text>Not rejected by any mentor</Text>
+        </Card>
+      ) : (
+        <MentorProfileCard mentor={mentee?.rejectedBy} />
+      )}
     </>
   );
 }
