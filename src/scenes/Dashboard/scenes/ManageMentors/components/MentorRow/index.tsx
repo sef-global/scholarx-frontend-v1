@@ -37,9 +37,8 @@ function MentorRow({ mentor, programState }: Props) {
   }, []);
 
   function getAssignedMentees() {
-    // TODO: Investigate why this throws an unauthorized error
     axios
-      .get(`${API_URL}/mentors/${mentor.id}/mentees`)
+      .get(`${API_URL}/mentors/${mentor.id}/mentees`, { withCredentials: true })
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200) {
           setAssignedMentees(result.data);
