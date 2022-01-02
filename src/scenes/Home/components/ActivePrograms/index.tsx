@@ -1,15 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import {
-  Button,
-  Card,
-  Col,
-  notification,
-  Row,
-  Spin,
-  Typography,
-  Tag,
-} from 'antd';
+import { Button, Card, Col, notification, Row, Spin, Typography } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom';
 
@@ -196,28 +187,22 @@ function ActivePrograms() {
                             Apply as mentee
                           </Button>
                         )}
-                      {(program.state === 'MENTOR_CONFIRMATION' ||
-                        program.state === 'ONGOING') &&
+                      {program.state !== 'MENTEE_APPLICATION' &&
                         !isUserAdmin &&
                         user != null &&
-                        !mentoringPrograms.some(
-                          (mentoringProgram) =>
-                            mentoringProgram.id == program.id
-                        ) &&
-                        menteePrograms.length !== 0 && (
+                        menteePrograms.some(
+                          (menteeProgram) => menteeProgram.id == program.id
+                        ) && (
                           <Button
                             type="primary"
                             onClick={() =>
-                              history.push(
-                                `/program/${program.id}/mentor/confirmation`
-                              )
+                              history.push(`/mentee/program/${program.id}`)
                             }
                           >
-                            My mentor
+                            Dashboard
                           </Button>
                         )}
-                      {(program.state === 'MENTEE_SELECTION' ||
-                        program.state === 'ONGOING') &&
+                      {program.state !== 'MENTOR_APPLICATION' &&
                         !isUserAdmin &&
                         user != null &&
                         mentoringPrograms.some(
@@ -235,37 +220,6 @@ function ActivePrograms() {
                         )}
                     </Col>
                   </Row>
-                  {program.state === 'MENTOR_SELECTION' && !isUserAdmin && (
-                    <Tag className={styles.tag} color="green">
-                      Mentor Selection Period
-                    </Tag>
-                  )}
-                  {program.state === 'MENTEE_SELECTION' &&
-                    !isUserAdmin &&
-                    !mentoringPrograms.some(
-                      (mentoringProgram) => mentoringProgram.id == program.id
-                    ) && (
-                      <Tag className={styles.tag} color="green">
-                        Mentee Selection Period
-                      </Tag>
-                    )}
-                  {program.state === 'MENTOR_CONFIRMATION' &&
-                  !isUserAdmin &&
-                  (user === null ||
-                    mentoringPrograms.some(
-                      (mentoringProgram) => mentoringProgram.id == program.id
-                    )) ? (
-                    <Tag className={styles.tag} color="green">
-                      Mentor Confirmation Period
-                    </Tag>
-                  ) : null}
-                  {program.state === 'ONGOING' &&
-                  !isUserAdmin &&
-                  user === null ? (
-                    <Tag className={styles.tag} color="green">
-                      Ongoing
-                    </Tag>
-                  ) : null}
                   <Paragraph>{program.headline}</Paragraph>
                 </Card>
                 <Row className={styles.viewMoreButton}>

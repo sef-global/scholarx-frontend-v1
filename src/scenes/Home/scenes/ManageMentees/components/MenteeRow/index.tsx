@@ -172,7 +172,7 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
           avatar={<Avatar size={64} src={mentee?.profile.imageUrl} />}
         />
         <Divider />
-        <Text strong>1. University and Course</Text>
+        <Text strong>University and Course</Text>
         <br />
         <br />
         <Text>
@@ -182,7 +182,7 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
         <Text>{mentee?.university}</Text>
         <br />
         <br />
-        <Text strong>2. Future Ambitions and Intentions</Text>
+        <Text strong>Future Ambitions and Intentions</Text>
         <br />
         <br />
         <Text>{mentee?.intent}</Text>
