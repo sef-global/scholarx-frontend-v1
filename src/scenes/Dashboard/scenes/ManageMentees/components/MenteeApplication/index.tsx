@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Divider, Tooltip, Typography } from 'antd';
 
+import CommentSection from '../../../../../../components/CommentSection';
 import MentorProfileCard from '../../../../../../components/MentorProfileCard';
 import { Mentee } from '../../../../../../types';
 
@@ -100,6 +101,8 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
       ) : (
         <MentorProfileCard mentor={mentee?.rejectedBy} />
       )}
+      <Divider />
+      <CommentSection mentee={mentee} />
     </>
   );
 }

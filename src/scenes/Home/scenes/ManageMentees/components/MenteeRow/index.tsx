@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 
+import CommentSection from '../../../../../../components/CommentSection';
 import { API_URL } from '../../../../../../constants';
 import { Mentee } from '../../../../../../types';
 import StatusTag from './components/StatusTag';
@@ -187,6 +188,7 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
         <br />
         <Text>{mentee?.intent}</Text>
         <Divider />
+        {mentee && <CommentSection mentee={mentee} />}
       </Drawer>
     </div>
   );

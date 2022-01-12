@@ -33,7 +33,9 @@ function MentorRow({ mentor, programState }: Props) {
   const [mentorState, setMentorState] = useState<string>(mentor.state);
 
   useEffect(() => {
-    getAssignedMentees();
+    if (mentorState !== 'PENDING') {
+      getAssignedMentees();
+    }
   }, []);
 
   function getAssignedMentees() {
