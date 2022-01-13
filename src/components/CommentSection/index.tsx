@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, MoreOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
@@ -8,21 +8,28 @@ import {
   Typography,
   Input,
   List,
+  Menu,
+  Dropdown,
   notification,
-  Tag,
 } from 'antd';
 import axios, { AxiosResponse } from 'axios';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 
 import { API_URL } from '../../constants';
 import { Mentee } from '../../types';
 import { Comment } from './interfaces';
+import styles from './style.css';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
+TimeAgo.addDefaultLocale(en);
+
 function CommentSection({ mentee }: { mentee: Mentee }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [comment, setComment] = useState('');
+  const timeAgo = new TimeAgo('en-US');
 
   useEffect(() => {
     getComments();
@@ -108,12 +115,26 @@ function CommentSection({ mentee }: { mentee: Mentee }) {
           const isAdmin = comment.commented_by.type === 'ADMIN';
           return (
             <List.Item
+              key={comment.id}
               actions={[
-                <DeleteOutlined
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <Button
+                          type="text"
+                          onClick={() => deleteComment(comment.id)}
+                        >
+                          <DeleteOutlined className={styles.deleteBtn} />
+                          Delete Comment
+                        </Button>
+                      </Menu.Item>
+                    </Menu>
+                  }
                   key={comment.id}
-                  style={{ color: 'red' }}
-                  onClick={() => deleteComment(comment.id)}
-                />,
+                >
+                  <MoreOutlined key={comment.id} />
+                </Dropdown>,
               ]}
             >
               <List.Item.Meta
@@ -121,20 +142,23 @@ function CommentSection({ mentee }: { mentee: Mentee }) {
                 title={
                   <a href={comment.commented_by.linkedinUrl}>
                     {comment.commented_by.firstName}{' '}
-                    {comment.commented_by.lastName}
+                    {comment.commented_by.lastName}{' '}
+                    <Text className={styles.commenterType}>
+                      {isAdmin ? '(Admin)' : '(Mentor)'}
+                    </Text>
                   </a>
                 }
-                description={comment.comment}
+                description={timeAgo.format(date)}
+                className={styles.buttonMargin}
               />
-              <Tag color="green">{isAdmin ? 'ADMIN' : 'MENTOR'}</Tag>
-              <Text>{date.toLocaleDateString('en-US')}</Text>
+              {comment.comment}
             </List.Item>
           );
         }}
       />
       <br />
       <TextArea
-        maxLength={100}
+        maxLength={250}
         style={{ height: 120 }}
         onChange={handleCommentChange}
         value={comment}
