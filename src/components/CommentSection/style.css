@@ -1,0 +1,14 @@
+.buttonMargin {
+  margin-bottom: 1rem;
+}
+
+.commenterType {
+  color: grey;
+  font-size: 10px;
+  font-weight: normal;
+  margin: 4px;
+}
+
+.deleteBtn {
+  color: red;
+}
