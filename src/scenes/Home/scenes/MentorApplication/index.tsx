@@ -202,7 +202,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <InputNumber />
+                      <InputNumber min={1} />
                     </Form.Item>
                     <Form.Item>
                       <Button
