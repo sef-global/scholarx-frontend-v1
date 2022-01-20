@@ -121,7 +121,7 @@ function MentorApplication() {
               {isApplySuccess ? (
                 <div className={styles.wrapper}>
                   <Card className={styles.card}>
-                    <Result programId={programId} type="apply" />
+                    <Result programId={programId} type="edit" />
                   </Card>
                 </div>
               ) : (
@@ -226,7 +226,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <InputNumber />
+                      <InputNumber min={1} />
                     </Form.Item>
                     <Form.Item>
                       <Button
