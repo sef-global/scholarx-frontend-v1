@@ -48,12 +48,14 @@ function ManageMentees() {
       })
       .then((result: AxiosResponse<SavedProgram>) => {
         if (result.status == 200) {
+          setIsLoading(false);
           setProgram(result.data);
         } else {
           throw new Error();
         }
       })
       .catch(() => {
+        setIsLoading(false);
         notification.warning({
           message: 'Warning!',
           description: 'Something went wrong fetching the program',
@@ -69,7 +71,10 @@ function ManageMentees() {
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200 || result.status == 204) {
           setIsLoading(false);
-          setMentees(result.data);
+          const sortedMentees: Mentee[] = result.data.sort((a, b) =>
+            a.profile.firstName.localeCompare(b.profile.firstName)
+          );
+          setMentees(sortedMentees);
         } else {
           throw new Error();
         }
@@ -114,10 +119,10 @@ function ManageMentees() {
       .then((result: AxiosResponse<Mentee>) => {
         if (result.status == 200) {
           getMenteeList();
+          getMentorList();
         } else {
           throw new Error();
         }
-        console.log(result);
       })
       .catch((reason) => {
         console.log(reason);
