@@ -23,27 +23,3 @@ export const getProgramDetails = async (programId: string) => {
     });
   }
 };
-
-export const getQuestions = async (programId: string, category: string) => {
-  try {
-    const result = await axios.get(
-      `${API_URL}/programs/${programId}/questions/${category}`,
-      {
-        withCredentials: true,
-      }
-    );
-    if (result.status === 200) {
-      return result.data;
-    }
-
-    notification.error({
-      description: 'Something went wrong while fetching the questions',
-      message: 'Error!',
-    });
-  } catch (e) {
-    notification.error({
-      description: 'Something went wrong while fetching the questions',
-      message: 'Error!',
-    });
-  }
-};

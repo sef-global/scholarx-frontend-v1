@@ -13,6 +13,7 @@ import {
   updateMenteeApplication,
 } from '../../../../../../util/mentee-services';
 import { getApprovedMentors } from '../../../../../../util/mentor-services';
+import { getProgramDetails } from '../../../../../../util/program-services';
 import styles from './styles.css';
 
 function MenteeApplication() {
@@ -28,7 +29,18 @@ function MenteeApplication() {
   useEffect(() => {
     getMentors();
     getMentee();
+    getProgram();
   }, []);
+
+  const getProgram = async () => {
+    setIsLoading(true);
+    const program = await getProgramDetails(programId);
+    if (program && program.state !== 'MENTEE_APPLICATION') {
+      history.push('/');
+      history.go(0);
+    }
+    setIsLoading(false);
+  };
 
   const getMentors = async () => {
     setIsLoading(true);
