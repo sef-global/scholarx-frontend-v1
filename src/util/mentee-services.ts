@@ -68,7 +68,6 @@ export const getMenteeApplication = async (programId: string) => {
     const result = await axios.get(`${API_URL}/programs/${programId}/mentee`, {
       withCredentials: true,
     });
-    console.log(result);
     if (result.status === 200) {
       return result.data;
     } else if (result.status === 204) {
