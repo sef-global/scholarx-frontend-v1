@@ -36,7 +36,7 @@ function MenteeApplication() {
     setIsLoading(true);
     const program = await getProgramDetails(programId);
     if (program && program.state !== 'MENTEE_APPLICATION') {
-      history.push(`/program/${programId}`);
+      history.push('/');
       history.go(0);
     }
     setIsLoading(false);
