@@ -64,10 +64,10 @@ function MentorApplication() {
     };
     setIsLoading(true);
     const response: AxiosResponse = await applyForProgram(programId, mentor);
-    if (response.status === 201) {
-      setIsLoading(false);
+    if (response && response.status === 201) {
+      setIsApplySuccess(true);
     }
-    setIsApplySuccess(true);
+    setIsLoading(false);
   };
 
   return (
