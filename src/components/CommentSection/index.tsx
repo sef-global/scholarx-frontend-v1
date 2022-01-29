@@ -4,6 +4,7 @@ import { DeleteOutlined, MoreOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
+  Popover,
   Divider,
   Typography,
   Input,
@@ -121,13 +122,20 @@ function CommentSection({ mentee }: { mentee: Mentee }) {
                   overlay={
                     <Menu>
                       <Menu.Item>
-                        <Button
-                          type="text"
-                          onClick={() => deleteComment(comment.id)}
+                        <Popover
+                          placement="top"
+                          content={
+                            <a onClick={() => deleteComment(comment.id)}>
+                              Delete
+                            </a>
+                          }
+                          title="Are you sure you want to delete this comment?"
                         >
-                          <DeleteOutlined className={styles.deleteBtn} />
-                          Delete Comment
-                        </Button>
+                          <Button type="text">
+                            <DeleteOutlined className={styles.deleteBtn} />
+                            Delete
+                          </Button>
+                        </Popover>
                       </Menu.Item>
                     </Menu>
                   }
