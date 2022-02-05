@@ -125,9 +125,20 @@ function CommentSection({ mentee }: { mentee: Mentee }) {
                         <Popover
                           placement="top"
                           content={
-                            <a onClick={() => deleteComment(comment.id)}>
-                              Delete
-                            </a>
+                            <div>
+                              <a
+                                className={styles.popoverButton}
+                                onClick={() => deleteComment(comment.id)}
+                              >
+                                Yes
+                              </a>
+                              <a
+                                className={styles.popoverButton}
+                                onClick={window.close}
+                              >
+                                No
+                              </a>
+                            </div>
                           }
                           title="Are you sure you want to delete this comment?"
                         >
