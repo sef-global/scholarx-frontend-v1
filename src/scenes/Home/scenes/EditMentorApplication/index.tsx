@@ -157,8 +157,8 @@ function MentorApplication() {
                             value: 'LIFE_SCIENCES',
                           },
                           {
-                            label: 'Data Science',
-                            value: 'DATA_SCIENCE',
+                            label: 'Data Science and AI',
+                            value: 'DATASCIENCE_AND_AI',
                           },
                           {
                             label: 'Physical Science',
