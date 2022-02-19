@@ -1,3 +1,7 @@
 .buttonMargin {
   margin-right: 1rem;
 }
+
+.mentorProfileCardText {
+  white-space: pre-wrap;
+}

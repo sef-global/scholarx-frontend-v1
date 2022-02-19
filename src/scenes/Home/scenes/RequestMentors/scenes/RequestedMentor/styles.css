@@ -1,6 +1,10 @@
-.textPadding {
+.textFormat {
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+.mentorProfileCardText {
+    white-space: pre-wrap;
 }
 
 .contentMargin {

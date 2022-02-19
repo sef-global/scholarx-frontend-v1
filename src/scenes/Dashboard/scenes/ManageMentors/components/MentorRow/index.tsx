@@ -199,6 +199,7 @@ function MentorRow({ mentor, programState }: Props) {
         closable={false}
         onClose={() => setIsDrawerVisible(false)}
         visible={isDrawerVisible}
+        className={styles.mentorProfileCardText}
       >
         <Title level={3}>Mentor Application</Title>
         <MentorProfileCard mentor={mentor} />
