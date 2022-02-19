@@ -209,9 +209,7 @@ function ActivePrograms() {
                         </Button>
                       )}
                       {program.state !== 'MENTOR_APPLICATION' &&
-                        program.state !== 'MENTOR_APPROVAL' &&
-                        program.state !== 'MENTEE_APPLICATION' &&
-                        program.state !== 'ADMIN_MENTEE_FILTRATION' &&
+                        program.state !== 'MENTOR_SELECTION' &&
                         !isUserAdmin &&
                         user != null &&
                         mentoringPrograms.some(
