@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
-import { Profile, SavedProgram } from '../../../../types';
+import { Profile, SavedProgram, Mentor } from '../../../../types';
 import styles from '../../styles.css';
 import AddProgram from '../AddProgram';
 
@@ -21,6 +21,7 @@ function ActivePrograms() {
   );
   const [menteePrograms, setMenteePrograms] = useState<SavedProgram[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [mentor, setMentor] = useState<Mentor[]>([]);
   const user: Partial<Profile | null> = useContext(UserContext);
   const isUserAdmin: boolean = user != null && user.type == 'ADMIN';
   const history = useHistory();
@@ -29,6 +30,7 @@ function ActivePrograms() {
     getPrograms();
     getMyMentoringPrograms();
     getMyMenteePrograms();
+    getLoggedMentor();
   }, []);
 
   const getPrograms = () => {
@@ -101,6 +103,31 @@ function ActivePrograms() {
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
+
+  const getLoggedMentor = () => {
+    programs.map((program: SavedProgram) =>
+      axios
+        .get(`${API_URL}/me/program/3/mentor`, {
+          withCredentials: true,
+        })
+        .then((result: AxiosResponse<Mentor[]>) => {
+          if (result.status == 200 || result.status == 204) {
+            setMentor(result.data);
+            setIsLoading(false);
+          } else {
+            throw new Error();
+          }
+        })
+        .catch(() => {
+          setIsLoading(false);
+          notification.error({
+            message: 'Error!',
+            description: 'Something went wrong when fetching the mentors',
+          });
+        })
+    );
+  };
+  console.log(mentor);
 
   return (
     <Spin tip="Loading..." spinning={isLoading}>
