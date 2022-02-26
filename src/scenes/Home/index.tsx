@@ -30,10 +30,16 @@ const Home = () => {
                 <img src={logo} alt={'ScholarX logo'} className={styles.logo} />
                 <Paragraph>
                   ScholarX is an exclusive program aimed at providing mentoring
-                  support to a selected pool of high Potential undergraduate
-                  students based in Sri Lanka ideally by a Sri Lankan expat
-                  currently engaged with one of the world’s top universities or
-                  Fortune 500 companies.
+                  support for talented undergraduate students in Sri Lanka. Our
+                  mentors are engaged with some of the world’s top universities
+                  and Fortune 500 companies and are carefully selected for their
+                  expertise in academia and industry.
+                </Paragraph>
+                <Paragraph>
+                  This free premium mentoring platform was created for Sri
+                  Lankans who see the opportunity and positive change brought
+                  about by a culture of knowledge and expertise sharing without
+                  the limitations of geographical borders.
                 </Paragraph>
               </Col>
             </Row>
