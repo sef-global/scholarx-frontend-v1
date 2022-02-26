@@ -34,7 +34,8 @@ const Home = () => {
                   mentors are engaged with some of the world’s top universities
                   and Fortune 500 companies and are carefully selected for their
                   expertise in academia and industry.
-                  <br />
+                </Paragraph>
+                <Paragraph>
                   This free premium mentoring platform was created for Sri
                   Lankans who see the opportunity and positive change brought
                   about by a culture of knowledge and expertise sharing without
