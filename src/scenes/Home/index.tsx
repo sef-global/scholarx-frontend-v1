@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Col, Row, Tabs, Typography } from 'antd';
 
-import { trackPageWithGoogleAnalytics } from '../../util/google-analytics';
 import ActivePrograms from './components/ActivePrograms';
 import Footer from './components/Footer';
 import HelpButton from './components/HelpButton';
@@ -15,10 +14,6 @@ const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
 const Home = () => {
-  useEffect(() => {
-    trackPageWithGoogleAnalytics();
-  }, []);
-
   return (
     <>
       <div>
