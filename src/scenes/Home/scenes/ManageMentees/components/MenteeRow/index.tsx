@@ -187,6 +187,14 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
         <br />
         <br />
         <Text>{mentee?.intent}</Text>
+        <br />
+        <br />
+        <Text strong>Resume URL</Text>
+        <br />
+        <br />
+        <Link href={mentee?.resumeUrl} target={'_blank'}>
+          {mentee?.resumeUrl}
+        </Link>
         <Divider />
         {mentee && <CommentSection mentee={mentee} />}
       </Drawer>

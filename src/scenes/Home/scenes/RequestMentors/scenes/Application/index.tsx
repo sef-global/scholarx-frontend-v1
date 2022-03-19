@@ -67,6 +67,7 @@ function MenteeApplication() {
         year: mentee.year,
         intent: mentee.intent,
         reasonForChoice: mentee.reasonForChoice,
+        resumeUrl: mentee.resumeUrl,
       });
       setMentor(mentee.appliedMentor);
       setIsApplied(true);
@@ -85,6 +86,7 @@ function MenteeApplication() {
       year: values.year,
       intent: values.intent,
       reasonForChoice: values.reasonForChoice,
+      resumeUrl: values.resumeUrl,
     };
     if (isApplied) {
       const response = await updateMenteeApplication(programId, mentee);
@@ -209,6 +211,18 @@ function MenteeApplication() {
             <Form.Item
               label="Reason for choosing this mentor"
               name="reasonForChoice"
+              rules={[
+                {
+                  required: true,
+                  message: 'Required',
+                },
+              ]}
+            >
+              <Input.TextArea />
+            </Form.Item>
+            <Form.Item
+              label="Resume URL (Drive link or a personal website link)"
+              name="resumeUrl"
               rules={[
                 {
                   required: true,
