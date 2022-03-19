@@ -122,6 +122,14 @@ function MenteeDashboard() {
                 <Text>{mentee?.reasonForChoice}</Text>
               </Row>
               <Row>
+                <Text strong>Resume URL</Text>
+              </Row>
+              <Row>
+                <Link href={mentee?.resumeUrl} target={'_blank'}>
+                  {mentee?.resumeUrl}
+                </Link>
+              </Row>
+              <Row>
                 <Text strong>Applied mentor</Text>
               </Row>
               <Row>

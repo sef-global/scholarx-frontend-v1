@@ -64,4 +64,5 @@ export interface Mentee {
   course: string;
   year: string;
   university: string;
+  resumeUrl: string;
 }
