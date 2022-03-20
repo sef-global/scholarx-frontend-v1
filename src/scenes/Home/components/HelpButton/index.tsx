@@ -20,15 +20,6 @@ const content = (
             Mentor Guide
           </a>
         </li>
-        <li>
-          <a
-            href="https://drive.google.com/file/d/13b0xg3HdZeQohefYMY9gP8_r_G11pGFA/view?usp=sharing"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Mentor Video Guide
-          </a>
-        </li>
       </ul>
     </Paragraph>
     <Title level={4}>Mentee</Title>
@@ -41,15 +32,6 @@ const content = (
             rel="noreferrer"
           >
             Mentee Guide
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://drive.google.com/file/d/1vnW1bhNzETtPtiGTsphzBT2GQ6K0LuX9/view"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Mentee Video Guide
           </a>
         </li>
       </ul>
