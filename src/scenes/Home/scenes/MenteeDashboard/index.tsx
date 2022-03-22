@@ -122,6 +122,12 @@ function MenteeDashboard() {
                 <Text>{mentee?.reasonForChoice}</Text>
               </Row>
               <Row>
+                <Text strong>Summary of your achievements</Text>
+              </Row>
+              <Row>
+                <Text>{mentee?.achievements}</Text>
+              </Row>
+              <Row>
                 <Text strong>Resume URL</Text>
               </Row>
               <Row>
@@ -133,7 +139,7 @@ function MenteeDashboard() {
                 <Text strong>Applied mentor</Text>
               </Row>
               <Row>
-                <Col md={22}>
+                <Col md={22} className={styles.marginBottom}>
                   {mentee != null && (
                     <MentorProfileCard mentor={mentee?.appliedMentor} />
                   )}

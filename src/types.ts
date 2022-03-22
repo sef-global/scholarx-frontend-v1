@@ -65,4 +65,5 @@ export interface Mentee {
   year: string;
   university: string;
   resumeUrl: string;
+  achievements: string;
 }

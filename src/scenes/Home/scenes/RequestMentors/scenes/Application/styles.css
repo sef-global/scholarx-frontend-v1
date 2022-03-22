@@ -4,6 +4,7 @@
 
 .button{
     margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 :global .ant-form-item {

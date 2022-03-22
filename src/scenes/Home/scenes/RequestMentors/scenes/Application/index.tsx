@@ -68,6 +68,7 @@ function MenteeApplication() {
         intent: mentee.intent,
         reasonForChoice: mentee.reasonForChoice,
         resumeUrl: mentee.resumeUrl,
+        achievements: mentee.achievements,
       });
       setMentor(mentee.appliedMentor);
       setIsApplied(true);
@@ -87,6 +88,7 @@ function MenteeApplication() {
       intent: values.intent,
       reasonForChoice: values.reasonForChoice,
       resumeUrl: values.resumeUrl,
+      achievements: values.achievements,
     };
     if (isApplied) {
       const response = await updateMenteeApplication(programId, mentee);
@@ -197,7 +199,7 @@ function MenteeApplication() {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Future Ambitions and Intentions"
+              label="Future Ambitions and Intentions (Minimum 1500 characters)"
               name="intent"
               rules={[
                 {
@@ -206,11 +208,23 @@ function MenteeApplication() {
                 },
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea minLength={1500} showCount />
             </Form.Item>
             <Form.Item
-              label="Reason for choosing this mentor"
+              label="Reason for choosing this mentor (Minimum 1500 characters)"
               name="reasonForChoice"
+              rules={[
+                {
+                  required: true,
+                  message: 'Required',
+                },
+              ]}
+            >
+              <Input.TextArea minLength={1500} showCount />
+            </Form.Item>
+            <Form.Item
+              label="Summary of your achievements"
+              name="achievements"
               rules={[
                 {
                   required: true,

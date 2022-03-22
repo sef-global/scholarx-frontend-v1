@@ -85,6 +85,12 @@ function MenteeApplication({ mentee }: { mentee: Mentee }) {
       <Text>{mentee?.intent}</Text>
       <br />
       <br />
+      <Text strong>Summary of your achievements</Text>
+      <br />
+      <br />
+      <Text>{mentee?.achievements}</Text>
+      <br />
+      <br />
       <Text strong>Resume URL</Text>
       <br />
       <br />
