@@ -21,6 +21,7 @@
     margin-bottom: 35px;
 }
 
-.rightAlign {
+.applyButton {
     float: right;
+    margin-bottom: 30px;
 }

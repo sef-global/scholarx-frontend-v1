@@ -110,7 +110,7 @@ function Mentors() {
           <Button
             type="primary"
             size="large"
-            className={styles.rightAlign}
+            className={styles.applyButton}
             onClick={onApply}
           >
             Apply
