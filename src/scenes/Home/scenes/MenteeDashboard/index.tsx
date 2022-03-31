@@ -21,7 +21,6 @@ import { Mentee, Profile, SavedProgram } from '../../../../types';
 import { getMenteeApplication } from '../../../../util/mentee-services';
 import { getProgramDetails } from '../../../../util/program-services';
 import Footer from '../../components/Footer';
-import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
 
@@ -279,7 +278,6 @@ function MenteeDashboard() {
           </Col>
         </Row>
       </div>
-      <HelpButton />
       <Footer />
     </>
   );

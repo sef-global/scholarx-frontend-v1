@@ -22,7 +22,6 @@ import { Profile, Mentor } from '../../../../types';
 import { applyForProgram } from '../../../../util/mentor-services';
 import { getProgramDetails } from '../../../../util/program-services';
 import Footer from '../../components/Footer';
-import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import Result from '../../components/ResultScreen';
 import mainStyles from '../../styles.css';
@@ -221,7 +220,6 @@ function MentorApplication() {
         </Col>
       </Row>
       <div className={styles.push} />
-      <HelpButton />
       <div className={styles.footer}>
         <Footer />
       </div>

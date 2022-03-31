@@ -4,7 +4,6 @@ import { Col, Row, Tabs, Typography } from 'antd';
 
 import ActivePrograms from './components/ActivePrograms';
 import Footer from './components/Footer';
-import HelpButton from './components/HelpButton';
 import NavigationBar from './components/NavigationBar';
 import PastPrograms from './components/PastPrograms';
 import logo from './scholarx.png';
@@ -54,7 +53,6 @@ const Home = () => {
         </Row>
         <div className={styles.push} />
       </div>
-      <HelpButton />
       <div className={styles.footer}>
         <Footer />
       </div>
