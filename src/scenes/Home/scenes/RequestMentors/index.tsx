@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { API_URL } from '../../../../constants';
 import { SavedProgram } from '../../../../types';
 import { getMenteeApplication } from '../../../../util/mentee-services';
-import HelpButton from '../../components/HelpButton';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
 import Mentors from './components/Mentors';
@@ -118,7 +117,6 @@ function RequestMentors() {
           </div>
         </Col>
       </Row>
-      <HelpButton />
     </>
   );
 }
