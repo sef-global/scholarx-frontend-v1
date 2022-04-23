@@ -4,6 +4,7 @@ import {
   AppstoreOutlined,
   EditOutlined,
   TeamOutlined,
+  MailOutlined,
 } from '@ant-design/icons';
 import { Menu, Layout, Avatar } from 'antd';
 import { useHistory } from 'react-router';
@@ -26,6 +27,7 @@ import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import MenteeQuestions from './scenes/MenteeQuestions';
+import SendMail from './scenes/SendMail';
 import styles from './styles.css';
 
 const { Content, Sider, Header } = Layout;
@@ -71,6 +73,11 @@ function Dashboard() {
               <Menu.Item key="4">
                 <Link to={`/dashboard/${programId}/manage-mentees`}>
                   <TeamOutlined /> Manage Mentees
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <Link to={`/dashboard/${programId}/send-mail`}>
+                  <MailOutlined /> Send Mail
                 </Link>
               </Menu.Item>
             </Menu>
@@ -121,6 +128,11 @@ function Dashboard() {
                 exact
                 path="/dashboard/:programId/mentee-questions"
                 component={MenteeQuestions}
+              />
+              <Route
+                exact
+                path="/dashboard/:programId/send-mail"
+                component={SendMail}
               />
             </Switch>
           </Content>
