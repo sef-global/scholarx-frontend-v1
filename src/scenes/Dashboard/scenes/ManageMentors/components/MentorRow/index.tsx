@@ -49,10 +49,7 @@ function MentorRow({ mentor, programState }: Props) {
         }
       })
       .catch(() => {
-        notification.error({
-          message: 'Failed',
-          description: 'Something went wrong while fetching the mentees',
-        });
+        // Removed the unwanted popup message from here
       });
   }
 
