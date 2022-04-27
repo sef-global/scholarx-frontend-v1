@@ -38,8 +38,10 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
             }}
             allowClear
           />
-          <List pagination={{ pageSize: 15 }}>
-            {mentors.map((mentor: Mentor) => {
+          <List
+            pagination={{ pageSize: 14 }}
+            dataSource={mentors}
+            renderItem={(mentor: Mentor) => {
               const mentorName = `${mentor.profile.firstName} ${mentor.profile.lastName}`;
               if (mentorName.toLowerCase().includes(keyword.toLowerCase())) {
                 return (
@@ -62,8 +64,8 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
                   </List.Item>
                 );
               }
-            })}
-          </List>
+            }}
+          />
         </div>
       ) : (
         <div>
