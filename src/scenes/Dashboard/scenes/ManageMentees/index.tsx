@@ -96,6 +96,9 @@ function ManageMentees() {
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200 || result.status == 204) {
           setIsLoading(false);
+          result.data.sort(function (a, b) {
+            return a.profile.name.localeCompare(b.profile.name);
+          });
           setMentors(result.data);
         } else {
           throw new Error();
@@ -231,6 +234,7 @@ function ManageMentees() {
                       showSearch
                       style={{ width: 250 }}
                       placeholder="Select a Mentor"
+                      optionFilterProp="children"
                       value={mentee.assignedMentor?.id}
                       onSelect={(mentorId: number) => {
                         changeMenteeAssignedMentor(mentorId, mentee.id);
@@ -238,6 +242,12 @@ function ManageMentees() {
                       disabled={
                         program.state == 'WILDCARD' &&
                         mentee.state == 'APPROVED'
+                      }
+                      filterOption={(input, option) =>
+                        option.children
+                          .toString()
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
                       }
                     >
                       {mentors?.map((mentor) => {
