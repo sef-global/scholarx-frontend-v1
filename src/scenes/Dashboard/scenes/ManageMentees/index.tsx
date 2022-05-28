@@ -12,7 +12,8 @@ import {
   Row,
   Col,
   Input,
-  Space } from 'antd';
+  Space,
+} from 'antd';
 import type { InputRef } from 'antd';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 import type { ColumnType } from 'antd/lib/table';
@@ -39,8 +40,8 @@ function ManageMentees() {
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isDrawerVisible, setIsDrawerVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+
+  const [menteeSearchText, setMenteeSearchText] = useState('');
   const searchInput = useRef<InputRef>(null);
 
   useEffect(() => {
@@ -186,90 +187,84 @@ function ManageMentees() {
     setIsDrawerVisible(false);
   };
 
-  // eslint-disable-next-line prettier/prettier
-  type DataIndex = keyof Mentee;
-
-  const handleSearch = (
-      selectedKeys: string[],
-      confirm: (param?: FilterConfirmProps) => void,
-      dataIndex: DataIndex
+  const handleMenteeSearch = (
+    selectedKeys: React.Key[],
+    confirm: (param?: FilterConfirmProps) => void
   ) => {
     confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
+    setMenteeSearchText(selectedKeys[0].toString());
   };
 
-  const handleReset = (clearFilters: () => void) => {
+  const handleMenteeSearchReset = (clearFilters: () => void) => {
     clearFilters();
-    setSearchText('');
+    setMenteeSearchText('');
   };
 
-  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<Mentee> => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-              ref={searchInput}
-              placeholder={`Search ${dataIndex}`}
-              value={selectedKeys[0]}
-              onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-              onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-              style={{ marginBottom: 8, display: 'block' }}
-          />
-          <Space>
-            <Button
-                type="primary"
-                onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-                icon={<SearchOutlined />}
-                size="small"
-                style={{ width: 90 }}
-            >
-              Search
-            </Button>
-            <Button
-                onClick={() => clearFilters && handleReset(clearFilters)}
-                size="small"
-                style={{ width: 90 }}
-            >
-              Reset
-            </Button>
-            <Button
-                type="link"
-                size="small"
-                onClick={() => {
-                  confirm({ closeDropdown: false });
-                  setSearchText((selectedKeys as string[])[0]);
-                  setSearchedColumn(dataIndex);
-                }}
-            >
-              Filter
-            </Button>
-          </Space>
-        </div>
+  const getMenteeNameSearchProps = (): ColumnType<Mentee> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder="Search Mentee"
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleMenteeSearch(selectedKeys, confirm)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleMenteeSearch(selectedKeys, confirm)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              clearFilters();
+              handleMenteeSearchReset(clearFilters);
+              confirm();
+              setMenteeSearchText('');
+            }}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setMenteeSearchText(selectedKeys[0].toString());
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
     ),
     filterIcon: (filtered: boolean) => (
-        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
     onFilter: (value, record) =>
-        record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes((value as string).toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+      `${record.profile.firstName} ${record.profile.lastName}`
+        .toLowerCase()
+        .includes(value.toString().toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
       }
     },
-    render: text =>
-        searchedColumn === dataIndex ? (
-            <Highlighter
-                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                searchWords={[searchText]}
-                autoEscape
-                textToHighlight={text ? text.toString() : ''}
-            />
-        ) : (
-            text
-        ),
   });
 
   return (
@@ -282,7 +277,7 @@ function ManageMentees() {
               <Column
                 title="Mentee"
                 dataIndex={''}
-                {...getColumnSearchProps('Mentee FirstName' as 'id' | 'profile' | 'state' | 'submissionUrl' | 'appliedMentor' | 'assignedMentor' | 'rejectedBy' | 'reasonForChoice' | 'intent' | 'course' | 'year' | 'university' | 'resumeUrl' | 'achievements')}
+                {...getMenteeNameSearchProps()}
                 render={(mentee: Mentee) => (
                   <Button
                     type={'link'}
@@ -290,7 +285,15 @@ function ManageMentees() {
                       showSelectedApplication(mentee);
                     }}
                   >
-                    {mentee.profile.firstName} {mentee.profile.lastName}
+                    <Highlighter
+                      highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                      }}
+                      searchWords={[menteeSearchText]}
+                      autoEscape
+                      textToHighlight={`${mentee.profile.firstName} ${mentee.profile.lastName}`}
+                    />
                   </Button>
                 )}
               />
