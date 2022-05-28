@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LeftOutlined } from '@ant-design/icons';
 import { List, Input, Typography, Button } from 'antd';
@@ -12,7 +12,12 @@ const { Link, Text } = Typography;
 
 function MentorList({ mentors }: { mentors: Mentor[] }) {
   const [selectedMentor, setSelectedMentor] = useState<Mentor>(null);
-  const [keyword, setKeyword] = useState<string>('');
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [filteredMentors, setFilteredMentors] = useState<Mentor[]>([]);
+
+  useEffect(() => {
+    filterMentors(searchKeyword.toLowerCase());
+  }, [mentors]);
 
   function showMentorProfile(mentor: Mentor) {
     setSelectedMentor(mentor);
@@ -22,8 +27,18 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
     setSelectedMentor(null);
   }
 
-  function searchKeyword(input: string) {
-    setKeyword(input);
+  function handleSearch(input: string) {
+    setSearchKeyword(input);
+    filterMentors(input.toLowerCase());
+  }
+
+  function filterMentors(keyword: string) {
+    setFilteredMentors(
+      mentors.filter((mentor) => {
+        const mentorName = `${mentor.profile.firstName} ${mentor.profile.lastName}`;
+        return mentorName.toLowerCase().includes(keyword);
+      })
+    );
   }
 
   return (
@@ -34,36 +49,35 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
           <Search
             placeholder="Search for Mentor"
             onChange={(input) => {
-              searchKeyword(input.target.value);
+              handleSearch(input.target.value);
             }}
+            value={searchKeyword}
             allowClear
           />
           <List
             pagination={{ pageSize: 14 }}
-            dataSource={mentors}
+            dataSource={filteredMentors}
             renderItem={(mentor: Mentor) => {
               const mentorName = `${mentor.profile.firstName} ${mentor.profile.lastName}`;
-              if (mentorName.toLowerCase().includes(keyword.toLowerCase())) {
-                return (
-                  <List.Item key={mentor.id}>
-                    <Link onClick={() => showMentorProfile(mentor)}>
-                      {mentorName}
-                    </Link>
-                    <span>
-                      <Text
-                        key={mentor.id}
-                        type={
-                          mentor.noOfAssignedMentees > mentor.slots
-                            ? 'danger'
-                            : 'secondary'
-                        }
-                      >
-                        {mentor.noOfAssignedMentees}/{mentor.slots}
-                      </Text>
-                    </span>
-                  </List.Item>
-                );
-              }
+              return (
+                <List.Item key={mentor.id}>
+                  <Link onClick={() => showMentorProfile(mentor)}>
+                    {mentorName}
+                  </Link>
+                  <span>
+                    <Text
+                      key={mentor.id}
+                      type={
+                        mentor.noOfAssignedMentees > mentor.slots
+                          ? 'danger'
+                          : 'secondary'
+                      }
+                    >
+                      {mentor.noOfAssignedMentees}/{mentor.slots}
+                    </Text>
+                  </span>
+                </List.Item>
+              );
             }}
           />
         </div>

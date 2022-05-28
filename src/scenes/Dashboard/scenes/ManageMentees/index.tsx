@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { SearchOutlined } from '@ant-design/icons';
 import {
   Typography,
   notification,
@@ -10,9 +11,15 @@ import {
   Select,
   Row,
   Col,
+  Input,
+  Space,
 } from 'antd';
+import type { InputRef } from 'antd';
 import { ColumnFilterItem } from 'antd/es/table/interface';
+import type { ColumnType } from 'antd/lib/table';
+import type { FilterConfirmProps } from 'antd/lib/table/interface';
 import axios, { AxiosResponse } from 'axios';
+import Highlighter from 'react-highlight-words';
 import { useParams } from 'react-router';
 
 import { API_URL } from '../../../../constants';
@@ -33,6 +40,9 @@ function ManageMentees() {
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isDrawerVisible, setIsDrawerVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [menteeSearchText, setMenteeSearchText] = useState('');
+  const searchInput = useRef<InputRef>(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -177,6 +187,86 @@ function ManageMentees() {
     setIsDrawerVisible(false);
   };
 
+  const handleMenteeSearch = (
+    selectedKeys: React.Key[],
+    confirm: (param?: FilterConfirmProps) => void
+  ) => {
+    confirm();
+    setMenteeSearchText(selectedKeys[0].toString());
+  };
+
+  const handleMenteeSearchReset = (clearFilters: () => void) => {
+    clearFilters();
+    setMenteeSearchText('');
+  };
+
+  const getMenteeNameSearchProps = (): ColumnType<Mentee> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder="Search Mentee"
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleMenteeSearch(selectedKeys, confirm)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleMenteeSearch(selectedKeys, confirm)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              clearFilters();
+              handleMenteeSearchReset(clearFilters);
+              confirm();
+              setMenteeSearchText('');
+            }}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setMenteeSearchText(selectedKeys[0].toString());
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      `${record.profile.firstName} ${record.profile.lastName}`
+        .toLowerCase()
+        .includes(value.toString().toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+  });
+
   return (
     <div className={styles.container}>
       <Row>
@@ -187,6 +277,7 @@ function ManageMentees() {
               <Column
                 title="Mentee"
                 dataIndex={''}
+                {...getMenteeNameSearchProps()}
                 render={(mentee: Mentee) => (
                   <Button
                     type={'link'}
@@ -194,7 +285,15 @@ function ManageMentees() {
                       showSelectedApplication(mentee);
                     }}
                   >
-                    {mentee.profile.firstName} {mentee.profile.lastName}
+                    <Highlighter
+                      highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                      }}
+                      searchWords={[menteeSearchText]}
+                      autoEscape
+                      textToHighlight={`${mentee.profile.firstName} ${mentee.profile.lastName}`}
+                    />
                   </Button>
                 )}
               />
