@@ -62,6 +62,11 @@ function ManageMentors() {
       })
       .then((result: AxiosResponse<Mentor[]>) => {
         if (result.status == 200 || result.status == 204) {
+          result.data.sort((a: Mentor, b: Mentor) =>
+            (a.profile.firstName + a.profile.lastName).localeCompare(
+              b.profile.firstName + b.profile.lastName
+            )
+          );
           setMentors(result.data);
           setIsLoading(false);
         } else {
