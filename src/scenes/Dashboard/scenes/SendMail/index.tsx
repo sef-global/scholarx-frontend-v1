@@ -77,7 +77,7 @@ function SendMail() {
         setIsLoading(false);
         notification.warning({
           message: 'Warning!',
-          description: 'Something went wrong when fetching the program',
+          description: 'Something went wrong when fetching emails',
         });
       });
   };
