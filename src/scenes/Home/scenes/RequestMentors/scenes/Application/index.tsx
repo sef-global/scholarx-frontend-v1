@@ -172,7 +172,7 @@ function MenteeApplication() {
                 },
               ]}
             >
-              <Input />
+              <Input maxLength={255} showCount />
             </Form.Item>
             <Form.Item
               label="Course/Major"
@@ -184,7 +184,7 @@ function MenteeApplication() {
                 },
               ]}
             >
-              <Input />
+              <Input maxLength={255} showCount />
             </Form.Item>
             <Form.Item
               label="Year of study"
@@ -196,7 +196,7 @@ function MenteeApplication() {
                 },
               ]}
             >
-              <Input />
+              <Input maxLength={255} showCount />
             </Form.Item>
             <Form.Item
               label="Future Ambitions and Intentions (Minimum 1500 characters)"
