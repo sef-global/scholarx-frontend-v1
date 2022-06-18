@@ -15,7 +15,7 @@ import Mentors from './components/Mentors';
 import Application from './scenes/Application';
 import RequestedMentor from './scenes/RequestedMentor';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 const { TabPane } = Tabs;
 
 function RequestMentors() {
@@ -85,8 +85,7 @@ function RequestMentors() {
         <Col span={18} offset={3}>
           <div className={styles.container}>
             <Spin tip="Loading..." spinning={isLoading}>
-              <Title>{program.title}</Title>
-              <Paragraph>{program.headline}</Paragraph>
+              <Title level={2}> Mentee Application | {program.title} </Title>
             </Spin>
             <Router>
               <Switch>
@@ -97,7 +96,7 @@ function RequestMentors() {
                     </TabPane>
                     {isApplied && (
                       <TabPane tab="My Application" key="2">
-                        <Application />
+                        <Application location />
                       </TabPane>
                     )}
                   </Tabs>

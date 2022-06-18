@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { notification, Spin, Col, Tabs } from 'antd';
+import { notification, Spin, Col, Tabs, Button } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory, useParams } from 'react-router';
 
@@ -47,6 +47,13 @@ function RequestedMentor() {
     history.push(`/program/${programId}`);
   };
 
+  const onApply = (mentor: Mentor) => {
+    history.push({
+      pathname: `/program/${programId}/mentee/apply`,
+      state: mentor,
+    });
+  };
+
   return (
     <>
       <Tabs defaultActiveKey="1" onTabClick={onBack}>
@@ -57,6 +64,16 @@ function RequestedMentor() {
           <Col md={12} sm={24}>
             {mentor && <MentorProfileCard mentor={mentor} />}
           </Col>
+          <Button
+            type="primary"
+            size="large"
+            className={styles.applyButton}
+            onClick={() => {
+              onApply(mentor);
+            }}
+          >
+            Apply
+          </Button>
           <hr className={styles.horizontalLine} />
         </Spin>
       </div>
