@@ -114,7 +114,6 @@ function MenteeApplication({ location }) {
         });
       }
     } else {
-      console.log(values);
       const response = await applyAsMentee(values.appliedMentor, mentee);
       setIsLoading(true);
       if (response.status === 201) {
@@ -149,7 +148,7 @@ function MenteeApplication({ location }) {
             form={form}
             layout="vertical"
             size="middle"
-            initialValues={mentor && { appliedMentor: mentor.id }}
+            initialValues={{ appliedMentor: mentor?.id }}
           >
             <Form.Item
               label="Primary Mentor"
@@ -162,7 +161,7 @@ function MenteeApplication({ location }) {
               ]}
             >
               <Select
-                defaultValue={mentor && mentor.id}
+                defaultValue={mentor?.id}
                 options={mentors.map((mentor: Mentor) => ({
                   value: mentor.id,
                   label:
