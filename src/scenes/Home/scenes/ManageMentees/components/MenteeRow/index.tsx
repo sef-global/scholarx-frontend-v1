@@ -1,18 +1,34 @@
 import React, { ReactNode, useState } from 'react';
 
 import { WarningOutlined } from '@ant-design/icons';
-import { Avatar, Button, List, Modal, notification } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  Divider,
+  Drawer,
+  List,
+  Modal,
+  notification,
+  Tooltip,
+  Typography,
+} from 'antd';
 import axios, { AxiosResponse } from 'axios';
 
+import CommentSection from '../../../../../../components/CommentSection';
 import { API_URL } from '../../../../../../constants';
 import { Mentee } from '../../../../../../types';
 import StatusTag from './components/StatusTag';
 import { StatusTagProps } from './interfaces';
 import styles from './style.css';
 
+const { Text, Link, Title } = Typography;
+const { Meta } = Card;
+
 function MenteeRow({ mentee, programState }: StatusTagProps) {
   const actions: ReactNode[] = [];
   const [menteeState, setMenteeState] = useState(mentee.state);
+  const [isDrawerVisible, setIsDraweVisible] = useState<boolean>(false);
 
   const updateMenteeState = (isApproved: boolean) => {
     let successMessage = '';
@@ -82,21 +98,9 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
     const isRejectDisabled: boolean = menteeState == 'REJECTED';
 
     actions.push(
-      <a
-        className={styles.buttonMargin}
-        href={mentee.submissionUrl}
-        target={'_blank'}
-        rel="noopener noreferrer"
-      >
-        View Application
-      </a>
-    );
-
-    actions.push(
       <Button
         className={styles.buttonMargin}
         key="approve"
-        type="primary"
         disabled={isApproveDisabled}
         onClick={confirmApproval}
       >
@@ -107,7 +111,6 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
     actions.push(
       <Button
         key="reject"
-        type="primary"
         danger
         disabled={isRejectDisabled}
         onClick={confirmRejection}
@@ -117,27 +120,91 @@ function MenteeRow({ mentee, programState }: StatusTagProps) {
     );
   }
 
+  function showMenteeDrawer() {
+    setIsDraweVisible(true);
+  }
+
+  function hideMenteeDrawer() {
+    setIsDraweVisible(false);
+  }
+
   return (
-    <List.Item key={mentee.id} actions={[actions]}>
-      <List.Item.Meta
-        avatar={<Avatar src={mentee.profile.imageUrl} />}
-        title={
-          <div>
-            <a
-              href={mentee.profile.linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {mentee.profile.firstName} {mentee.profile.lastName}
-            </a>
-            <br />
-            <StatusTag state={menteeState} />
-          </div>
-        }
-        description={mentee.profile.headline}
-      />
-      <span>{mentee.profile.email}</span>
-    </List.Item>
+    <div>
+      <List.Item key={mentee.id} actions={[actions]}>
+        <List.Item.Meta
+          avatar={<Avatar src={mentee.profile.imageUrl} />}
+          title={
+            <div>
+              <Button type={'link'} onClick={showMenteeDrawer}>
+                {mentee.profile.firstName} {mentee.profile.lastName}
+              </Button>
+            </div>
+          }
+          description={mentee.profile.headline}
+        />
+        <StatusTag state={menteeState} />
+        <Text copyable>{mentee.profile.email}</Text>
+      </List.Item>
+      <Drawer
+        width={640}
+        placement="right"
+        closable={false}
+        onClose={hideMenteeDrawer}
+        visible={isDrawerVisible}
+      >
+        <Title level={3}>Mentee Application</Title>
+        <Divider />
+        <Meta
+          title={
+            <>
+              <Tooltip title={'linkedin'}>
+                <Link href={mentee?.profile.linkedinUrl} target={'_blank'}>
+                  {mentee?.profile.firstName + ' ' + mentee?.profile.lastName}
+                </Link>
+              </Tooltip>
+            </>
+          }
+          description={
+            <>
+              {' '}
+              <Text copyable>{mentee?.profile.email}</Text>
+            </>
+          }
+          avatar={<Avatar size={64} src={mentee?.profile.imageUrl} />}
+        />
+        <Divider />
+        <Text strong>University and Course</Text>
+        <br />
+        <br />
+        <Text>
+          {mentee?.year}, {mentee?.course}
+        </Text>
+        <br />
+        <Text>{mentee?.university}</Text>
+        <br />
+        <br />
+        <Text strong>Future Ambitions and Intentions</Text>
+        <br />
+        <br />
+        <Text>{mentee?.intent}</Text>
+        <br />
+        <br />
+        <Text strong>Summary of your achievements</Text>
+        <br />
+        <br />
+        <Text>{mentee?.achievements}</Text>
+        <br />
+        <br />
+        <Text strong>Resume URL</Text>
+        <br />
+        <br />
+        <Link href={mentee?.resumeUrl} target={'_blank'}>
+          {mentee?.resumeUrl}
+        </Link>
+        <Divider />
+        {mentee && <CommentSection mentee={mentee} />}
+      </Drawer>
+    </div>
   );
 }
 

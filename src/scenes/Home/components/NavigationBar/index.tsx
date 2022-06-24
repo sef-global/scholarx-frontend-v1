@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Col, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 import { AUTH_URL, LOGOUT_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../types';
 import logo from '../../scholarx.png';
+import HelpButton from '../HelpButton';
 import styles from './styles.css';
 
 const NavigationBar = () => {
@@ -24,22 +25,36 @@ const NavigationBar = () => {
         Home
       </Button>
       {user != null ? (
-        <>
-          <Button
-            className={styles.loginComponents}
-            href={LOGOUT_URL}
-            type={'text'}
-          >
-            Logout
-          </Button>
-          <Avatar src={user.imageUrl} className={styles.loginComponents} />
-        </>
+        <div className={styles.loginComponents}>
+          <Row gutter={5}>
+            <Col>
+              <Button
+                className={styles.loginComponents}
+                href={LOGOUT_URL}
+                type={'text'}
+              >
+                Logout
+              </Button>
+              <Avatar src={user.imageUrl} className={styles.loginComponents} />
+            </Col>
+            <Col>
+              <HelpButton />
+            </Col>
+          </Row>
+        </div>
       ) : (
-        <a href={AUTH_URL}>
-          <Button type="primary" className={styles.loginComponents}>
-            Sign In
-          </Button>
-        </a>
+        <div className={styles.loginComponents}>
+          <Row gutter={5}>
+            <Col>
+              <a href={AUTH_URL}>
+                <Button type="primary">Sign In</Button>
+              </a>
+            </Col>
+            <Col>
+              <HelpButton />
+            </Col>
+          </Row>
+        </div>
       )}
     </div>
   );

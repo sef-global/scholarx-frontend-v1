@@ -1,33 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { WarningOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import {
   Typography,
-  List,
-  Avatar,
   notification,
   Spin,
+  Table,
   Button,
-  Modal,
+  Drawer,
+  Select,
+  Row,
+  Col,
+  Input,
+  Space,
 } from 'antd';
+import type { InputRef } from 'antd';
+import { ColumnFilterItem } from 'antd/es/table/interface';
+import type { ColumnType } from 'antd/lib/table';
+import type { FilterConfirmProps } from 'antd/lib/table/interface';
 import axios, { AxiosResponse } from 'axios';
+import Highlighter from 'react-highlight-words';
 import { useParams } from 'react-router';
 
 import { API_URL } from '../../../../constants';
-import { Mentee } from '../../../../types';
+import { Mentee, Mentor, SavedProgram } from '../../../../types';
+import MentorList from '../../components/MentorList';
 import styles from '../../styles.css';
-import StatusTag from '../ManageMentors/components/StatusTag';
+import MenteeApplication from './components/MenteeApplication';
 
 const { Title } = Typography;
-const { confirm } = Modal;
+const { Column } = Table;
+const { Option } = Select;
 
 function ManageMentees() {
   const { programId } = useParams();
+  const [program, setProgram] = useState<SavedProgram>(null);
   const [mentees, setMentees] = useState<Mentee[]>([]);
+  const [selectedMentee, setSelectedMentee] = useState<Mentee>(null);
+  const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [isDrawerVisible, setIsDrawerVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [menteeSearchText, setMenteeSearchText] = useState('');
+  const searchInput = useRef<InputRef>(null);
 
   useEffect(() => {
     setIsLoading(true);
+    getProgram();
+    getMenteeList();
+    getMentorList();
+  }, []);
+
+  function getProgram() {
+    axios
+      .get(`${API_URL}/programs/${programId}`, {
+        withCredentials: true,
+      })
+      .then((result: AxiosResponse<SavedProgram>) => {
+        if (result.status == 200) {
+          setIsLoading(false);
+          setProgram(result.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong fetching the program',
+        });
+      });
+  }
+
+  function getMenteeList() {
     axios
       .get(`${API_URL}/admin/programs/${programId}/mentees`, {
         withCredentials: true,
@@ -35,7 +81,10 @@ function ManageMentees() {
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200 || result.status == 204) {
           setIsLoading(false);
-          setMentees(result.data);
+          const sortedMentees: Mentee[] = result.data.sort((a, b) =>
+            a.profile.firstName.localeCompare(b.profile.firstName)
+          );
+          setMentees(sortedMentees);
         } else {
           throw new Error();
         }
@@ -47,84 +96,406 @@ function ManageMentees() {
           description: 'Something went wrong when fetching the mentees',
         });
       });
-  }, []);
+  }
 
-  const removeMentee = (id: number) => {
-    confirm({
-      title: 'Do you want to remove this mentee?',
-      icon: <WarningOutlined />,
-      content: 'This action is not reversible. Please confirm below.',
-      onOk() {
-        axios
-          .delete(`${API_URL}/admin/mentees/${id}`, {
-            withCredentials: true,
-          })
-          .then((result: AxiosResponse) => {
-            if (result.status == 204) {
-              notification.success({
-                message: 'Success!',
-                description: 'Successfully removed the mentee',
-              });
-            } else {
-              throw new Error();
-            }
-          })
-          .catch(() => {
-            notification.error({
-              message: 'Error!',
-              description: 'Something went wrong when deleting the mentee',
-            });
+  function getMentorList() {
+    axios
+      .get(`${API_URL}/admin/programs/${programId}/mentors?states=APPROVED`, {
+        withCredentials: true,
+      })
+      .then((result: AxiosResponse<Mentor[]>) => {
+        if (result.status == 200 || result.status == 204) {
+          setIsLoading(false);
+          result.data.sort(function (a, b) {
+            return a.profile.name.localeCompare(b.profile.name);
           });
-      },
+          setMentors(result.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when fetching the mentees',
+        });
+      });
+  }
+
+  function changeMenteeState(menteeId: number, state: string) {
+    const payload = { state: state };
+    axios
+      .put(`${API_URL}/admin/mentees/${menteeId}/state`, payload, {
+        withCredentials: true,
+      })
+      .then((result: AxiosResponse<Mentee>) => {
+        if (result.status == 200) {
+          getMenteeList();
+          getMentorList();
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((reason) => {
+        console.log(reason);
+        notification.warning({
+          message: 'Warning!',
+          description: "Couldn't update the mentee state",
+        });
+      });
+  }
+
+  function changeMenteeAssignedMentor(mentorId: number, menteeId: number) {
+    let currentMentorId;
+    mentees.map((mentee: Mentee) => {
+      if (mentee.id == menteeId) {
+        currentMentorId = mentee.assignedMentor?.id;
+      }
     });
+    if (mentorId == currentMentorId) {
+      return;
+    }
+    const payload = { mentorId: mentorId };
+    axios
+      .put(`${API_URL}/admin/mentees/${menteeId}/assign`, payload, {
+        withCredentials: true,
+      })
+      .then((result: AxiosResponse<Mentee>) => {
+        if (result.status == 200) {
+          getMenteeList();
+          getMentorList();
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((reason) => {
+        console.log(reason);
+        notification.warning({
+          message: 'Warning!',
+          description: "Couldn't update the mentee state",
+        });
+      });
+  }
+
+  const showSelectedApplication = (mentee: Mentee) => {
+    setSelectedMentee(mentee);
+    setIsDrawerVisible(true);
   };
+
+  const onClose = () => {
+    setIsDrawerVisible(false);
+  };
+
+  const handleMenteeSearch = (
+    selectedKeys: React.Key[],
+    confirm: (param?: FilterConfirmProps) => void
+  ) => {
+    confirm();
+    setMenteeSearchText(selectedKeys[0].toString());
+  };
+
+  const handleMenteeSearchReset = (clearFilters: () => void) => {
+    clearFilters();
+    setMenteeSearchText('');
+  };
+
+  const getMenteeNameSearchProps = (): ColumnType<Mentee> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder="Search Mentee"
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleMenteeSearch(selectedKeys, confirm)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleMenteeSearch(selectedKeys, confirm)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              clearFilters();
+              handleMenteeSearchReset(clearFilters);
+              confirm();
+              setMenteeSearchText('');
+            }}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setMenteeSearchText(selectedKeys[0].toString());
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      `${record.profile.firstName} ${record.profile.lastName}`
+        .toLowerCase()
+        .includes(value.toString().toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+  });
 
   return (
     <div className={styles.container}>
-      <Title>Manage Mentees</Title>
-      <Spin tip="Loading..." spinning={isLoading}>
-        <List
-          itemLayout="horizontal"
-          size="large"
-          pagination={{
-            pageSize: 8,
-          }}
-          dataSource={mentees}
-          renderItem={(item: Mentee) => (
-            <List.Item
-              key={item.id}
-              actions={[
-                <Button
-                  key="remove"
-                  type="primary"
-                  onClick={() => removeMentee(item.id)}
-                  danger
-                >
-                  Remove
-                </Button>,
-              ]}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.profile.imageUrl} />}
-                title={
-                  <a href={item.profile.linkedinUrl}>
-                    {item.profile.firstName} {item.profile.lastName}
-                  </a>
-                }
-                description={item.profile.headline}
+      <Row>
+        <Col md={18}>
+          <Title>Manage Mentees</Title>
+          <Spin tip="Loading..." spinning={isLoading}>
+            <Table dataSource={mentees} rowKey={'id'}>
+              <Column
+                title="Mentee"
+                dataIndex={''}
+                {...getMenteeNameSearchProps()}
+                render={(mentee: Mentee) => (
+                  <Button
+                    type={'link'}
+                    onClick={() => {
+                      showSelectedApplication(mentee);
+                    }}
+                  >
+                    <Highlighter
+                      highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                      }}
+                      searchWords={[menteeSearchText]}
+                      autoEscape
+                      textToHighlight={`${mentee.profile.firstName} ${mentee.profile.lastName}`}
+                    />
+                  </Button>
+                )}
               />
-              <span className={styles.mentorNameSpan}>
-                {item.profile.email}
-              </span>
-              <span className={styles.mentorNameSpan}>
-                Mentor: {item.mentor.profile.firstName}{' '}
-                {item.mentor.profile.lastName}
-              </span>
-              <StatusTag state={item.state} />
-            </List.Item>
-          )}
-        />
-      </Spin>
+              <Column
+                title="Primary Mentor"
+                dataIndex={'appliedMentor'}
+                filters={mentors.map((mentor: Mentor) => {
+                  const mentorFilter: ColumnFilterItem = {
+                    text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
+                    value: mentor.id,
+                  };
+                  return mentorFilter;
+                })}
+                onFilter={(value: number, record: Mentee) =>
+                  record.appliedMentor.id === value
+                }
+                render={(mentor: Mentor) =>
+                  `${mentor.profile.firstName} ${mentor.profile.lastName}`
+                }
+              />
+              <Column
+                title="Assigned To"
+                dataIndex={''}
+                filters={mentors.map((mentor: Mentor) => {
+                  const mentorFilter: ColumnFilterItem = {
+                    text: `${mentor.profile.firstName} ${mentor.profile.lastName}`,
+                    value: mentor.id,
+                  };
+                  return mentorFilter;
+                })}
+                onFilter={(value: number, record: Mentee) =>
+                  record.assignedMentor?.id === value
+                }
+                render={(mentee: Mentee) => {
+                  return (
+                    <Select
+                      showSearch
+                      style={{ width: 250 }}
+                      placeholder="Select a Mentor"
+                      optionFilterProp="children"
+                      value={mentee.assignedMentor?.id}
+                      onSelect={(mentorId: number) => {
+                        changeMenteeAssignedMentor(mentorId, mentee.id);
+                      }}
+                      disabled={
+                        program.state == 'WILDCARD' &&
+                        mentee.state == 'APPROVED'
+                      }
+                      filterOption={(input, option) =>
+                        option.children
+                          .toString()
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {mentors?.map((mentor) => {
+                        return (
+                          <Option
+                            key={mentor.id}
+                            value={mentor.id}
+                            disabled={
+                              program.state != 'ADMIN_MENTEE_FILTRATION' &&
+                              program.state != 'WILDCARD'
+                            }
+                          >
+                            {mentor.profile.firstName} {mentor.profile.lastName}
+                          </Option>
+                        );
+                      })}
+                    </Select>
+                  );
+                }}
+              />
+              {program?.state === 'ADMIN_MENTEE_FILTRATION' ||
+              program?.state === 'WILDCARD' ? (
+                <Column
+                  title="Status"
+                  dataIndex={''}
+                  filters={[
+                    { text: 'PENDING', value: 'PENDING' },
+                    { text: 'ASSIGNED', value: 'ASSIGNED' },
+                    { text: 'POOL', value: 'POOL' },
+                    { text: 'DISCARDED', value: 'DISCARDED' },
+                    { text: 'APPROVED', value: 'APPROVED' },
+                    { text: 'REJECTED', value: 'REJECTED' },
+                    {
+                      text: 'FAILED FROM WILDCARD',
+                      value: 'FAILED_FROM_WILDCARD',
+                    },
+                  ]}
+                  onFilter={(value: string, record: Mentee) =>
+                    record.state.indexOf(value) === 0
+                  }
+                  render={(mentee: Mentee) => {
+                    return (
+                      <Select
+                        showSearch
+                        style={{ width: 150 }}
+                        placeholder="Select a state"
+                        value={mentee.state}
+                        onSelect={(value: string) => {
+                          changeMenteeState(mentee.id, value);
+                        }}
+                        disabled={
+                          program.state == 'WILDCARD' &&
+                          mentee.state == 'APPROVED'
+                        }
+                      >
+                        <Option
+                          value="PENDING"
+                          disabled={program.state !== 'ADMIN_MENTEE_FILTRATION'}
+                        >
+                          PENDING
+                        </Option>
+                        <Option value="ASSIGNED" disabled>
+                          ASSIGNED
+                        </Option>
+                        <Option
+                          value="POOL"
+                          disabled={program.state !== 'ADMIN_MENTEE_FILTRATION'}
+                        >
+                          POOL
+                        </Option>
+                        <Option
+                          value="DISCARDED"
+                          disabled={program.state != 'ADMIN_MENTEE_FILTRATION'}
+                        >
+                          DISCARDED
+                        </Option>
+                        <Option value="APPROVED" disabled>
+                          APPROVED
+                        </Option>
+                        <Option value="REJECTED" disabled>
+                          REJECTED
+                        </Option>
+                        <Option
+                          value="FAILED_FROM_WILDCARD"
+                          disabled={program.state !== 'WILDCARD'}
+                        >
+                          FAILED FROM WILDCARD
+                        </Option>
+                      </Select>
+                    );
+                  }}
+                />
+              ) : (
+                <Column
+                  title="Status"
+                  dataIndex={'state'}
+                  filters={[
+                    { text: 'PENDING', value: 'PENDING' },
+                    { text: 'ASSIGNED', value: 'ASSIGNED' },
+                    { text: 'POOL', value: 'POOL' },
+                    { text: 'DISCARDED', value: 'DISCARDED' },
+                    { text: 'APPROVED', value: 'APPROVED' },
+                    { text: 'REJECTED', value: 'REJECTED' },
+                    {
+                      text: 'FAILED FROM WILDCARD',
+                      value: 'FAILED_FROM_WILDCARD',
+                    },
+                  ]}
+                  onFilter={(value: string, record: Mentee) =>
+                    record.state.indexOf(value) === 0
+                  }
+                  render={(status: string) => {
+                    return status;
+                  }}
+                />
+              )}
+              {(program?.state === 'WILDCARD' ||
+                program?.state === 'ONGOING') && (
+                <Column
+                  title="Rejected By"
+                  dataIndex={'rejectedBy'}
+                  render={(rejectedBy: Mentor) => {
+                    if (rejectedBy != null) {
+                      return (
+                        rejectedBy?.profile.firstName +
+                        ' ' +
+                        rejectedBy?.profile.lastName
+                      );
+                    }
+                    return '';
+                  }}
+                />
+              )}
+            </Table>
+          </Spin>
+        </Col>
+        <Col md={6}>
+          <MentorList mentors={mentors} />
+        </Col>
+      </Row>
+      <Drawer
+        title={<Title level={4}>Mentee Application</Title>}
+        width={640}
+        placement="left"
+        onClose={onClose}
+        visible={isDrawerVisible}
+      >
+        <MenteeApplication mentee={selectedMentee} />
+      </Drawer>
     </div>
   );
 }

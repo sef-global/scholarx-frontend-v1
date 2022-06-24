@@ -11,7 +11,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.10.5",
     "@babel/plugin-transform-typescript": "^7.11.0",
     "@babel/preset-env": "^7.10.4",
@@ -20,6 +20,7 @@
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
+    "@types/react-highlight-words": "^0.16.4",
     "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
@@ -28,8 +29,9 @@
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react": "^7.28.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.5.1",
     "husky": "^6.0.0",
@@ -37,7 +39,6 @@
     "lint-staged": "^10.5.4",
     "prettier": "^2.0.5",
     "react-hot-loader": "^4.12.21",
-    "react-moment": "^1.1.1",
     "style-loader": "^1.2.1",
     "typescript": "^3.9.7",
     "webpack": "^4.44.0",
@@ -45,11 +46,12 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "antd": "^4.5.1",
-    "axios": "^0.20.0",
+    "antd": "^4.18.0",
+    "axios": "^0.27.2",
+    "javascript-time-ago": "^2.3.10",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-ga": "^3.3.0",
+    "react-highlight-words": "^0.18.0",
     "react-router-dom": "^5.2.0"
   },
   "lint-staged": {

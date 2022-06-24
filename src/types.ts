@@ -35,63 +35,35 @@ export interface Mentor {
   profile: Profile;
   state: string;
   program: SavedProgram;
-  application: string;
+  bio: string;
+  category: string;
+  expertise: string;
+  institution: string;
+  position: string;
+  slots: number;
+  noOfAssignedMentees: number;
 }
 
 export interface Mentee {
   id: number;
   profile: Profile;
-  state: 'PENDING' | 'APPROVED' | 'REJECTED' | 'REMOVED';
+  state:
+    | 'PENDING'
+    | 'POOL'
+    | 'DISCARDED'
+    | 'FAILED_FROM_WILDCARD'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'ASSIGNED';
   submissionUrl: string;
-  mentor: Mentor;
-}
-
-export interface Application {
-  response: string;
-  question: {
-    id: number,
-  };
-}
-
-export interface Question {
-  id: number;
-  question: string;
-  category: string;
-}
-
-export interface MentorQuestion extends Question {
-  program: SavedProgram;
-}
-
-export interface QuestionResponse {
-  id: {
-    questionId: number,
-    mentorId: number,
-  };
-  question: MentorQuestion;
-  mentor: Mentor;
-  response: string;
-}
-
-export interface UpdateQuestion {
-  id: {
-    questionId: number,
-    mentorId: number,
-  };
-  response: string;
-}
-
-export interface ApplicationFormData {
-  key: number;
-  value: string;
-}
-
-export interface MentorResponse {
-  id: {
-    questionId: number,
-    mentorId: number,
-  };
-  question: Question;
-  mentor: Mentor;
-  response: string;
+  appliedMentor: Mentor;
+  assignedMentor: Mentor;
+  rejectedBy: Mentor;
+  reasonForChoice: string;
+  intent: string;
+  course: string;
+  year: string;
+  university: string;
+  resumeUrl: string;
+  achievements: string;
 }

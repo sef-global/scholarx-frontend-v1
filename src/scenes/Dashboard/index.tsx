@@ -4,7 +4,7 @@ import {
   AppstoreOutlined,
   EditOutlined,
   TeamOutlined,
-  ProfileOutlined,
+  MailOutlined,
 } from '@ant-design/icons';
 import { Menu, Layout, Avatar } from 'antd';
 import { useHistory } from 'react-router';
@@ -27,7 +27,7 @@ import EditProgram from './scenes/EditProgram';
 import ManageMentees from './scenes/ManageMentees';
 import ManageMentors from './scenes/ManageMentors';
 import MenteeQuestions from './scenes/MenteeQuestions';
-import MentorQuestions from './scenes/MentorQuestions';
+import SendMail from './scenes/SendMail';
 import styles from './styles.css';
 
 const { Content, Sider, Header } = Layout;
@@ -41,62 +41,62 @@ function Dashboard() {
     <Router>
       <LogInModal isModalVisible={user === null} onCancel={null} />
       <Layout>
-        <Sider
-          className={styles.siderPosition}
-          breakpoint="lg"
-          collapsedWidth="0"
-        >
-          <div>
-            <a onClick={() => history.push('/')}>
-              <div className={styles.logo}>
-                <img src={logo} alt="SEF Logo" />
-              </div>
-            </a>
-          </div>
-          <Menu theme="dark" mode="inline">
-            <Menu.Item key="1">
-              <Link to={`/dashboard/${programId}/edit-state`}>
-                <EditOutlined /> Change State
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to={`/dashboard/${programId}/edit-program`}>
-                <AppstoreOutlined /> Edit Program
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to={`/dashboard/${programId}/manage-mentors`}>
-                <TeamOutlined /> Manage Mentors
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Link to={`/dashboard/${programId}/manage-mentees`}>
-                <TeamOutlined /> Manage Mentees
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <Link to={`/dashboard/${programId}/mentor-questions`}>
-                <ProfileOutlined /> Mentor Questions
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
         <Layout>
-          <Header className={styles.header}>
-            <Menu mode="horizontal" className={styles.rightAlignedMenu}>
-              <Menu.SubMenu
-                title={
-                  <Avatar className={styles.avatar} src={user?.imageUrl} />
-                }
-              >
-                <Menu.ItemGroup title={localStorage.username}>
-                  <Menu.Item>
-                    <a href={LOGOUT_URL}>Logout</a>
-                  </Menu.Item>
-                </Menu.ItemGroup>
-              </Menu.SubMenu>
+          <Sider
+            className={styles.siderPosition}
+            breakpoint="lg"
+            collapsedWidth="0"
+          >
+            <div>
+              <a onClick={() => history.push('/')}>
+                <div className={styles.logo}>
+                  <img src={logo} alt="SEF Logo" />
+                </div>
+              </a>
+            </div>
+            <Menu theme="dark" mode="inline">
+              <Menu.Item key="1">
+                <Link to={`/dashboard/${programId}/edit-state`}>
+                  <EditOutlined /> Change State
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to={`/dashboard/${programId}/edit-program`}>
+                  <AppstoreOutlined /> Edit Program
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Link to={`/dashboard/${programId}/manage-mentors`}>
+                  <TeamOutlined /> Manage Mentors
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Link to={`/dashboard/${programId}/manage-mentees`}>
+                  <TeamOutlined /> Manage Mentees
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <Link to={`/dashboard/${programId}/send-mail`}>
+                  <MailOutlined /> Send Mail
+                </Link>
+              </Menu.Item>
             </Menu>
-          </Header>
+          </Sider>
+        </Layout>
+        <Header className={styles.header}>
+          <Menu mode="horizontal" className={styles.rightAlignedMenu}>
+            <Menu.SubMenu
+              title={<Avatar className={styles.avatar} src={user?.imageUrl} />}
+            >
+              <Menu.ItemGroup title={localStorage.username}>
+                <Menu.Item>
+                  <a href={LOGOUT_URL}>Logout</a>
+                </Menu.Item>
+              </Menu.ItemGroup>
+            </Menu.SubMenu>
+          </Menu>
+        </Header>
+        <Layout>
           <Content className={styles.content}>
             <Switch>
               <Redirect
@@ -126,13 +126,13 @@ function Dashboard() {
               />
               <Route
                 exact
-                path="/dashboard/:programId/mentor-questions"
-                component={MentorQuestions}
+                path="/dashboard/:programId/mentee-questions"
+                component={MenteeQuestions}
               />
               <Route
                 exact
-                path="/dashboard/:programId/mentee-questions"
-                component={MenteeQuestions}
+                path="/dashboard/:programId/send-mail"
+                component={SendMail}
               />
             </Switch>
           </Content>

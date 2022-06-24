@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Typography, notification, Spin, Tabs, Row, Col, Button } from 'antd';
@@ -7,20 +7,19 @@ import { useParams, useHistory } from 'react-router';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { API_URL } from '../../../../constants';
-import { UserContext } from '../../../../index';
-import { Profile, SavedProgram } from '../../../../types';
-import HelpButton from '../../components/HelpButton';
+import { SavedProgram } from '../../../../types';
+import { getMenteeApplication } from '../../../../util/mentee-services';
 import NavigationBar from '../../components/NavigationBar';
 import styles from '../../styles.css';
-import AppliedMentors from './components/AppliedMentors';
 import Mentors from './components/Mentors';
-import MenteeApplication from './scenes/MenteeApplication';
+import Application from './scenes/Application';
+import RequestedMentor from './scenes/RequestedMentor';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 const { TabPane } = Tabs;
 
 function RequestMentors() {
-  const { programId } = useParams();
+  const { programId } = useParams<{ programId: string }>();
   const [program, setProgram] = useState<SavedProgram>({
     headline: '',
     id: 0,
@@ -30,7 +29,7 @@ function RequestMentors() {
     title: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const user: Partial<Profile | null> = useContext(UserContext);
+  const [isApplied, setIsApplied] = useState<boolean>(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -54,7 +53,17 @@ function RequestMentors() {
           description: 'Something went wrong when fetching the program',
         });
       });
+
+    getMentee();
   }, []);
+
+  const getMentee = async () => {
+    setIsLoading(true);
+    if (await getMenteeApplication(programId)) {
+      setIsApplied(true);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -76,8 +85,7 @@ function RequestMentors() {
         <Col span={18} offset={3}>
           <div className={styles.container}>
             <Spin tip="Loading..." spinning={isLoading}>
-              <Title>{program.title}</Title>
-              <Paragraph>{program.headline}</Paragraph>
+              <Title level={2}> Mentee Application | {program.title} </Title>
             </Spin>
             <Router>
               <Switch>
@@ -86,23 +94,28 @@ function RequestMentors() {
                     <TabPane tab="Mentors" key="1">
                       <Mentors />
                     </TabPane>
-                    {user !== null && (
-                      <TabPane tab="Applied Mentors" key="2">
-                        <AppliedMentors />
+                    {isApplied && (
+                      <TabPane tab="My Application" key="2">
+                        <Application location />
                       </TabPane>
                     )}
                   </Tabs>
                 </Route>
                 <Route
-                  path="/program/:programId/mentor/:mentorId/application"
-                  component={MenteeApplication}
+                  exact
+                  path="/program/:programId/mentor/:mentorId/view"
+                  component={RequestedMentor}
+                />
+                <Route
+                  exact
+                  path="/program/:programId/mentee/apply"
+                  component={Application}
                 />
               </Switch>
             </Router>
           </div>
         </Col>
       </Row>
-      <HelpButton />
     </>
   );
 }

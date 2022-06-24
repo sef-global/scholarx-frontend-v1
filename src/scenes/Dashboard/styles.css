@@ -23,7 +23,7 @@
 }
 
 .content {
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     background-color: white;
     padding-left: 240px;
     padding-top: 40px;
@@ -47,3 +47,12 @@
     padding-right: 2rem;
 }
 
+.mentorSearchSider{
+    background-color: white;
+    min-width: 260px!important;
+    box-shadow: 0 2px 8px #f0f1f2;
+}
+
+.mentorSearch{
+    padding: 15px;
+}

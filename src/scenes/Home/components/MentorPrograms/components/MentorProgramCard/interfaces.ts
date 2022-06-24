@@ -10,8 +10,9 @@ export interface MentorProgramCardProps {
     | 'MENTOR_APPLICATION'
     | 'MENTOR_SELECTION'
     | 'MENTEE_APPLICATION'
+    | 'ADMIN_MENTEE_FILTRATION'
     | 'MENTEE_SELECTION'
-    | 'MENTOR_CONFIRMATION'
+    | 'WILDCARD'
     | 'ONGOING'
     | 'COMPLETED';
 }

@@ -1,24 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { List, notification, Spin } from 'antd';
+import { notification, Spin, Table, Button } from 'antd';
 import axios, { AxiosResponse } from 'axios';
-import { useParams } from 'react-router';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import LogInModal from '../../../../../../components/LogInModal';
 import { API_URL } from '../../../../../../constants';
 import { UserContext } from '../../../../../../index';
 import { Mentor, Profile } from '../../../../../../types';
-import MentorCard from '../MentorCard';
+import { getMenteeApplication } from '../../../../../../util/mentee-services';
 import styles from '../styles.css';
 
+const { Column } = Table;
+
 function Mentors() {
-  const { programId } = useParams();
+  const { programId } = useParams<{ programId: string }>();
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isApplied, setIsApplied] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const user: Partial<Profile> = useContext(UserContext);
-  const match = useRouteMatch();
+  const user: Partial<Profile | null> = useContext(UserContext);
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,14 +44,29 @@ function Mentors() {
           description: 'Something went wrong when fetching the mentors',
         });
       });
+
+    getLoggedInMentee();
   }, []);
 
-  const handleModalPopUp = () => {
-    setIsModalVisible(true);
+  const getLoggedInMentee = async () => {
+    setIsLoading(true);
+    const mentee = await getMenteeApplication(programId);
+    if (mentee) {
+      setIsApplied(true);
+    }
+    setIsLoading(false);
   };
 
   const handleModalCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const onApply = () => {
+    if (user === null) {
+      setIsModalVisible(true);
+    } else {
+      history.push(`/program/${programId}/mentee/apply`);
+    }
   };
 
   return (
@@ -58,36 +76,46 @@ function Mentors() {
         onCancel={handleModalCancel}
       />
       <Spin tip="Loading..." spinning={isLoading}>
-        <List
-          grid={{
-            gutter: 8,
-            xs: 1,
-            sm: 2,
-            md: 2,
-            lg: 3,
-            xl: 4,
-            xxl: 4,
-          }}
-          itemLayout="horizontal"
-          size="large"
-          pagination={{
-            pageSize: 8,
-          }}
-          dataSource={mentors}
-          renderItem={(item: Mentor) => (
-            <List.Item key={item.id}>
-              {user !== null ? (
-                <Link to={`${match.url}/mentor/${item.id}/application`}>
-                  <MentorCard item={item} />
-                </Link>
-              ) : (
-                <div onClick={handleModalPopUp}>
-                  <MentorCard item={item} />
-                </div>
-              )}
-            </List.Item>
-          )}
-        />
+        <Table dataSource={mentors} rowKey="id">
+          <Column
+            title="Mentor"
+            dataIndex={''}
+            render={(mentor: Mentor) => (
+              <Link to={`/program/${programId}/mentor/${mentor.id}/view`}>
+                {mentor.profile.firstName} {mentor.profile.lastName}
+              </Link>
+            )}
+          />
+          <Column
+            title="Category"
+            dataIndex={'category'}
+            filters={[
+              { text: 'ENGINEERING', value: 'ENGINEERING' },
+              { text: 'LIFE SCIENCES', value: 'LIFE_SCIENCES' },
+              { text: 'COMPUTER SCIENCE', value: 'COMPUTER_SCIENCE' },
+              { text: 'DATASCIENCE AND AI', value: 'DATASCIENCE_AND_AI' },
+              { text: 'PHYSICAL SCIENCE', value: 'PHYSICAL_SCIENCE' },
+              { text: 'OTHER', value: 'OTHER' },
+            ]}
+            onFilter={(value: string, record: Mentor) =>
+              record.category.indexOf(value) === 0
+            }
+            render={(category: string) => category.replace('_', ' ')}
+          />
+          <Column title="Expertise" dataIndex={'expertise'} />
+          <Column title="Institution" dataIndex={'institution'} />
+        </Table>
+        <hr className={styles.horizontalLine} />
+        {!isApplied && (
+          <Button
+            type="primary"
+            size="large"
+            className={styles.applyButton}
+            onClick={onApply}
+          >
+            Apply
+          </Button>
+        )}
       </Spin>
     </div>
   );

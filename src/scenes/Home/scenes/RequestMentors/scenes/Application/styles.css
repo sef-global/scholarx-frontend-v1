@@ -1,0 +1,13 @@
+.contentMargin {
+    width: 50%;
+}
+
+.button{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+:global .ant-form-item {
+    margin-top: 0px;
+    margin-bottom: 1rem;
+}

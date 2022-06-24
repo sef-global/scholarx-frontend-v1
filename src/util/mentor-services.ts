@@ -2,16 +2,13 @@ import { notification } from 'antd';
 import axios from 'axios';
 
 import { API_URL } from '../constants';
-import { Application, UpdateQuestion } from '../types';
+import { Mentor } from '../types';
 
-export const applyForProgram = async (
-  application: Application[],
-  programId: string
-) => {
+export const applyForProgram = async (programId: string, mentor: Mentor) => {
   try {
     const result = await axios.post(
       `${API_URL}/programs/${programId}/mentor`,
-      application,
+      mentor,
       {
         withCredentials: true,
       }
@@ -35,14 +32,11 @@ export const applyForProgram = async (
   }
 };
 
-export const getResponses = async (programId: string) => {
+export const getMentorApplication = async (programId: string) => {
   try {
-    const result = await axios.get(
-      `${API_URL}/programs/${programId}/responses/mentor`,
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get(`${API_URL}/programs/${programId}/mentor`, {
+      withCredentials: true,
+    });
     if (result.status == 200) {
       return result.data;
     }
@@ -58,14 +52,21 @@ export const getResponses = async (programId: string) => {
   }
 };
 
-export const updateApplication = async (
+export const updateMentorApplication = async (
   programId: string,
-  application: UpdateQuestion[]
+  mentor: {
+    institution: string,
+    slots: number,
+    bio: string,
+    position: string,
+    category: string,
+    expertise: string,
+  }
 ) => {
   try {
     const result = await axios.put(
-      `${API_URL}/programs/${programId}/responses/mentor`,
-      application,
+      `${API_URL}/programs/${programId}/mentor`,
+      mentor,
       {
         withCredentials: true,
       }
@@ -85,6 +86,29 @@ export const updateApplication = async (
     notification.warning({
       message: 'Warning!',
       description: 'Something went wrong when editing the program',
+    });
+  }
+};
+
+export const getApprovedMentors = async (programId: string) => {
+  try {
+    const result = await axios.get(
+      `${API_URL}/programs/${programId}/mentors?states=APPROVED`,
+      {
+        withCredentials: true,
+      }
+    );
+    if (result.status === 200) {
+      return result;
+    }
+    notification.warning({
+      message: 'Warning!',
+      description: 'Something went wrong when fetching the mentors',
+    });
+  } catch (e) {
+    notification.warning({
+      message: 'Warning!',
+      description: 'Something went wrong when fetching the mentors',
     });
   }
 };

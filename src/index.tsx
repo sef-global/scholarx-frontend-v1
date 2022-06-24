@@ -4,7 +4,6 @@ import { notification } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.less';
-import ReactGA from 'react-ga';
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,15 +16,12 @@ import Dashboard from './scenes/Dashboard';
 import Home from './scenes/Home';
 import EditMentorApplication from './scenes/Home/scenes/EditMentorApplication';
 import ManageMentees from './scenes/Home/scenes/ManageMentees';
+import MenteeDashboard from './scenes/Home/scenes/MenteeDashboard';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
-import MentorConfirmation from './scenes/Home/scenes/MentorConfirmation';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';
 import { Profile } from './types';
 
 export const UserContext = createContext<Partial<Profile>>({});
-
-// Initialize Google Analytics (Works with Universal Analytics (UA) Tracking ID)
-ReactGA.initialize('UA-167873271-3');
 
 function App() {
   const [user, setUser] = useState<Profile | null>(null);
@@ -68,8 +64,8 @@ function App() {
           />
           <Route path="/mentor/program/:programId" component={ManageMentees} />
           <Route
-            path="/program/:programId/mentor/confirmation"
-            component={MentorConfirmation}
+            path="/mentee/program/:programId"
+            component={MenteeDashboard}
           />
           <Route path="/program/:programId" component={RequestMentors} />
         </Switch>

@@ -1,0 +1,26 @@
+.textPadding {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.contentMargin {
+    margin-top: 1.5rem;
+    margin-left: 3rem;
+}
+
+.applyButton{
+    float: left;
+    margin-top: 30px;
+    margin-left: 435px;
+}
+
+.horizontalLine {
+    opacity: 0.2;
+    margin-top: 85px; 
+    margin-bottom: 35px;
+}
+
+:global .ant-tabs {
+    margin: -1px;
+}
+

@@ -1,0 +1,19 @@
+.buttonMargin {
+  margin-bottom: 1rem;
+}
+
+.commenterType {
+  color: grey;
+  font-size: 10px;
+  font-weight: normal;
+  margin: 4px;
+}
+
+.deleteBtn {
+  color: red;
+}
+
+.popoverButton{
+  padding: 2px 5px 2px 5px;
+  margin: 0px 5px 0px 5px;
+}

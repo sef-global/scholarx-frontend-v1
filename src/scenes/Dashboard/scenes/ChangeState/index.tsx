@@ -28,8 +28,9 @@ const stateEnumVals: string[] = [
   'MENTOR_APPLICATION',
   'MENTOR_SELECTION',
   'MENTEE_APPLICATION',
+  'ADMIN_MENTEE_FILTRATION',
   'MENTEE_SELECTION',
-  'MENTOR_CONFIRMATION',
+  'WILDCARD',
   'ONGOING',
   'COMPLETED',
   'REMOVED',
@@ -58,23 +59,29 @@ const programStates: State[] = [
   },
   {
     stepNo: 4,
+    name: 'Admin-Mentee Filtration Period',
+    description:
+      'During this state, the admin can review the mentee applications and assign them to mentors for further review.',
+  },
+  {
+    stepNo: 5,
     name: 'Mentee Approval Period',
     description:
       'During this state, mentors can review the mentor application and approve or reject them.',
   },
   {
-    stepNo: 5,
-    name: 'Mentor Confirmation',
+    stepNo: 6,
+    name: 'Wildcard period',
     description:
-      'During this state, mentees can see their mentor and if they have been chosen by multiple mentors they can choose one of them as their mentor.',
+      'During this state, the admin can assign mentors for the mentees who are not approved by mentors.',
   },
   {
-    stepNo: 6,
+    stepNo: 7,
     name: 'Ongoing',
     description: 'This state indicates that the program is currently running.',
   },
   {
-    stepNo: 7,
+    stepNo: 8,
     name: 'Completed',
     description: 'The program is completed.',
   },
