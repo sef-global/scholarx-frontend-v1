@@ -16,10 +16,10 @@ import { getApprovedMentors } from '../../../../../../util/mentor-services';
 import { getProgramDetails } from '../../../../../../util/program-services';
 import styles from './styles.css';
 
-function MenteeApplication() {
+function MenteeApplication({ location }) {
   const { programId } = useParams<{ programId: string }>();
   const [mentors, setMentors] = useState<Mentor[]>([]);
-  const [mentor, setMentor] = useState<Mentor>(null);
+  const [mentor, setMentor] = useState<Mentor>(location.state);
   const [isApplied, setIsApplied] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user: Partial<Profile | null> = useContext(UserContext);
@@ -70,7 +70,15 @@ function MenteeApplication() {
         resumeUrl: mentee.resumeUrl,
         achievements: mentee.achievements,
       });
-      setMentor(mentee.appliedMentor);
+      if (location.state) {
+        form.setFieldsValue({
+          appliedMentor: location.state.id,
+        });
+        setMentor(location.state);
+      } else {
+        setMentor(mentee.appliedMentor);
+      }
+
       setIsApplied(true);
     }
     setIsLoading(false);
@@ -140,18 +148,20 @@ function MenteeApplication() {
             form={form}
             layout="vertical"
             size="middle"
+            initialValues={{ appliedMentor: mentor?.id }}
           >
             <Form.Item
               label="Primary Mentor"
               name="appliedMentor"
               rules={[
                 {
-                  required: true,
+                  required: !mentor,
                   message: 'Required',
                 },
               ]}
             >
               <Select
+                defaultValue={mentor?.id}
                 options={mentors.map((mentor: Mentor) => ({
                   value: mentor.id,
                   label:
@@ -253,7 +263,7 @@ function MenteeApplication() {
                 size="large"
                 className={styles.button}
               >
-                {isApplied ? 'Update' : 'Apply'}
+                {!isApplied ? 'Apply' : 'Update'}
               </Button>
             </Form.Item>
           </Form>
