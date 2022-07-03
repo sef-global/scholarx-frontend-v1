@@ -19,6 +19,7 @@ import { ColumnFilterItem } from 'antd/es/table/interface';
 import type { ColumnType } from 'antd/lib/table';
 import type { FilterConfirmProps } from 'antd/lib/table/interface';
 import axios, { AxiosResponse } from 'axios';
+import moment from 'moment';
 import Highlighter from 'react-highlight-words';
 import { useParams } from 'react-router';
 
@@ -40,6 +41,8 @@ function ManageMentees() {
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [isDrawerVisible, setIsDrawerVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLastSavedLoading, setIsLastSavedLoading] = useState<boolean>(false);
+  const [lastSaved, setLastSaved] = useState<Date>(null);
 
   const [menteeSearchText, setMenteeSearchText] = useState('');
   const searchInput = useRef<InputRef>(null);
@@ -148,6 +151,7 @@ function ManageMentees() {
 
   function changeMenteeAssignedMentor(mentorId: number, menteeId: number) {
     let currentMentorId;
+    setIsLastSavedLoading(true);
     mentees.map((mentee: Mentee) => {
       if (mentee.id == menteeId) {
         currentMentorId = mentee.assignedMentor?.id;
@@ -165,11 +169,14 @@ function ManageMentees() {
         if (result.status == 200) {
           getMenteeList();
           getMentorList();
+          setLastSaved(new Date());
+          setIsLastSavedLoading(false);
         } else {
           throw new Error();
         }
       })
       .catch((reason) => {
+        setIsLastSavedLoading(false);
         console.log(reason);
         notification.warning({
           message: 'Warning!',
@@ -272,6 +279,15 @@ function ManageMentees() {
       <Row>
         <Col md={18}>
           <Title>Manage Mentees</Title>
+          {lastSaved && (
+            <p className={styles.saveIndicator}>
+              {isLastSavedLoading
+                ? 'Saving changes'
+                : `Last saved ${moment(lastSaved).format(
+                    'MMMM Do YYYY, h:mm a'
+                  )}`}
+            </p>
+          )}
           <Spin tip="Loading..." spinning={isLoading}>
             <Table dataSource={mentees} rowKey={'id'}>
               <Column
