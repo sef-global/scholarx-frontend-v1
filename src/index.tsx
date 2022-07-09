@@ -34,7 +34,6 @@ function App() {
     axios
       .get(`${API_URL}/me`, { withCredentials: true })
       .then((response: AxiosResponse<Profile>) => {
-        console.log(response.data.uid);
         setUser(response.data);
       })
       .catch((error) => {
