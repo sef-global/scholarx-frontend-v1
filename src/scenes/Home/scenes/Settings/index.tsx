@@ -17,6 +17,10 @@ function Settings() {
   const [form] = Form.useForm();
   const history = useHistory();
 
+  const updateEmail = () => {
+    // send request to update email
+  };
+
   return (
     <>
       <LogInModal isModalVisible={user === null} onCancel={null} />
@@ -48,9 +52,10 @@ function Settings() {
         }}
         layout="vertical"
         size="large"
+        onFinish={updateEmail}
       >
         <Form.Item label="Current Email">
-          <Input />
+          <Input value={user?.email} readOnly />
         </Form.Item>
         <Form.Item label="New Email">
           <Input />

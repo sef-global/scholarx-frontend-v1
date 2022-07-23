@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Col, Row, Tabs, Typography } from 'antd';
 
+import EmailModal from '../../components/EmailModal';
+import { UserContext } from '../../index';
+import { Profile } from '../../types';
 import ActivePrograms from './components/ActivePrograms';
 import Footer from './components/Footer';
 import NavigationBar from './components/NavigationBar';
@@ -12,10 +15,35 @@ import styles from './styles.css';
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
+// user.hasUpdateUserDetails == false
+const hasUpdateUserDetails = false;
+
 const Home = () => {
+  const user: Partial<Profile | null> = useContext(UserContext);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(
+    !hasUpdateUserDetails
+  );
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleEmailVerification = () => {
+    setIsModalVisible(false);
+    // send a request to confirm the user email
+  };
+
   return (
     <>
       <div>
+        {user && (
+          <EmailModal
+            isModalVisible={isModalVisible}
+            userEmail={user?.email}
+            onCancel={handleCancel}
+            onConfirm={handleEmailVerification}
+          />
+        )}
         <NavigationBar />
         <Row justify="center">
           <Col md={24} lg={21}>
