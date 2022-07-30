@@ -1,6 +1,6 @@
 export interface EmailModalProps {
   isModalVisible: boolean;
-  onCancel: () => void | null;
+  onCancel: () => void;
   userEmail: string;
-  onConfirm: () => void | null;
+  onConfirm: () => void;
 }
