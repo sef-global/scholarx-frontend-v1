@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Col, Row, Tabs, Typography } from 'antd';
 
+import EmailModal from '../../components/EmailModal';
+import { UserContext } from '../../index';
+import { Profile } from '../../types';
 import ActivePrograms from './components/ActivePrograms';
 import Footer from './components/Footer';
 import NavigationBar from './components/NavigationBar';
@@ -13,9 +16,31 @@ const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
 const Home = () => {
+  const user: Partial<Profile | null> = useContext(UserContext);
+
+  // should be initialized to !user.hasUserDetailsConfirmed
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  // send a request to verify the user email
+  const handleEmailVerification = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <>
       <div>
+        {user && (
+          <EmailModal
+            isModalVisible={isModalVisible}
+            userEmail={user?.email}
+            onCancel={handleCancel}
+            onConfirm={handleEmailVerification}
+          />
+        )}
         <NavigationBar />
         <Row justify="center">
           <Col md={24} lg={21}>

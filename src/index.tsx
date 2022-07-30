@@ -19,6 +19,7 @@ import ManageMentees from './scenes/Home/scenes/ManageMentees';
 import MenteeDashboard from './scenes/Home/scenes/MenteeDashboard';
 import MentorApplication from './scenes/Home/scenes/MentorApplication';
 import RequestMentors from './scenes/Home/scenes/RequestMentors';
+import Settings from './scenes/Home/scenes/Settings';
 import { Profile } from './types';
 
 export const UserContext = createContext<Partial<Profile>>({});
@@ -68,6 +69,7 @@ function App() {
             component={MenteeDashboard}
           />
           <Route path="/program/:programId" component={RequestMentors} />
+          <Route path="/settings" component={Settings} />
         </Switch>
       </Router>
     </UserContext.Provider>
