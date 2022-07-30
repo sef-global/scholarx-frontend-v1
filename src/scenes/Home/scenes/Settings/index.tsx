@@ -45,7 +45,7 @@ function Settings() {
         className={styles.email_edit_form}
         form={form}
         labelCol={{
-          span: 4,
+          span: 10,
         }}
         wrapperCol={{
           span: 10,
@@ -54,11 +54,12 @@ function Settings() {
         size="large"
         onFinish={updateEmail}
       >
-        <Form.Item label="Current Email">
-          <Input value={user?.email} readOnly />
-        </Form.Item>
-        <Form.Item label="New Email">
-          <Input />
+        <Form.Item label="Please update your email to the one you currently use">
+          <Input
+            type="text"
+            defaultValue={user?.email}
+            className={styles.email_edit_input}
+          />
         </Form.Item>
         <Form.Item>
           <Button type="primary">Edit</Button>

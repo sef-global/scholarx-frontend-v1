@@ -15,22 +15,19 @@ import styles from './styles.css';
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
-// user.hasUpdateUserDetails == false
-const hasUpdateUserDetails = false;
-
 const Home = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(
-    !hasUpdateUserDetails
-  );
+
+  // should be initialized to !user.hasUserDetailsConfirmed
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
+  // send a request to verify the user email
   const handleEmailVerification = () => {
     setIsModalVisible(false);
-    // send a request to confirm the user email
   };
 
   return (

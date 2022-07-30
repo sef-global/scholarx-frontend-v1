@@ -19,20 +19,21 @@ function EmailModal({
 
   return (
     <Modal
-      title="Update Email"
+      title="Email Verification"
       visible={isModalVisible}
       onOk={handleOk}
       onCancel={onCancel}
       footer={[
-        <Button key="yes" onClick={onConfirm}>
+        <Button key="yes" type="primary" onClick={onConfirm}>
           Yes
         </Button>,
-        <Button key="no" type="primary" onClick={handleOk}>
+        <Button key="no" type="primary" danger onClick={handleOk}>
           No
         </Button>,
       ]}
     >
-      <p>Is {userEmail} the email you are currently using?</p>
+      <p>{userEmail}</p>
+      <p>Is this the email you are currently using?</p>
     </Modal>
   );
 }

@@ -5,10 +5,15 @@
 .email_edit_title {
     margin-left: 140px;
 }
+
 .backButton {
     margin-top: 1rem;
     border: transparent;
     background: transparent;
     box-shadow: none;
     margin-left: 70px;
+}
+
+.email_edit_input{
+    margin-bottom: 20px;
 }

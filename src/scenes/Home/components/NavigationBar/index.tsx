@@ -38,6 +38,15 @@ const NavigationBar = () => {
               <Avatar src={user.imageUrl} className={styles.loginComponents} />
             </Col>
             <Col>
+              <Button
+                className={styles.loginComponents}
+                type={'text'}
+                onClick={() => history.push('/settings')}
+              >
+                Settings
+              </Button>
+            </Col>
+            <Col>
               <HelpButton />
             </Col>
           </Row>
