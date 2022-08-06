@@ -177,7 +177,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <Input />
+                      <Input maxLength={255} showCount />
                     </Form.Item>
                     <Form.Item
                       label="Institution"
@@ -189,7 +189,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <Input />
+                      <Input maxLength={255} showCount />
                     </Form.Item>
                     <Form.Item
                       label="Current Position"
@@ -201,7 +201,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <Input />
+                      <Input maxLength={255} showCount />
                     </Form.Item>
                     <Form.Item
                       label="Bio"
