@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { Col, Row, Tabs, Typography } from 'antd';
+import { Col, notification, Row, Tabs, Typography } from 'antd';
+import axios, { AxiosResponse } from 'axios';
 
 import EmailModal from '../../components/EmailModal';
+import { API_URL } from '../../constants';
 import { UserContext } from '../../index';
 import { Profile } from '../../types';
 import ActivePrograms from './components/ActivePrograms';
@@ -27,8 +29,40 @@ const Home = () => {
 
   // send a request to verify the user email
   const handleEmailVerification = () => {
+    axios
+      .post(
+        `${API_URL}/me`,
+        {
+          email: user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((result: AxiosResponse) => {
+        if (result.status == 200) {
+          notification.success({
+            message: 'Success!',
+            description: 'Email successfully updated',
+          });
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when updating the email',
+        });
+      });
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    if (user?.hasConfirmedUserDetails === false) {
+      setIsModalVisible(true);
+    }
+  }, [user]);
 
   return (
     <>

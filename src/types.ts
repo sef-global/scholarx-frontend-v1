@@ -7,6 +7,7 @@ export interface Profile {
   imageUrl: string;
   headline: string;
   linkedinUrl: string;
+  hasConfirmedUserDetails: boolean;
   type: string;
   name: string;
   attributes: string;
