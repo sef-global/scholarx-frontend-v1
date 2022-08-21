@@ -21,10 +21,13 @@ const Home = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
 
   // should be initialized to !user.hasUserDetailsConfirmed
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [
+    isUpdateEmailModalVisible,
+    setIsUpdateEmailModalVisible,
+  ] = useState<boolean>(false);
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    setIsUpdateEmailModalVisible(false);
   };
 
   // send a request to verify the user email
@@ -55,12 +58,12 @@ const Home = () => {
           description: 'Something went wrong when updating the email',
         });
       });
-    setIsModalVisible(false);
+    setIsUpdateEmailModalVisible(false);
   };
 
   useEffect(() => {
     if (user?.hasConfirmedUserDetails === false) {
-      setIsModalVisible(true);
+      setIsUpdateEmailModalVisible(true);
     }
   }, [user]);
 
@@ -69,7 +72,7 @@ const Home = () => {
       <div>
         {user && (
           <EmailModal
-            isModalVisible={isModalVisible}
+            isModalVisible={isUpdateEmailModalVisible}
             userEmail={user?.email}
             onCancel={handleCancel}
             onConfirm={handleEmailVerification}

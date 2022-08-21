@@ -16,7 +16,7 @@ const { Title } = Typography;
 
 function Settings() {
   const user: Partial<Profile | null> = useContext(UserContext);
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState<string>();
   const [form] = Form.useForm();
 
   const updateEmail = () => {
@@ -26,7 +26,7 @@ function Settings() {
         .post(
           `${API_URL}/me`,
           {
-            email: email,
+            email,
           },
           {
             withCredentials: true,
