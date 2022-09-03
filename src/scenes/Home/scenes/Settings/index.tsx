@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Typography, Row, Col, notification } from 'antd';
 import axios, { AxiosResponse } from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
@@ -18,6 +19,7 @@ function Settings() {
   const user: Partial<Profile | null> = useContext(UserContext);
   const [email, setEmail] = useState<string>();
   const [form] = Form.useForm();
+  const history = useHistory();
 
   const updateEmail = () => {
     // send request to update email
@@ -38,6 +40,7 @@ function Settings() {
               message: 'Success!',
               description: 'Email successfully updated',
             });
+            user.hasConfirmedUserDetails = true;
           } else {
             throw new Error();
           }
@@ -71,7 +74,7 @@ function Settings() {
             icon={<ArrowLeftOutlined />}
             size="large"
             onClick={() => {
-              window.location.href = '/home';
+              history.push('/');
             }}
           />
         </Col>

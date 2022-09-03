@@ -48,6 +48,7 @@ const Home = () => {
             message: 'Success!',
             description: 'Email successfully updated',
           });
+          user.hasConfirmedUserDetails = true;
         } else {
           throw new Error();
         }
