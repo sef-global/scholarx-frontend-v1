@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { Col, Row, Tabs, Typography } from 'antd';
+import { Col, notification, Row, Tabs, Typography } from 'antd';
+import axios, { AxiosResponse } from 'axios';
 
 import EmailModal from '../../components/EmailModal';
+import { API_URL } from '../../constants';
 import { UserContext } from '../../index';
 import { Profile } from '../../types';
 import ActivePrograms from './components/ActivePrograms';
@@ -19,23 +21,59 @@ const Home = () => {
   const user: Partial<Profile | null> = useContext(UserContext);
 
   // should be initialized to !user.hasUserDetailsConfirmed
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [
+    isUpdateEmailModalVisible,
+    setIsUpdateEmailModalVisible,
+  ] = useState<boolean>(false);
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    setIsUpdateEmailModalVisible(false);
   };
 
   // send a request to verify the user email
   const handleEmailVerification = () => {
-    setIsModalVisible(false);
+    axios
+      .post(
+        `${API_URL}/me`,
+        {
+          email: user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((result: AxiosResponse) => {
+        if (result.status == 200) {
+          notification.success({
+            message: 'Success!',
+            description: 'Email successfully updated',
+          });
+          user.hasConfirmedUserDetails = true;
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when updating the email',
+        });
+      });
+    setIsUpdateEmailModalVisible(false);
   };
+
+  useEffect(() => {
+    if (user?.hasConfirmedUserDetails === false) {
+      setIsUpdateEmailModalVisible(true);
+    }
+  }, [user]);
 
   return (
     <>
       <div>
         {user && (
           <EmailModal
-            isModalVisible={isModalVisible}
+            isModalVisible={isUpdateEmailModalVisible}
             userEmail={user?.email}
             onCancel={handleCancel}
             onConfirm={handleEmailVerification}
