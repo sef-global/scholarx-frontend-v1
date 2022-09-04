@@ -8,7 +8,7 @@
     margin-left: 5px;
 }
 
-@media screen and (min-height: 800px){
+@media screen and (min-height: 670px){
     .footer{
         position: fixed;
         width: 100%;

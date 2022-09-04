@@ -111,7 +111,9 @@ function Settings() {
         </Form.Item>
       </Form>
 
-      <Footer />
+      <div className={styles.footer}>
+        <Footer />
+      </div>
     </>
   );
 }
