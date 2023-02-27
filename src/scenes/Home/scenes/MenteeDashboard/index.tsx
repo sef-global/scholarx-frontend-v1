@@ -229,7 +229,7 @@ function MenteeDashboard() {
                   )}
                 </Space>
               )}
-              {program?.state === 'ONGOING' && mentee?.assignedMentor != null && (
+              {program?.state === 'ONGOING' && mentee?.state == 'APPROVED' && (
                 <Row>
                   <div>
                     <Space direction={'vertical'}>
@@ -249,7 +249,7 @@ function MenteeDashboard() {
                   </Col>
                 </Row>
               )}
-              {program?.state === 'ONGOING' && mentee?.assignedMentor == null && (
+              {program?.state === 'ONGOING' && mentee?.state != 'APPROVED' && (
                 <Card>
                   <Space direction={'vertical'}>
                     <Row>
@@ -263,12 +263,9 @@ function MenteeDashboard() {
                     </Row>
                     <Row>
                       <Text>
-                        But this does not mean you now have zero change of
-                        getting into ScholarX. You can always brush up your
-                        application and apply next time. In the meantime you can
-                        join the session that we would be organizing in a couple
-                        of weeks on the next steps that you can take from this
-                        point on.
+                        But this does not mean you now have zero chance of
+                        getting into ScholarX. You can always brush up on your
+                        application and apply next time.
                       </Text>
                     </Row>
                   </Space>
