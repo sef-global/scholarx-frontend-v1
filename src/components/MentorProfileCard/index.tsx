@@ -11,7 +11,7 @@ const { Text, Link } = Typography;
 function MentorProfileCard({ mentor }: { mentor: Mentor }) {
   return (
     <div className={styles.mentorProfileCard}>
-      <Badge.Ribbon text={mentor.category.replace('_', ' ').toLowerCase()}>
+      <Badge.Ribbon text={mentor.category.replace(/_/g, ' ')}>
         <Card
           actions={[
             <Text

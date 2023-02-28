@@ -100,7 +100,7 @@ function Mentors() {
             onFilter={(value: string, record: Mentor) =>
               record.category.indexOf(value) === 0
             }
-            render={(category: string) => category.replace('_', ' ')}
+            render={(category: string) => category.replace(/_/g, ' ')}
           />
           <Column title="Expertise" dataIndex={'expertise'} />
           <Column title="Institution" dataIndex={'institution'} />
