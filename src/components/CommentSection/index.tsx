@@ -112,7 +112,7 @@ function CommentSection({ mentee }: { mentee: Mentee }) {
         itemLayout="horizontal"
         dataSource={comments}
         renderItem={(comment: Comment) => {
-          const date = new Date(comment.updatedAt);
+          const date = new Date(comment.createdAt);
           const isAdmin = comment.commented_by.type === 'ADMIN';
           return (
             <List.Item
