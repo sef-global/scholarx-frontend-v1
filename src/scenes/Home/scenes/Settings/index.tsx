@@ -5,13 +5,13 @@ import { Button, Form, Input, Typography, Row, Col, notification } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom';
 
-import styles from './styles.css';
 import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../types';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
+import styles from './styles.css';
 
 const { Title } = Typography;
 
