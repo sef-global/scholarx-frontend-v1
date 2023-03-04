@@ -5,62 +5,53 @@ import { Button, Form, Input, Typography, Row, Col, notification } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import styles from './styles.css';
 import LogInModal from '../../../../components/LogInModal';
 import { API_URL } from '../../../../constants';
 import { UserContext } from '../../../../index';
 import { Profile } from '../../../../types';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
-import styles from './styles.css';
 
 const { Title } = Typography;
 
 function Settings() {
   const user: Partial<Profile | null> = useContext(UserContext);
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>(null);
+  const [linkedinUrl, setLinkedinUrl] = useState<string>(null);
   const [form] = Form.useForm();
   const history = useHistory();
 
-  const updateEmail = () => {
+  const updateUserDetails = () => {
     // send request to update email
-    if (email !== undefined) {
-      axios
-        .post(
-          `${API_URL}/me`,
-          {
-            email,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((result: AxiosResponse) => {
-          if (result.status == 200) {
-            notification.success({
-              message: 'Success!',
-              description: 'Email successfully updated',
-            });
-            user.hasConfirmedUserDetails = true;
-          } else {
-            throw new Error();
-          }
-        })
-        .catch(() => {
-          notification.warning({
-            message: 'Warning!',
-            description: 'Something went wrong when updating the email',
+    axios
+      .post(
+        `${API_URL}/me`,
+        {
+          email: email ?? user?.email,
+          linkedinUrl: linkedinUrl ?? user?.linkedinUrl,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((result: AxiosResponse) => {
+        if (result.status == 200) {
+          notification.success({
+            message: 'Success!',
+            description: 'Information successfully updated',
           });
+          user.hasConfirmedUserDetails = true;
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        notification.warning({
+          message: 'Warning!',
+          description: 'Something went wrong when updating the details',
         });
-    } else {
-      notification.warning({
-        message: 'Warning!',
-        description: 'This email already in use',
       });
-    }
-  };
-
-  const handleOnChange = (e: any) => {
-    setEmail(e.target.value);
   };
 
   return (
@@ -81,7 +72,7 @@ function Settings() {
         <Col md={15} />
       </Row>
       <Title level={2} className={styles.email_edit_title}>
-        Update Email
+        Settings
       </Title>
       <Form
         className={styles.email_edit_form}
@@ -94,23 +85,30 @@ function Settings() {
         }}
         layout="vertical"
         size="large"
-        onFinish={updateEmail}
+        onFinish={updateUserDetails}
       >
         <Form.Item label="Please update your email to the one you currently use">
           <Input
             type="text"
             defaultValue={user?.email}
             className={styles.email_edit_input}
-            onChange={handleOnChange}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </Form.Item>
+        <Form.Item label="Please add your LinkedIn URL">
+          <Input
+            type="url"
+            defaultValue={user?.linkedinUrl}
+            className={styles.email_edit_input}
+            onChange={(event) => setLinkedinUrl(event.target.value)}
           />
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit" type="primary">
-            Edit
+            Save
           </Button>
         </Form.Item>
       </Form>
-
       <div className={styles.footer}>
         <Footer />
       </div>
