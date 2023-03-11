@@ -40,6 +40,7 @@ function MentorApplication() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApplySuccess, setIsApplySuccess] = useState(false);
   const user: Partial<Profile | null> = useContext(UserContext);
+  const [isPastMentor, setIsPastMentor] = useState<boolean>(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -58,9 +59,26 @@ function MentorApplication() {
           expertise: mentor.expertise,
           institution: mentor.institution,
           position: mentor.position,
+          name: mentor.name,
+          country: mentor.country,
+          link: mentor.link,
           bio: mentor.bio,
           slots: mentor.slots,
+          expectations: mentor.expectations,
+          philosophy: mentor.philosophy,
+          isCommitted: mentor.isCommitted,
+          isPastMentor: mentor.isPastMentor,
+          year: mentor.year,
+          motivation: mentor.motivation,
+          changedMotivation: mentor.changedMotivation,
+          reasonForApplying: mentor.reasonForApplying,
+          cvUrl: mentor.cvUrl,
+          referee1Name: mentor.referee1Name,
+          referee1Email: mentor.referee1Email,
+          referee2Name: mentor.referee2Name,
+          referee2Email: mentor.referee2Email,
         });
+        setIsPastMentor(mentor.isPastMentor);
       }
     }
     setIsLoading(false);
@@ -68,20 +86,29 @@ function MentorApplication() {
 
   const apply = async (values: Mentor) => {
     setIsLoading(true);
-    const mentor: {
-      institution: string,
-      slots: number,
-      bio: string,
-      position: string,
-      category: string,
-      expertise: string,
-    } = {
+    const mentor: Mentor = {
       category: values.category,
       expertise: values.expertise,
       institution: values.institution,
       position: values.position,
+      name: values.name,
+      country: values.country,
+      link: values.link,
       bio: values.bio,
       slots: values.slots,
+      expectations: values.expectations,
+      philosophy: values.philosophy,
+      isCommitted: values.isCommitted,
+      isPastMentor: values.isPastMentor,
+      year: values.year,
+      motivation: values.motivation,
+      changedMotivation: values.changedMotivation,
+      reasonForApplying: values.reasonForApplying,
+      cvUrl: values.cvUrl,
+      referee1Name: values.referee1Name,
+      referee1Email: values.referee1Email,
+      referee2Name: values.referee2Name,
+      referee2Email: values.referee2Email,
     };
     const response: AxiosResponse<Mentor> = await updateMentorApplication(
       programId,
@@ -132,8 +159,61 @@ function MentorApplication() {
                     form={form}
                   >
                     <Form.Item
+                      label="Name"
+                      name="name"
+                      extra={'Will be visible to the public'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input maxLength={255} showCount />
+                    </Form.Item>
+                    <Form.Item
+                      label="Country of Residence"
+                      name="country"
+                      extra={'Will be visible to the public'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input maxLength={255} showCount />
+                    </Form.Item>
+                    <Form.Item
+                      label="Institution"
+                      name="institution"
+                      extra={'Will be visible to the public'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input maxLength={255} showCount />
+                    </Form.Item>
+                    <Form.Item
+                      label="Current Position"
+                      name="position"
+                      extra={'Will be visible to the public'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Input maxLength={255} showCount />
+                    </Form.Item>
+                    <Form.Item
                       label="Category"
                       name="category"
+                      extra={'Will be visible to the public'}
                       rules={[
                         {
                           required: true,
@@ -168,8 +248,9 @@ function MentorApplication() {
                       />
                     </Form.Item>
                     <Form.Item
-                      label="Expertise"
+                      label="What are your areas of expertise ?"
                       name="expertise"
+                      extra={'Will be visible to the public'}
                       rules={[
                         {
                           required: true,
@@ -180,32 +261,23 @@ function MentorApplication() {
                       <Input maxLength={255} showCount />
                     </Form.Item>
                     <Form.Item
-                      label="Institution"
-                      name="institution"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Required',
-                        },
-                      ]}
-                    >
-                      <Input maxLength={255} showCount />
-                    </Form.Item>
-                    <Form.Item
-                      label="Current Position"
-                      name="position"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Required',
-                        },
-                      ]}
-                    >
-                      <Input maxLength={255} showCount />
-                    </Form.Item>
-                    <Form.Item
-                      label="Bio"
+                      label="Please provide a brief bio about yourself"
                       name="bio"
+                      extra={'Will be visible to the public'}
+                    >
+                      <TextArea rows={5} maxLength={200} showCount />
+                    </Form.Item>
+                    <Form.Item
+                      label="Please add your LinkedIn URL"
+                      name="link"
+                      extra={'Will be visible to the public'}
+                    >
+                      <Input type="url" />
+                    </Form.Item>
+                    <Form.Item
+                      label="What do you expect from your mentees?"
+                      name="expectations"
+                      extra={'Will be visible to the public'}
                       rules={[
                         {
                           required: true,
@@ -213,11 +285,18 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <TextArea rows={5} />
+                      <TextArea rows={5} maxLength={200} showCount />
                     </Form.Item>
                     <Form.Item
-                      label="Number of Mentee Slots"
+                      label="What is your mentoring philosophy?"
+                      name="philosophy"
+                    >
+                      <Input maxLength={255} showCount />
+                    </Form.Item>
+                    <Form.Item
+                      label="How many mentees can you accommodate?"
                       name="slots"
+                      extra={'Will be visible to the public'}
                       rules={[
                         {
                           required: true,
@@ -227,6 +306,146 @@ function MentorApplication() {
                     >
                       <InputNumber min={1} />
                     </Form.Item>
+                    <Form.Item
+                      label="Are you able to commit to a period of 6 months for the program?"
+                      name="isCommitted"
+                      extra="We expect a minimum of 6 calls with a mentee in a span of 6 month period"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Select
+                        options={[
+                          {
+                            label: 'Yes',
+                            value: true,
+                          },
+                          {
+                            label: 'No',
+                            value: false,
+                          },
+                        ]}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      label="Have you been a ScholarX mentor before?"
+                      name="isPastMentor"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Required',
+                        },
+                      ]}
+                    >
+                      <Select
+                        options={[
+                          {
+                            label: 'Yes',
+                            value: true,
+                          },
+                          {
+                            label: 'No',
+                            value: false,
+                          },
+                        ]}
+                        onSelect={(event) => {
+                          setIsPastMentor(event);
+                        }}
+                      />
+                    </Form.Item>
+                    {isPastMentor ? (
+                      <>
+                        <Form.Item
+                          label="Which year?"
+                          name="year"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <InputNumber />
+                        </Form.Item>
+                        <Form.Item
+                          label="What was your motivation for joining the program?"
+                          name="motivation"
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                        <Form.Item
+                          label="Has it changed, if yes, how?"
+                          name="changedMotivation"
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                      </>
+                    ) : (
+                      <>
+                        <Form.Item
+                          label="Why would like to be a ScholarX mentor?"
+                          name="reasonForApplying"
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                        <Form.Item label="Link to your CV" name="cvUrl">
+                          <Input type="url" />
+                        </Form.Item>
+                        <h4>Referee 1</h4>
+                        <Form.Item
+                          label="Name"
+                          name="referee1Name"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                        <Form.Item
+                          label="Email"
+                          name="referee1Email"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                        <h4>Referee 2</h4>
+                        <Form.Item
+                          label="Name"
+                          name="referee2Name"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                        <Form.Item
+                          label="Email"
+                          name="referee2Email"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Required',
+                            },
+                          ]}
+                        >
+                          <Input maxLength={255} showCount />
+                        </Form.Item>
+                      </>
+                    )}
                     <Form.Item>
                       <Button
                         htmlType="submit"

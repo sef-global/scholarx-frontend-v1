@@ -28,7 +28,7 @@ function MentorProfileCard({ mentor }: { mentor: Mentor }) {
           <Meta
             title={
               <Link href={mentor.profile.linkedinUrl} target={'_blank'}>
-                {mentor.profile.firstName} {mentor.profile.lastName}
+                {mentor.name}
               </Link>
             }
             avatar={<Avatar size={48} src={mentor.profile.imageUrl} />}

@@ -4,6 +4,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
+  Descriptions,
   Divider,
   Drawer,
   Empty,
@@ -40,7 +41,9 @@ function MentorRow({ mentor, programState }: Props) {
 
   function getAssignedMentees() {
     axios
-      .get(`${API_URL}/mentors/${mentor.id}/mentees`, { withCredentials: true })
+      .get(`${API_URL}/admin/mentors/${mentor.id}/mentees`, {
+        withCredentials: true,
+      })
       .then((result: AxiosResponse<Mentee[]>) => {
         if (result.status == 200) {
           setAssignedMentees(result.data);
@@ -199,6 +202,61 @@ function MentorRow({ mentor, programState }: Props) {
       >
         <Title level={3}>Mentor Application</Title>
         <MentorProfileCard mentor={mentor} />
+        <Divider />
+        <Descriptions column={1} labelStyle={{ fontWeight: 'bold' }}>
+          <Descriptions.Item label="Country">
+            {mentor.country}
+          </Descriptions.Item>
+          <Descriptions.Item label="What are your areas of expertise?">
+            {mentor.expertise}
+          </Descriptions.Item>
+          <Descriptions.Item label="What do you expect from your mentees?">
+            {mentor.expectations}
+          </Descriptions.Item>
+          <Descriptions.Item label="What is yur mentoring philosophy? BE">
+            {mentor.philosophy}
+          </Descriptions.Item>
+          <Descriptions.Item label="Are you able to commit to a period of 6 months for the program?">
+            {mentor.isCommitted ? 'Yes' : 'No'}
+          </Descriptions.Item>
+          <Descriptions.Item label="Have you been a ScholarX mentor before?">
+            {mentor.isPastMentor ? 'Yes' : 'No'}
+          </Descriptions.Item>
+          {mentor.isPastMentor ? (
+            <>
+              <Descriptions.Item label="Which year?">
+                {mentor.year}
+              </Descriptions.Item>
+              <Descriptions.Item label="What was your motivation for joining the program?">
+                {mentor.motivation}
+              </Descriptions.Item>
+              <Descriptions.Item label="Has it changed, if yes, how?">
+                {mentor.changedMotivation}
+              </Descriptions.Item>
+            </>
+          ) : (
+            <>
+              <Descriptions.Item label="Why would like to be a ScholarX mentor?">
+                {mentor.reasonForApplying}
+              </Descriptions.Item>
+              <Descriptions.Item label="Link to your CV?">
+                <a href={mentor.cvUrl}>{mentor.cvUrl}</a>
+              </Descriptions.Item>
+              <Descriptions.Item label="Referee Name 1">
+                {mentor.referee1Name}
+              </Descriptions.Item>
+              <Descriptions.Item label="Referee Email 1">
+                {mentor.referee1Email}
+              </Descriptions.Item>
+              <Descriptions.Item label="Referee Name 2">
+                {mentor.referee2Name}
+              </Descriptions.Item>
+              <Descriptions.Item label="Referee Email 2">
+                {mentor.referee2Email}
+              </Descriptions.Item>
+            </>
+          )}
+        </Descriptions>
         <Divider />
         <Title level={4}>Assigned Mentees</Title>
         {mentor.noOfAssignedMentees == 0 ? (

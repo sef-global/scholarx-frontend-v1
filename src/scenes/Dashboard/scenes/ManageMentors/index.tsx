@@ -57,7 +57,7 @@ function ManageMentors() {
 
   const getMentors = () => {
     axios
-      .get(`${API_URL}/programs/${programId}/mentors`, {
+      .get(`${API_URL}/admin/programs/${programId}/mentors`, {
         withCredentials: true,
       })
       .then((result: AxiosResponse<Mentor[]>) => {
