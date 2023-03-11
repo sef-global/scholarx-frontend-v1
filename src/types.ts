@@ -36,6 +36,9 @@ export interface Mentor {
   profile: Profile;
   state: string;
   program: SavedProgram;
+  name: string;
+  country: string;
+  link: string;
   bio: string;
   category: string;
   expertise: string;
@@ -43,6 +46,19 @@ export interface Mentor {
   position: string;
   slots: number;
   noOfAssignedMentees: number;
+  expectations: string;
+  philosophy: string;
+  isCommitted: boolean;
+  isPastMentor: boolean;
+  year: string;
+  motivation: string;
+  changedMotivation: string;
+  reasonForApplying: string;
+  cvUrl: string;
+  referee1Name: string;
+  referee1Email: string;
+  referee2Name: string;
+  referee2Email: string;
 }
 
 export interface Mentee {
