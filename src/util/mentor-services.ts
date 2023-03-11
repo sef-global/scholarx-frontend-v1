@@ -93,7 +93,7 @@ export const updateMentorApplication = async (
 export const getApprovedMentors = async (programId: string) => {
   try {
     const result = await axios.get(
-      `${API_URL}/admin/programs/${programId}/mentors?states=APPROVED`,
+      `${API_URL}/programs/${programId}/mentors?states=APPROVED`,
       {
         withCredentials: true,
       }
