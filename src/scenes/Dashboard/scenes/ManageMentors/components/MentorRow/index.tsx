@@ -213,7 +213,7 @@ function MentorRow({ mentor, programState }: Props) {
           <Descriptions.Item label="What do you expect from your mentees?">
             {mentor.expectations}
           </Descriptions.Item>
-          <Descriptions.Item label="What is yur mentoring philosophy? BE">
+          <Descriptions.Item label="What is your mentoring philosophy?">
             {mentor.philosophy}
           </Descriptions.Item>
           <Descriptions.Item label="Are you able to commit to a period of 6 months for the program?">

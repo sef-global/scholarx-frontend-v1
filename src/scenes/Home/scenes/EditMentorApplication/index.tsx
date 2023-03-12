@@ -159,7 +159,7 @@ function MentorApplication() {
                     form={form}
                   >
                     <Form.Item
-                      label="Name"
+                      label="Full Name"
                       name="name"
                       extra={'Will be visible to the public'}
                       rules={[
@@ -258,7 +258,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <Input maxLength={255} showCount />
+                      <TextArea rows={5} maxLength={200} showCount />
                     </Form.Item>
                     <Form.Item
                       label="Please provide a brief bio about yourself"
@@ -291,7 +291,7 @@ function MentorApplication() {
                       label="What is your mentoring philosophy?"
                       name="philosophy"
                     >
-                      <Input maxLength={255} showCount />
+                      <TextArea rows={5} maxLength={255} showCount />
                     </Form.Item>
                     <Form.Item
                       label="How many mentees can you accommodate?"
@@ -304,7 +304,7 @@ function MentorApplication() {
                         },
                       ]}
                     >
-                      <InputNumber min={1} />
+                      <InputNumber min={1} max={100} />
                     </Form.Item>
                     <Form.Item
                       label="Are you able to commit to a period of 6 months for the program?"
@@ -368,19 +368,19 @@ function MentorApplication() {
                             },
                           ]}
                         >
-                          <InputNumber />
+                          <InputNumber min={2019} max={2022} />
                         </Form.Item>
                         <Form.Item
                           label="What was your motivation for joining the program?"
                           name="motivation"
                         >
-                          <Input maxLength={255} showCount />
+                          <TextArea rows={5} maxLength={255} showCount />
                         </Form.Item>
                         <Form.Item
                           label="Has it changed, if yes, how?"
                           name="changedMotivation"
                         >
-                          <Input maxLength={255} showCount />
+                          <TextArea rows={5} maxLength={255} showCount />
                         </Form.Item>
                       </>
                     ) : (
@@ -389,59 +389,23 @@ function MentorApplication() {
                           label="Why would like to be a ScholarX mentor?"
                           name="reasonForApplying"
                         >
-                          <Input maxLength={255} showCount />
+                          <TextArea rows={5} maxLength={255} showCount />
                         </Form.Item>
                         <Form.Item label="Link to your CV" name="cvUrl">
                           <Input type="url" />
                         </Form.Item>
                         <h4>Referee 1</h4>
-                        <Form.Item
-                          label="Name"
-                          name="referee1Name"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
+                        <Form.Item label="Name" name="referee1Name">
                           <Input maxLength={255} showCount />
                         </Form.Item>
-                        <Form.Item
-                          label="Email"
-                          name="referee1Email"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
+                        <Form.Item label="Email" name="referee1Email">
                           <Input maxLength={255} showCount />
                         </Form.Item>
                         <h4>Referee 2</h4>
-                        <Form.Item
-                          label="Name"
-                          name="referee2Name"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
+                        <Form.Item label="Name" name="referee2Name">
                           <Input maxLength={255} showCount />
                         </Form.Item>
-                        <Form.Item
-                          label="Email"
-                          name="referee2Email"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Required',
-                            },
-                          ]}
-                        >
+                        <Form.Item label="Email" name="referee2Email">
                           <Input maxLength={255} showCount />
                         </Form.Item>
                       </>
