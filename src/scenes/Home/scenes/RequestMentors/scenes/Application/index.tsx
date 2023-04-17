@@ -141,6 +141,15 @@ function MenteeApplication({ location }) {
   return (
     <>
       <LogInModal isModalVisible={user === null} onCancel={handleModalCancel} />
+      <p>
+        <b>
+          By submitting this application, you agree that all the answers you
+          provide are your own and have not been written using generative-AI
+          tools or any other automated means. You understand that any use of
+          such tools is strictly prohibited and may result in penalization of
+          your application.
+        </b>
+      </p>
       <div className={styles.contentMargin}>
         <Spin tip="Loading..." spinning={isLoading}>
           <Form
@@ -164,8 +173,7 @@ function MenteeApplication({ location }) {
                 defaultValue={mentor?.id}
                 options={mentors.map((mentor: Mentor) => ({
                   value: mentor.id,
-                  label:
-                    mentor.profile.firstName + ' ' + mentor.profile.lastName,
+                  label: mentor.name,
                 }))}
                 onChange={handleMentorChange}
               />

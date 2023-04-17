@@ -181,7 +181,7 @@ function MentorRow({ mentor, programState }: Props) {
                 }}
                 type={'link'}
               >
-                {mentor.profile.firstName} {mentor.profile.lastName}
+                {mentor.name}
                 <br />
               </Button>
               <StatusTag state={mentorState} />

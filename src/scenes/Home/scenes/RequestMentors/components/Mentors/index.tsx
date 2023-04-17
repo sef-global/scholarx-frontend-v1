@@ -82,7 +82,7 @@ function Mentors() {
             dataIndex={''}
             render={(mentor: Mentor) => (
               <Link to={`/program/${programId}/mentor/${mentor.id}/view`}>
-                {mentor.profile.firstName} {mentor.profile.lastName}
+                {mentor.name}
               </Link>
             )}
           />
