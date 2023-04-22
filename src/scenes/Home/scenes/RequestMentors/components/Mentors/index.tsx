@@ -76,7 +76,7 @@ function Mentors() {
         onCancel={handleModalCancel}
       />
       <Spin tip="Loading..." spinning={isLoading}>
-        <Table dataSource={mentors} rowKey="id">
+        <Table dataSource={mentors} rowKey="id" pagination={false}>
           <Column
             title="Mentor"
             dataIndex={''}
@@ -104,6 +104,7 @@ function Mentors() {
           />
           <Column title="Expertise" dataIndex={'expertise'} />
           <Column title="Institution" dataIndex={'institution'} />
+          <Column title="Expectations" dataIndex={'expectations'} />
         </Table>
         <hr className={styles.horizontalLine} />
         {!isApplied && (
