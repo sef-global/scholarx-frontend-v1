@@ -1,6 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { Form, Button, Input, Select, notification, Spin } from 'antd';
+import {
+  Form,
+  Button,
+  Input,
+  Select,
+  notification,
+  Spin,
+  Checkbox,
+} from 'antd';
 import { useHistory, useParams } from 'react-router';
 
 import LogInModal from '../../../../../../components/LogInModal';
@@ -263,6 +271,30 @@ function MenteeApplication({ location }) {
               ]}
             >
               <Input.TextArea />
+            </Form.Item>
+            <Form.Item
+              name="agreement"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          new Error(
+                            'Please check the box to agree that all the answers you provide are your own and have not been written using generative-AI tools or any other automated means. Failure to comply with this requirement may result in penalization of your application.'
+                          )
+                        ),
+                },
+              ]}
+            >
+              <Checkbox>
+                By submitting this application, you agree that all the answers
+                you provide are your own and have not been written using
+                generative-AI tools or any other automated means. You understand
+                that any use of such tools is strictly prohibited and may result
+                in penalization of your application.
+              </Checkbox>
             </Form.Item>
             <Form.Item>
               <Button
